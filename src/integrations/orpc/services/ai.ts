@@ -6,6 +6,7 @@ import {
 	convertToModelMessages,
 	createGateway,
 	generateText,
+	NoObjectGeneratedError,
 	Output,
 	stepCountIs,
 	streamText,
@@ -13,9 +14,9 @@ import {
 	type UIMessage,
 } from "ai";
 import { createOllama } from "ai-sdk-ollama";
+import mammoth from "mammoth";
 import { match } from "ts-pattern";
-import type { ZodError } from "zod";
-import z, { flattenError } from "zod";
+import z from "zod";
 import chatSystemPromptTemplate from "@/integrations/ai/prompts/chat-system.md?raw";
 import docxParserSystemPrompt from "@/integrations/ai/prompts/docx-parser-system.md?raw";
 import docxParserUserPrompt from "@/integrations/ai/prompts/docx-parser-user.md?raw";
@@ -68,6 +69,56 @@ export const fileInputSchema = z.object({
 	data: z.string().max(MAX_AI_FILE_BASE64_CHARS, "File is too large. Maximum size is 10MB."), // base64 encoded
 });
 
+// Reduced schema for AI parsing — only the content fields the AI should extract.
+// metadata, picture, and customSections are always replaced with defaults.
+const parserOutputSchema = resumeDataSchema.pick({ basics: true, summary: true, sections: true });
+
+/**
+ * Recursively normalizes `website` fields that the AI may return as plain strings
+ * instead of the expected `{ url: string, label: string }` object.
+ */
+function normalizeWebsiteFields(obj: unknown): unknown {
+	if (Array.isArray(obj)) return obj.map(normalizeWebsiteFields);
+	if (typeof obj !== "object" || obj === null) return obj;
+
+	const result: Record<string, unknown> = {};
+	for (const [key, value] of Object.entries(obj as Record<string, unknown>)) {
+		if (key === "website" && typeof value === "string") {
+			result[key] = { url: value, label: "" };
+		} else {
+			result[key] = normalizeWebsiteFields(value);
+		}
+	}
+	return result;
+}
+
+/**
+ * Builds a valid ResumeData from raw AI output by merging with defaults.
+ * Handles missing sections, missing section fields, and normalizes website fields.
+ */
+function buildResumeDataFromAiOutput(raw: Record<string, unknown>): ResumeData {
+	const normalized = normalizeWebsiteFields(raw) as Record<string, unknown>;
+	const aiSections = (normalized.sections ?? {}) as Record<string, unknown>;
+
+	// Merge each section individually so missing sections get defaults
+	const mergedSections: Record<string, unknown> = {};
+	for (const [key, defaultSection] of Object.entries(defaultResumeData.sections)) {
+		mergedSections[key] = {
+			...(defaultSection as object),
+			...(aiSections[key] as object | undefined),
+		};
+	}
+
+	return resumeDataSchema.parse({
+		picture: defaultResumeData.picture,
+		basics: { ...defaultResumeData.basics, ...(normalized.basics as object | undefined) },
+		summary: { ...defaultResumeData.summary, ...(normalized.summary as object | undefined) },
+		sections: mergedSections,
+		customSections: [],
+		metadata: defaultResumeData.metadata,
+	});
+}
+
 type TestConnectionInput = z.infer<typeof aiCredentialsSchema>;
 
 async function testConnection(input: TestConnectionInput): Promise<boolean> {
@@ -89,35 +140,45 @@ type ParsePdfInput = z.infer<typeof aiCredentialsSchema> & {
 async function parsePdf(input: ParsePdfInput): Promise<ResumeData> {
 	const model = getModel(input);
 
-	const result = await generateText({
-		model,
-		output: Output.object({ schema: resumeDataSchema }),
-		messages: [
-			{
-				role: "system",
-				content: pdfParserSystemPrompt,
-			},
-			{
-				role: "user",
-				content: [
-					{ type: "text", text: pdfParserUserPrompt },
-					{
-						type: "file",
-						filename: input.file.name,
-						mediaType: "application/pdf",
-						data: input.file.data,
-					},
-				],
-			},
-		],
-	});
+	try {
+		const result = await generateText({
+			model,
+			output: Output.object({ schema: parserOutputSchema }),
+			providerOptions: { openai: { strictJsonSchema: false } },
+			messages: [
+				{
+					role: "system",
+					content: pdfParserSystemPrompt,
+				},
+				{
+					role: "user",
+					content: [
+						{ type: "text", text: pdfParserUserPrompt },
+						{
+							type: "file",
+							filename: input.file.name,
+							mediaType: "application/pdf",
+							data: input.file.data,
+						},
+					],
+				},
+			],
+		});
 
-	return resumeDataSchema.parse({
-		...result.output,
-		customSections: [],
-		picture: defaultResumeData.picture,
-		metadata: defaultResumeData.metadata,
-	});
+		return buildResumeDataFromAiOutput(result.output as Record<string, unknown>);
+	} catch (error) {
+		// If the AI generated JSON but it didn't perfectly match the schema,
+		// try to salvage the raw response by merging with defaults.
+		if (NoObjectGeneratedError.isInstance(error) && error.text) {
+			try {
+				const raw = JSON.parse(error.text);
+				return buildResumeDataFromAiOutput(raw);
+			} catch {
+				throw error;
+			}
+		}
+		throw error;
+	}
 }
 
 type ParseDocxInput = z.infer<typeof aiCredentialsSchema> & {
@@ -128,36 +189,39 @@ type ParseDocxInput = z.infer<typeof aiCredentialsSchema> & {
 async function parseDocx(input: ParseDocxInput): Promise<ResumeData> {
 	const model = getModel(input);
 
-	const result = await generateText({
-		model,
-		output: Output.object({ schema: resumeDataSchema }),
-		messages: [
-			{ role: "system", content: docxParserSystemPrompt },
-			{
-				role: "user",
-				content: [
-					{ type: "text", text: docxParserUserPrompt },
-					{
-						type: "file",
-						filename: input.file.name,
-						mediaType: input.mediaType,
-						data: input.file.data,
-					},
-				],
-			},
-		],
-	});
+	const buffer = Buffer.from(input.file.data, "base64");
+	const { value: extractedText } = await mammoth.extractRawText({ buffer });
 
-	return resumeDataSchema.parse({
-		...result.output,
-		customSections: [],
-		picture: defaultResumeData.picture,
-		metadata: defaultResumeData.metadata,
-	});
-}
+	if (!extractedText.trim()) {
+		throw new Error("Could not extract any text from the DOCX file.");
+	}
 
-export function formatZodError(error: ZodError): string {
-	return JSON.stringify(flattenError(error));
+	try {
+		const result = await generateText({
+			model,
+			output: Output.object({ schema: parserOutputSchema }),
+			providerOptions: { openai: { strictJsonSchema: false } },
+			messages: [
+				{ role: "system", content: docxParserSystemPrompt },
+				{
+					role: "user",
+					content: `${docxParserUserPrompt}\n\n---\n\n${extractedText}`,
+				},
+			],
+		});
+
+		return buildResumeDataFromAiOutput(result.output as Record<string, unknown>);
+	} catch (error) {
+		if (NoObjectGeneratedError.isInstance(error) && error.text) {
+			try {
+				const raw = JSON.parse(error.text);
+				return buildResumeDataFromAiOutput(raw);
+			} catch {
+				throw error;
+			}
+		}
+		throw error;
+	}
 }
 
 function buildChatSystemPrompt(resumeData: ResumeData): string {

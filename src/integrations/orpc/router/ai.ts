@@ -2,10 +2,10 @@ import { ORPCError } from "@orpc/client";
 import { type } from "@orpc/server";
 import { AISDKError, type UIMessage } from "ai";
 import { OllamaError } from "ai-sdk-ollama";
-import z, { ZodError } from "zod";
+import z from "zod";
 import type { ResumeData } from "@/schema/resume/data";
 import { protectedProcedure } from "../context";
-import { aiCredentialsSchema, aiProviderSchema, aiService, fileInputSchema, formatZodError } from "../services/ai";
+import { aiCredentialsSchema, aiProviderSchema, aiService, fileInputSchema } from "../services/ai";
 
 type AIProvider = z.infer<typeof aiProviderSchema>;
 
@@ -74,14 +74,10 @@ export const aiRouter = {
 			try {
 				return await aiService.parsePdf(input);
 			} catch (error) {
-				if (error instanceof AISDKError) {
-					throw new ORPCError("BAD_GATEWAY", { message: error.message });
-				}
+				if (error instanceof ORPCError) throw error;
 
-				if (error instanceof ZodError) {
-					throw new Error(formatZodError(error));
-				}
-				throw error;
+				const message = error instanceof Error ? error.message : "An unknown error occurred while parsing the PDF.";
+				throw new ORPCError("BAD_GATEWAY", { message });
 			}
 		}),
 
@@ -116,15 +112,11 @@ export const aiRouter = {
 			try {
 				return await aiService.parseDocx(input);
 			} catch (error) {
-				if (error instanceof AISDKError) {
-					throw new ORPCError("BAD_GATEWAY", { message: error.message });
-				}
+				if (error instanceof ORPCError) throw error;
 
-				if (error instanceof ZodError) {
-					throw new Error(formatZodError(error));
-				}
-
-				throw error;
+				const message =
+					error instanceof Error ? error.message : "An unknown error occurred while parsing the document.";
+				throw new ORPCError("BAD_GATEWAY", { message });
 			}
 		}),
 
