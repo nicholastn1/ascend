@@ -17,3 +17,8 @@ public/sw.js.map
 scripts/**/*.json
 public/workbox-*.js
 public/workbox-*.js.map
+
+# dotcontext generated files (per-session, not versioned)
+.context/prp/
+.context/discoveries/
+.context/bugs/
