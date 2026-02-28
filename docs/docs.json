@@ -3,14 +3,7 @@
 	"theme": "mint",
 	"name": "Reactive Resume",
 	"favicon": "/favicon.svg",
-	"description": "A one-of-a-kind resume builder that keeps your privacy in mind. Completely secure, customizable, portable, open-source and free forever. Try it out today!",
-	"seo": {
-		"indexing": "all",
-		"metatags": {
-			"canonical": "https://docs.rxresu.me",
-			"og:image": "https://rxresu.me/opengraph/banner.jpg"
-		}
-	},
+	"description": "A resume builder that keeps your privacy in mind. Completely secure, customizable, portable and free.",
 	"fonts": {
 		"heading": {
 			"family": "IBM Plex Sans"
@@ -82,14 +75,6 @@
 						"pages": ["self-hosting/docker", "self-hosting/examples", "self-hosting/sso", "self-hosting/migration"]
 					},
 					{
-						"group": "Contributing",
-						"pages": ["contributing/architecture", "contributing/development", "contributing/translations"]
-					},
-					{
-						"group": "Community",
-						"pages": ["community/spotlight"]
-					},
-					{
 						"group": "Legal",
 						"pages": ["legal/license", "legal/privacy-policy", "legal/terms-of-service"]
 					}
@@ -111,12 +96,7 @@
 				{
 					"icon": "link",
 					"anchor": "Reactive Resume",
-					"href": "https://rxresu.me"
-				},
-				{
-					"icon": "github",
-					"anchor": "Source Code",
-					"href": "https://github.com/amruthpillai/reactive-resume"
+					"href": "/"
 				}
 			]
 		}
@@ -126,25 +106,13 @@
 		"dark": "/logo/dark.svg"
 	},
 	"navbar": {
-		"links": [
-			{
-				"label": "Support",
-				"href": "https://github.com/amruthpillai/reactive-resume/issues"
-			}
-		],
 		"primary": {
 			"type": "button",
 			"label": "Get Started",
-			"href": "https://rxresu.me"
+			"href": "/"
 		}
 	},
 	"contextual": {
 		"options": ["copy", "view"]
-	},
-	"footer": {
-		"socials": {
-			"website": "https://rxresu.me",
-			"github": "https://github.com/amruthpillai/reactive-resume"
-		}
 	}
 }

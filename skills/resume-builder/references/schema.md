@@ -1,6 +1,6 @@
 # Reactive Resume Schema Reference
 
-The complete JSON Schema is available at: https://rxresu.me/schema.json
+The complete JSON Schema is defined in the `src/schema/resume/` directory.
 
 This reference provides key structural information for generating valid resume data.
 

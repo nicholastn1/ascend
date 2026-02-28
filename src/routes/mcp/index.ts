@@ -11,21 +11,8 @@ function createMcpServer() {
 		name: "reactive-resume",
 		version: "1.0.0",
 		title: "Reactive Resume",
-		websiteUrl: "https://rxresu.me",
 		description:
-			"Reactive Resume is a free and open-source resume builder. Use this MCP server to interact with your resume using an LLM of your choice.",
-		icons: [
-			{
-				src: "https://rxresu.me/icon/light.svg",
-				mimeType: "image/svg+xml",
-				theme: "light",
-			},
-			{
-				src: "https://rxresu.me/icon/dark.svg",
-				mimeType: "image/svg+xml",
-				theme: "dark",
-			},
-		],
+			"Reactive Resume is a resume builder. Use this MCP server to interact with your resume using an LLM of your choice.",
 	});
 
 	registerResources(server);

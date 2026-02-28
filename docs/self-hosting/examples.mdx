@@ -10,7 +10,7 @@ Every self-hosted setup is unique. You might be running on a single VPS, a Kuber
 These examples go beyond the basic setup in the [Self-Hosting with Docker](/self-hosting/docker) guide, showing production-ready configurations with reverse proxies, SSL termination, and other common patterns.
 
 <Info>
-  **Help others by sharing your setup!** If you have a working configuration that isn't covered here, I'd love to include it. Simply [open a pull request](https://github.com/amruthpillai/reactive-resume) with your example added to this page. Your contribution helps the community and makes self-hosting easier for everyone.
+  **Help others by sharing your setup!** If you have a working configuration that isn't covered here, I'd love to include it. Simply [open a pull request](#) with your example added to this page. Your contribution helps the community and makes self-hosting easier for everyone.
 </Info>
 
 ---
@@ -93,7 +93,7 @@ services:
       retries: 3
 
   reactive_resume:
-    image: amruthpillai/reactive-resume:latest
+    image: nicholas/reactive-resume:latest
     restart: unless-stopped
     environment:
       - APP_URL=https://resume.${DOMAIN}
@@ -194,7 +194,7 @@ services:
       - reactive_resume_network
 
   reactive_resume:
-    image: amruthpillai/reactive-resume:latest
+    image: nicholas/reactive-resume:latest
     restart: unless-stopped
     environment:
       - APP_URL=https://resume.${DOMAIN}
@@ -383,7 +383,7 @@ services:
       replicas: 1
 
   reactive_resume:
-    image: ghcr.io/amruthpillai/reactive-resume:latest
+    image: ghcr.io/nicholas/reactive-resume:latest
     networks:
       - traefik_network
       - reactive_resume_network
@@ -422,7 +422,7 @@ services:
       replicas: 1
       labels:
         - "traefik.enable=true"
-        - "traefik.http.routers.app.rule=Host(`rxresu.me`)"
+        - "traefik.http.routers.app.rule=Host(`localhost`)"
         - "traefik.http.routers.app.entrypoints=websecure"
         - "traefik.http.routers.app.tls=true"
         - "traefik.http.services.app.loadbalancer.server.port=3000"
@@ -488,7 +488,7 @@ Have a different deployment setup that works well? Consider contributing it here
 - Podman configurations
 - Cloud-specific deployments (AWS ECS, Google Cloud Run, Azure Container Apps)
 
-To contribute, [open a pull request](https://github.com/amruthpillai/reactive-resume) with your example added to this page. Include:
+To contribute, [open a pull request](#) with your example added to this page. Include:
 
 1. A brief description of when/why someone would use this setup
 2. The complete Docker Compose (or equivalent) configuration

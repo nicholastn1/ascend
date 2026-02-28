@@ -8,7 +8,6 @@ import {
 	DotsThreeIcon,
 	FileCssIcon,
 	FilesIcon,
-	GithubLogoIcon,
 	GlobeIcon,
 	type Icon,
 	KeyIcon,
@@ -41,12 +40,6 @@ const getFeatures = (): Feature[] => [
 		description: t`Completely free, forever, no hidden costs.`,
 	},
 	{
-		id: "open-source",
-		icon: GithubLogoIcon,
-		title: t`Open Source`,
-		description: t`By the community, for the community.`,
-	},
-	{
 		id: "no-ads",
 		icon: ProhibitIcon,
 		title: t`No Advertising, No Tracking`,
@@ -68,7 +61,7 @@ const getFeatures = (): Feature[] => [
 		id: "languages",
 		icon: TranslateIcon,
 		title: t`Multilingual`,
-		description: t`Available in multiple languages. If you would like to contribute, check out Crowdin.`,
+		description: t`Available in multiple languages for a localized experience.`,
 	},
 	{
 		id: "auth",
@@ -184,8 +177,8 @@ export function Features() {
 
 				<p className="max-w-2xl text-muted-foreground leading-relaxed">
 					<Trans>
-						Everything you need to create, customize, and share professional resumes. Built with privacy in mind,
-						powered by open source, and completely free forever.
+						Everything you need to create, customize, and share professional resumes. Built with privacy in mind and
+						completely free.
 					</Trans>
 				</p>
 			</motion.div>

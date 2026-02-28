@@ -13,7 +13,7 @@ The [Model Context Protocol (MCP)](https://modelcontextprotocol.io) is a standar
 
 <Steps>
   <Step title="Create an API key">
-    Head over to [https://rxresu.me](https://rxresu.me) (or your self-hosted instance), sign in, and navigate to **Settings → API Keys**. Click **Create a new API key**, give it a name, and copy the secret — it's only shown once.
+    Head over to [/](/) (or your self-hosted instance), sign in, and navigate to **Settings → API Keys**. Click **Create a new API key**, give it a name, and copy the secret — it's only shown once.
 
     For the full walkthrough, see [Using the API](/guides/using-the-api).
   </Step>
@@ -31,7 +31,7 @@ If your client supports the `url` field (e.g. **Cursor**), use this — no extra
 {
   "mcpServers": {
     "reactive-resume": {
-      "url": "https://rxresu.me/mcp",
+      "url": "//mcp",
       "headers": {
         "x-api-key": "your-api-key"
       }
@@ -51,7 +51,7 @@ If your client only supports `command` / `args` (e.g. **Claude Desktop**), use [
       "command": "npx",
       "args": [
         "mcp-remote",
-        "https://rxresu.me/mcp",
+        "//mcp",
         "--header",
         "x-api-key:your-api-key"
       ]
@@ -74,7 +74,7 @@ If your client only supports `command` / `args` (e.g. **Claude Desktop**), use [
 
 ## Self-Hosting
 
-If you're running a self-hosted Reactive Resume instance, replace `https://rxresu.me/mcp` with your instance URL:
+If you're running a self-hosted Reactive Resume instance, replace `//mcp` with your instance URL:
 
 ```json
 {

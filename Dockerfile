@@ -35,14 +35,11 @@ RUN pnpm run build
 # ---------- Runtime Layer ----------
 FROM node:24-slim AS runtime
 
-LABEL maintainer="amruthpillai"
+LABEL maintainer="Nicholas Nogueira"
 LABEL org.opencontainers.image.licenses="MIT"
 LABEL org.opencontainers.image.title="Reactive Resume"
-LABEL org.opencontainers.image.description="A free and open-source resume builder."
-LABEL org.opencontainers.image.vendor="Amruth Pillai"
-LABEL org.opencontainers.image.url="https://rxresu.me"
-LABEL org.opencontainers.image.documentation="https://docs.rxresu.me"
-LABEL org.opencontainers.image.source="https://github.com/amruthpillai/reactive-resume"
+LABEL org.opencontainers.image.description="A career management platform for creating, updating, and sharing resumes."
+LABEL org.opencontainers.image.vendor="Nicholas Nogueira"
 
 RUN apt-get update && apt-get install -y --no-install-recommends curl \
     && rm -rf /var/lib/apt/lists/*

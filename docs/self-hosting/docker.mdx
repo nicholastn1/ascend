@@ -24,8 +24,8 @@ Reactive Resume can be self-hosted using Docker in a matter of minutes, and this
 
 You can pull the latest app image from:
 
-- Docker Hub: `amruthpillai/reactive-resume:latest`
-- GitHub Container Registry: `ghcr.io/amruthpillai/reactive-resume:latest`
+- Docker Hub: `nicholas/reactive-resume:latest`
+- GitHub Container Registry: `ghcr.io/nicholas/reactive-resume:latest`
 
 ## Minimum requirements
 
@@ -102,7 +102,7 @@ SMTP_HOST=""
 SMTP_PORT="465"
 SMTP_USER=""
 SMTP_PASS=""
-SMTP_FROM="Reactive Resume <noreply@rxresu.me>"
+SMTP_FROM="Reactive Resume <noreply@localhost>"
 SMTP_SECURE="false"
 
 # --- Storage (optional) ---
@@ -185,8 +185,8 @@ services:
       retries: 10
 
   reactive-resume:
-    image: amruthpillai/reactive-resume:latest
-    # image: ghcr.io/amruthpillai/reactive-resume:latest
+    image: nicholas/reactive-resume:latest
+    # image: ghcr.io/nicholas/reactive-resume:latest
     restart: unless-stopped
     ports:
       - "3000:3000"
@@ -227,7 +227,7 @@ volumes:
     </Note>
 
     <Tip>
-      Prefer pulling from Docker Hub? Keep <code>amruthpillai/reactive-resume:latest</code>. Prefer GHCR? Swap it to <code>ghcr.io/amruthpillai/reactive-resume:latest</code>.
+      Prefer pulling from Docker Hub? Keep <code>nicholas/reactive-resume:latest</code>. Prefer GHCR? Swap it to <code>ghcr.io/nicholas/reactive-resume:latest</code>.
     </Tip>
   </Step>
 
@@ -342,7 +342,7 @@ openssl rand -hex 32
     - **`SMTP_HOST`**: SMTP host (if empty, email sending is disabled).
     - **`SMTP_PORT`**: Usually `465` (implicit TLS) or `587` (STARTTLS).
     - **`SMTP_USER`** / **`SMTP_PASS`**: SMTP credentials.
-    - **`SMTP_FROM`**: Default from address (for example, `Reactive Resume <noreply@rxresu.me>`).
+    - **`SMTP_FROM`**: Default from address (for example, `Reactive Resume <noreply@localhost>`).
     - **`SMTP_SECURE`**: `"true"` or `"false"` (string). Match your provider settings.
   </Accordion>
 

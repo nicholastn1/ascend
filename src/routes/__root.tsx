@@ -32,17 +32,16 @@ type RouterContext = {
 };
 
 const appName = "Reactive Resume";
-const tagline = "A free and open-source resume builder";
+const tagline = "A powerful resume builder";
 const title = `${appName} — ${tagline}`;
-const description =
-	"Reactive Resume is a free and open-source resume builder that simplifies the process of creating, updating, and sharing your resume.";
+const description = "Reactive Resume simplifies the process of creating, updating, and sharing your resume.";
 
 await loadLocale(await getLocale());
 
 export const Route = createRootRouteWithContext<RouterContext>()({
 	shellComponent: RootDocument,
 	head: () => {
-		const appUrl = process.env.APP_URL ?? "https://rxresu.me/";
+		const appUrl = process.env.APP_URL ?? "http://localhost:3000/";
 
 		return {
 			links: [

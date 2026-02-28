@@ -1,11 +1,10 @@
 import { t } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
-import { ArrowRightIcon, BookIcon, SparkleIcon } from "@phosphor-icons/react";
+import { ArrowRightIcon } from "@phosphor-icons/react";
 import { Link } from "@tanstack/react-router";
 import { motion } from "motion/react";
 import { CometCard } from "@/components/animation/comet-card";
 import { Spotlight } from "@/components/animation/spotlight";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
 export function Hero() {
@@ -42,21 +41,6 @@ export function Hero() {
 			</motion.div>
 
 			<div className="relative z-10 flex max-w-2xl flex-col items-center gap-y-6 px-4 xs:px-0 text-center">
-				{/* Badge */}
-				<motion.a
-					initial={{ opacity: 0, y: 20 }}
-					animate={{ opacity: 1, y: 0 }}
-					transition={{ duration: 0.6, delay: 0.8 }}
-					target="_blank"
-					rel="noopener"
-					href="https://docs.rxresu.me/getting-started"
-				>
-					<Badge variant="secondary" className="h-auto gap-1.5 px-3 py-0.5">
-						<SparkleIcon aria-hidden="true" className="size-3.5" weight="fill" />
-						<Trans>What's new in the latest version?</Trans>
-					</Badge>
-				</motion.a>
-
 				{/* Headline */}
 				<motion.div
 					initial={{ opacity: 0, y: 20 }}
@@ -66,7 +50,7 @@ export function Hero() {
 					<Trans>
 						<p className="font-medium text-muted-foreground tracking-tight md:text-lg">Finally,</p>
 						<h1 className="mt-1 font-bold text-4xl tracking-tight md:text-5xl lg:text-6xl">
-							A free and open-source resume builder
+							A powerful resume builder
 						</h1>
 					</Trans>
 				</motion.div>
@@ -78,10 +62,7 @@ export function Hero() {
 					animate={{ opacity: 1, y: 0 }}
 					transition={{ duration: 0.6, delay: 1.2 }}
 				>
-					<Trans>
-						Reactive Resume is a free and open-source resume builder that simplifies the process of creating, updating,
-						and sharing your resume.
-					</Trans>
+					<Trans>Reactive Resume simplifies the process of creating, updating, and sharing your resume.</Trans>
 				</motion.p>
 
 				{/* CTA Buttons */}
@@ -101,16 +82,6 @@ export function Hero() {
 								/>
 							</span>
 						</Link>
-					</Button>
-
-					<Button asChild size="lg" variant="ghost" className="gap-2 px-4">
-						<a href="https://docs.rxresu.me" target="_blank" rel="noopener">
-							<BookIcon aria-hidden="true" className="size-4" />
-							<Trans>Learn More</Trans>
-							<span className="sr-only">
-								<Trans>(opens in new tab)</Trans>
-							</span>
-						</a>
 					</Button>
 				</motion.div>
 			</div>
