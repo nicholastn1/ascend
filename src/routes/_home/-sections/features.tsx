@@ -125,23 +125,48 @@ const getFeatures = (): Feature[] => [
 	},
 ];
 
+// Blue gradient tiers for feature cards (brand.300 → brand.600)
+const CARD_ACCENT_COLORS = [
+	"#4db5ff",
+	"#4db5ff",
+	"#4db5ff",
+	"#4db5ff", // Cards 1-4:  brand.300
+	"#1a9fff",
+	"#1a9fff",
+	"#1a9fff",
+	"#1a9fff", // Cards 5-8:  brand.400
+	"#0080e6",
+	"#0080e6",
+	"#0080e6",
+	"#0080e6", // Cards 9-12: brand.500
+	"#0066b3",
+	"#0066b3",
+	"#0066b3", // Cards 13-15: brand.600
+] as const;
+
 function FeatureCard({ icon: Icon, title, description, index }: FeatureCardProps) {
+	const accentColor = CARD_ACCENT_COLORS[index] ?? "#0080e6";
+
 	return (
 		<motion.div
 			className={cn(
-				"group relative flex min-h-48 flex-col gap-4 overflow-hidden border-b bg-background p-6 transition-[background-color] duration-300",
+				"group relative flex min-h-48 flex-col gap-4 overflow-hidden border-b bg-background p-6 transition-[background-color,border-color] duration-300",
 				"not-nth-[2n]:border-r xl:not-nth-[4n]:border-r",
 				"hover:bg-secondary/30",
 			)}
+			style={{ "--card-accent": accentColor } as React.CSSProperties}
 			initial={{ opacity: 0, y: 20 }}
 			whileInView={{ opacity: 1, y: 0 }}
 			viewport={{ once: true, amount: 0.1 }}
 			transition={{ duration: 0.4, delay: index * 0.03, ease: "easeOut" }}
 		>
-			{/* Hover gradient overlay */}
+			{/* Hover gradient overlay with accent color */}
 			<div
 				aria-hidden="true"
-				className="pointer-events-none absolute inset-0 bg-linear-to-br from-primary/5 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+				className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+				style={{
+					background: `linear-gradient(to bottom right, color-mix(in srgb, ${accentColor} 8%, transparent), transparent)`,
+				}}
 			/>
 
 			{/* Icon */}
@@ -171,15 +196,12 @@ export function Features() {
 				viewport={{ once: true }}
 				transition={{ duration: 0.6 }}
 			>
-				<h2 className="font-semibold text-2xl tracking-tight md:text-4xl xl:text-5xl">
+				<h2 className="font-headline text-2xl uppercase tracking-tight md:text-4xl xl:text-5xl">
 					<Trans>Features</Trans>
 				</h2>
 
 				<p className="max-w-2xl text-muted-foreground leading-relaxed">
-					<Trans>
-						Everything you need to create, customize, and share professional resumes. Built with privacy in mind and
-						completely free.
-					</Trans>
+					<Trans>Everything you need to build, track, and land. Built with privacy in mind and completely free.</Trans>
 				</p>
 			</motion.div>
 

@@ -1,4 +1,5 @@
-import "@fontsource-variable/ibm-plex-sans";
+import "@fontsource-variable/inter";
+import "@fontsource/anton";
 import "@phosphor-icons/web/regular/style.css";
 
 import { i18n } from "@lingui/core";
@@ -31,10 +32,10 @@ type RouterContext = {
 	flags: FeatureFlags;
 };
 
-const appName = "Reactive Resume";
-const tagline = "A powerful resume builder";
+const appName = "Ascend";
+const tagline = "Your career command center";
 const title = `${appName} — ${tagline}`;
-const description = "Reactive Resume simplifies the process of creating, updating, and sharing your resume.";
+const description = "Build your resume. Track every application. Land the job.";
 
 await loadLocale(await getLocale());
 

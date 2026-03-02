@@ -1,10 +1,7 @@
-import { t } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
 import { ArrowRightIcon } from "@phosphor-icons/react";
 import { Link } from "@tanstack/react-router";
 import { motion } from "motion/react";
-import { CometCard } from "@/components/animation/comet-card";
-import { Spotlight } from "@/components/animation/spotlight";
 import { Button } from "@/components/ui/button";
 
 export function Hero() {
@@ -13,56 +10,39 @@ export function Hero() {
 			id="hero"
 			className="relative flex min-h-svh w-svw flex-col items-center justify-center overflow-hidden border-b py-24"
 		>
-			<Spotlight />
-
-			<motion.div
-				initial={{ opacity: 0, y: 100 }}
-				animate={{ opacity: 1, y: 0 }}
-				transition={{ duration: 1.5, ease: "easeOut" }}
-			>
-				<CometCard glareOpacity={0} className="relative -mb-12 3xl:max-w-7xl max-w-4xl px-8 md:-mb-24 md:px-12 lg:px-0">
-					<video
-						loop
-						muted
-						autoPlay
-						playsInline
-						// @ts-expect-error - typescript doesn't know about fetchPriority for video elements
-						fetchPriority="high"
-						src="/videos/timelapse.mp4"
-						aria-label={t`Timelapse demonstration of building a resume with Reactive Resume`}
-						className="pointer-events-none size-full rounded-lg border object-cover"
-					/>
-
-					<div
-						aria-hidden="true"
-						className="pointer-events-none absolute inset-0 bg-linear-to-b from-transparent via-40% via-transparent to-background"
-					/>
-				</CometCard>
-			</motion.div>
-
-			<div className="relative z-10 flex max-w-2xl flex-col items-center gap-y-6 px-4 xs:px-0 text-center">
+			<div className="relative z-10 flex max-w-3xl flex-col items-center gap-y-6 px-4 xs:px-0 text-center">
 				{/* Headline */}
 				<motion.div
 					initial={{ opacity: 0, y: 20 }}
 					animate={{ opacity: 1, y: 0 }}
-					transition={{ duration: 0.6, delay: 1 }}
+					transition={{ duration: 0.6, delay: 0.2 }}
 				>
-					<Trans>
-						<p className="font-medium text-muted-foreground tracking-tight md:text-lg">Finally,</p>
-						<h1 className="mt-1 font-bold text-4xl tracking-tight md:text-5xl lg:text-6xl">
-							A powerful resume builder
-						</h1>
-					</Trans>
+					<h1 className="font-headline text-5xl uppercase tracking-tight md:text-6xl lg:text-7xl">
+						<Trans>Your career command center</Trans>
+					</h1>
 				</motion.div>
+
+				{/* Subtitle */}
+				<motion.p
+					className="font-medium text-lg text-primary tracking-tight md:text-xl"
+					initial={{ opacity: 0, y: 20 }}
+					animate={{ opacity: 1, y: 0 }}
+					transition={{ duration: 0.6, delay: 0.4 }}
+				>
+					<Trans>Build. Track. Land.</Trans>
+				</motion.p>
 
 				{/* Description */}
 				<motion.p
 					className="max-w-xl text-base text-muted-foreground leading-relaxed md:text-lg"
 					initial={{ opacity: 0, y: 20 }}
 					animate={{ opacity: 1, y: 0 }}
-					transition={{ duration: 0.6, delay: 1.2 }}
+					transition={{ duration: 0.6, delay: 0.6 }}
 				>
-					<Trans>Reactive Resume simplifies the process of creating, updating, and sharing your resume.</Trans>
+					<Trans>
+						From resume to hire — everything in one place. Build tailored resumes, track every application, and land
+						your next job with AI by your side.
+					</Trans>
 				</motion.p>
 
 				{/* CTA Buttons */}
@@ -70,12 +50,12 @@ export function Hero() {
 					className="flex flex-col items-center gap-3 sm:flex-row sm:gap-4"
 					initial={{ opacity: 0, y: 20 }}
 					animate={{ opacity: 1, y: 0 }}
-					transition={{ duration: 0.6, delay: 1.4 }}
+					transition={{ duration: 0.6, delay: 0.8 }}
 				>
-					<Button asChild size="lg" className="group relative overflow-hidden px-4">
+					<Button asChild size="lg" className="group relative overflow-hidden px-6">
 						<Link to="/dashboard">
 							<span className="relative z-10 flex items-center gap-2">
-								<Trans>Get Started</Trans>
+								<Trans>Get Started — It's Free</Trans>
 								<ArrowRightIcon
 									aria-hidden="true"
 									className="size-4 transition-transform group-hover:translate-x-0.5"
@@ -84,16 +64,29 @@ export function Hero() {
 						</Link>
 					</Button>
 				</motion.div>
+
+				{/* Trust badge */}
+				<motion.p
+					className="text-muted-foreground/60 text-xs"
+					initial={{ opacity: 0 }}
+					animate={{ opacity: 1 }}
+					transition={{ duration: 0.6, delay: 1 }}
+				>
+					<Trans>Free forever · No ads · No tracking</Trans>
+				</motion.p>
 			</div>
 
-			{/* Scroll indicator - decorative */}
+			{/* Placeholder for future hero media (product demo / screenshot) */}
+			{/* <div className="mt-12 w-full max-w-5xl px-8 md:px-12 lg:px-0" /> */}
+
+			{/* Scroll indicator */}
 			<motion.div
 				aria-hidden="true"
 				role="presentation"
 				className="absolute inset-s-1/2 bottom-8 -translate-x-1/2"
 				initial={{ opacity: 0 }}
 				animate={{ opacity: 1 }}
-				transition={{ delay: 2, duration: 1 }}
+				transition={{ delay: 1.4, duration: 1 }}
 			>
 				<motion.div
 					className="flex h-8 w-5 items-start justify-center rounded-full border border-muted-foreground/30 p-1.5"
