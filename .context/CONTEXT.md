@@ -2,7 +2,7 @@
 
 ## Overview
 
-Reactive Resume is a free, open-source resume builder web application. Users create accounts, build resumes using a visual editor with real-time preview, choose from multiple templates, customize design (colors, fonts, spacing), and export to PDF. Resumes can be shared via public links. The app supports AI-assisted content writing, multi-language UI, and can be self-hosted. Target users are job seekers who want a privacy-respecting, customizable resume tool.
+Ascend is a free, open-source resume builder web application. Users create accounts, build resumes using a visual editor with real-time preview, choose from multiple templates, customize design (colors, fonts, spacing), and export to PDF. Resumes can be shared via public links. The app supports AI-assisted content writing, multi-language UI, and can be self-hosted. Target users are job seekers who want a privacy-respecting, customizable resume tool.
 
 ## Domain
 

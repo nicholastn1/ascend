@@ -17,7 +17,7 @@ These examples go beyond the basic setup in the [Self-Hosting with Docker](/self
 
 ## Docker with Traefik
 
-This example uses [Traefik](https://traefik.io/) as a reverse proxy with automatic SSL certificate management via Let's Encrypt. Only the Reactive Resume app is exposed through Traefik—Postgres and the printer remain on an internal network.
+This example uses [Traefik](https://traefik.io/) as a reverse proxy with automatic SSL certificate management via Let's Encrypt. Only the Ascend app is exposed through Traefik—Postgres and the printer remain on an internal network.
 
 <Tip>
   Traefik automatically discovers services via Docker labels and handles SSL certificates, making it ideal for setups where you want minimal configuration.
@@ -47,7 +47,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - traefik_letsencrypt:/letsencrypt
     networks:
-      - reactive_resume_network
+      - ascend_network
     labels:
       - "traefik.enable=true"
       # Dashboard (optional, remove if not needed)
@@ -68,7 +68,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql
     networks:
-      - reactive_resume_network
+      - ascend_network
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
       interval: 10s
@@ -85,27 +85,27 @@ services:
       # Optional: Set a token for authentication
       # - TOKEN=your-secret-token
     networks:
-      - reactive_resume_network
+      - ascend_network
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000/pressure?token=your-secret-token"]
       interval: 30s
       timeout: 10s
       retries: 3
 
-  reactive_resume:
-    image: nicholas/reactive-resume:latest
+  ascend:
+    image: nicholas/ascend:latest
     restart: unless-stopped
     environment:
       - APP_URL=https://resume.${DOMAIN}
-      - PRINTER_APP_URL=http://reactive_resume:3000
+      - PRINTER_APP_URL=http://ascend:3000
       - DATABASE_URL=postgresql://postgres:${POSTGRES_PASSWORD}@postgres:5432/postgres
       - PRINTER_ENDPOINT=http://printer:3000
       - AUTH_SECRET=${AUTH_SECRET}
       # Add other optional env vars as needed (SMTP, S3, OAuth, etc.)
     volumes:
-      - reactive_resume_data:/app/data
+      - ascend_data:/app/data
     networks:
-      - reactive_resume_network
+      - ascend_network
     depends_on:
       postgres:
         condition: service_healthy
@@ -113,10 +113,10 @@ services:
         condition: service_healthy
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.reactive-resume.rule=Host(`resume.${DOMAIN}`)"
-      - "traefik.http.routers.reactive-resume.entrypoints=websecure"
-      - "traefik.http.routers.reactive-resume.tls.certresolver=letsencrypt"
-      - "traefik.http.services.reactive-resume.loadbalancer.server.port=3000"
+      - "traefik.http.routers.ascend.rule=Host(`resume.${DOMAIN}`)"
+      - "traefik.http.routers.ascend.entrypoints=websecure"
+      - "traefik.http.routers.ascend.tls.certresolver=letsencrypt"
+      - "traefik.http.services.ascend.loadbalancer.server.port=3000"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
       interval: 30s
@@ -124,13 +124,13 @@ services:
       retries: 3
 
 networks:
-  reactive_resume_network:
+  ascend_network:
     driver: bridge
 
 volumes:
   traefik_letsencrypt:
   postgres_data:
-  reactive_resume_data:
+  ascend_data:
 ```
 
 **Environment variables (`.env`):**
@@ -162,7 +162,7 @@ services:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
       - ./certs:/etc/nginx/certs:ro
     networks:
-      - reactive_resume_network
+      - ascend_network
 
   postgres:
     image: postgres:latest
@@ -174,7 +174,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql
     networks:
-      - reactive_resume_network
+      - ascend_network
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
       interval: 10s
@@ -191,22 +191,22 @@ services:
       # Optional: Set a token for authentication
       # - TOKEN=your-secret-token
     networks:
-      - reactive_resume_network
+      - ascend_network
 
-  reactive_resume:
-    image: nicholas/reactive-resume:latest
+  ascend:
+    image: nicholas/ascend:latest
     restart: unless-stopped
     environment:
       - APP_URL=https://resume.${DOMAIN}
-      - PRINTER_APP_URL=http://reactive_resume:3000
+      - PRINTER_APP_URL=http://ascend:3000
       - DATABASE_URL=postgresql://postgres:${POSTGRES_PASSWORD}@postgres:5432/postgres
       - PRINTER_ENDPOINT=http://printer:3000
       - AUTH_SECRET=${AUTH_SECRET}
       # Add other optional env vars as needed (SMTP, S3, OAuth, etc.)
     volumes:
-      - reactive_resume_data:/app/data
+      - ascend_data:/app/data
     networks:
-      - reactive_resume_network
+      - ascend_network
     depends_on:
       postgres:
         condition: service_healthy
@@ -219,12 +219,12 @@ services:
       retries: 3
 
 networks:
-  reactive_resume_network:
+  ascend_network:
     driver: bridge
 
 volumes:
   postgres_data:
-  reactive_resume_data:
+  ascend_data:
 ```
 
 **nginx configuration (`nginx.conf`):**
@@ -235,8 +235,8 @@ events {
 }
 
 http {
-    upstream reactive_resume {
-        server reactive_resume:3000;
+    upstream ascend {
+        server ascend:3000;
     }
 
     # Redirect HTTP to HTTPS
@@ -268,7 +268,7 @@ http {
 
         # Proxy settings
         location / {
-            proxy_pass http://reactive_resume;
+            proxy_pass http://ascend;
             proxy_http_version 1.1;
             proxy_set_header Upgrade $http_upgrade;
             proxy_set_header Connection "upgrade";
@@ -309,9 +309,9 @@ services:
   postgres:
     image: postgres:latest
     networks:
-      - reactive_resume_network
+      - ascend_network
     volumes:
-      - reactive_resume_postgres_data:/var/lib/postgresql
+      - ascend_postgres_data:/var/lib/postgresql
     environment:
       - POSTGRES_DB=$POSTGRES_DB
       - POSTGRES_USER=$POSTGRES_USER
@@ -329,7 +329,7 @@ services:
   printer:
     image: ghcr.io/browserless/chromium:latest
     networks:
-      - reactive_resume_network
+      - ascend_network
     environment:
       - QUEUED=10
       - HEALTH=true
@@ -350,9 +350,9 @@ services:
     image: chrislusf/seaweedfs:latest
     command: server -s3 -filer -dir=/data -ip=0.0.0.0
     networks:
-      - reactive_resume_network
+      - ascend_network
     volumes:
-      - reactive_resume_seaweedfs_data:/data
+      - ascend_seaweedfs_data:/data
     environment:
       - AWS_ACCESS_KEY_ID=$S3_ACCESS_KEY_ID
       - AWS_SECRET_ACCESS_KEY=$S3_SECRET_ACCESS_KEY
@@ -377,18 +377,18 @@ services:
         mc mb seaweedfs/$S3_BUCKET --ignore-existing;
       "
     networks:
-      - reactive_resume_network
+      - ascend_network
     deploy:
       mode: replicated
       replicas: 1
 
-  reactive_resume:
-    image: ghcr.io/nicholas/reactive-resume:latest
+  ascend:
+    image: ghcr.io/nicholas/ascend:latest
     networks:
       - traefik_network
-      - reactive_resume_network
+      - ascend_network
     volumes:
-      - reactive_resume_data:/app/data
+      - ascend_data:/app/data
     environment:
       - APP_URL=$APP_URL
       # If using browserless with token auth, include the token in the URL:
@@ -428,47 +428,47 @@ services:
         - "traefik.http.services.app.loadbalancer.server.port=3000"
 
 configs:
-  reactive_resume_postgres_config:
-    name: reactive_resume_postgres_config
+  ascend_postgres_config:
+    name: ascend_postgres_config
     external: true
 
 networks:
   traefik_network:
     external: true
-  reactive_resume_network:
-    name: reactive_resume_network
+  ascend_network:
+    name: ascend_network
     driver: overlay
     attachable: true
 
 volumes:
-  reactive_resume_postgres_data:
-    name: reactive_resume_postgres_data
-  reactive_resume_seaweedfs_data:
-    name: reactive_resume_seaweedfs_data
-  reactive_resume_data:
-    name: reactive_resume_data
+  ascend_postgres_data:
+    name: ascend_postgres_data
+  ascend_seaweedfs_data:
+    name: ascend_seaweedfs_data
+  ascend_data:
+    name: ascend_data
 ```
 
 **Deploy the stack:**
 
 ```bash
-docker stack deploy -c compose-swarm.yml reactive_resume
+docker stack deploy -c compose-swarm.yml ascend
 ```
 
 **Useful commands:**
 
 ```bash
 # Check service status
-docker stack services reactive_resume
+docker stack services ascend
 
 # View logs for the app
-docker service logs -f reactive_resume_app
+docker service logs -f ascend_app
 
 # Scale the app
-docker service scale reactive_resume_app=3
+docker service scale ascend_app=3
 
 # Remove the stack
-docker stack rm reactive_resume
+docker stack rm ascend
 ```
 
 <Note>

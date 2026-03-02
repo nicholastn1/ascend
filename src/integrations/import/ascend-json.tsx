@@ -1,7 +1,7 @@
 import { flattenError, ZodError } from "zod";
 import { type ResumeData, resumeDataSchema } from "@/schema/resume/data";
 
-export class ReactiveResumeJSONImporter {
+export class AscendJSONImporter {
 	parse(json: string): ResumeData {
 		try {
 			return resumeDataSchema.parse(JSON.parse(json));

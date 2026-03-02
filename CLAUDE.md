@@ -1,6 +1,6 @@
-# reactive-resume
+# ascend
 
-> A free and open-source resume builder that simplifies creating, updating, and sharing resumes with real-time preview, multiple templates, AI assistance, and self-hosting support.
+> A career management platform for creating, updating, and sharing resumes with real-time preview, multiple templates, AI assistance, and self-hosting support.
 
 ## Decision Compliance
 

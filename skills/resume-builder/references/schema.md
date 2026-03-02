@@ -1,4 +1,4 @@
-# Reactive Resume Schema Reference
+# Ascend Schema Reference
 
 The complete JSON Schema is defined in the `src/schema/resume/` directory.
 

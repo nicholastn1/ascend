@@ -1,4 +1,4 @@
-# Reactive Resume
+# Ascend
 
 A career management platform for creating, updating, and sharing resumes.
 

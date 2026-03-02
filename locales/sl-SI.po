@@ -6,13 +6,13 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: sl\n"
-"Project-Id-Version: reactive-resume\n"
+"Project-Id-Version: ascend\n"
 "Report-Msgid-Bugs-To: \n"
 "PO-Revision-Date: 2026-02-09 22:31\n"
 "Last-Translator: \n"
 "Language-Team: Slovenian\n"
 "Plural-Forms: nplurals=4; plural=n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3;\n"
-"X-Crowdin-Project: reactive-resume\n"
+"X-Crowdin-Project: ascend\n"
 "X-Crowdin-Project-ID: 503410\n"
 "X-Crowdin-Language: sl\n"
 "X-Crowdin-File: /main/locales/en-US.po\n"
@@ -57,8 +57,8 @@ msgid "<0>Frequently</0><1>Asked</1><2>Questions</2>"
 msgstr "<0>Pogosto</0><1>Zastavljena</1><2>Vprašanja</2>"
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/information.tsx
-msgid "<0>Thank you for using Reactive Resume! This app is a labor of love, created mostly in my spare time, with wonderful support from open-source contributors around the world.</0><1>If Reactive Resume has been helpful to you, and you'd like to help keep it free and open for everyone, please consider making a donation. Every little bit is appreciated!</1>"
-msgstr "<0>Hvala, da uporabljate Reactive Resume! Ta aplikacija je plod ljubezni, ustvarjena večinoma v mojem prostem času, z izjemno podporo odprtokodnih sodelavcev z vsega sveta.</0><1>Če vam je Reactive Resume bil v pomoč in želite pomagati, da ostane brezplačen in odprt za vse, razmislite o donaciji. Vsak prispevek šteje!</1>"
+msgid "<0>Thank you for using Ascend! This app is a labor of love, created mostly in my spare time, with wonderful support from open-source contributors around the world.</0><1>If Ascend has been helpful to you, and you'd like to help keep it free and open for everyone, please consider making a donation. Every little bit is appreciated!</1>"
+msgstr "<0>Hvala, da uporabljate Ascend! Ta aplikacija je plod ljubezni, ustvarjena večinoma v mojem prostem času, z izjemno podporo odprtokodnih sodelavcev z vsega sveta.</0><1>Če vam je Ascend bil v pomoč in želite pomagati, da ostane brezplačen in odprt za vse, razmislite o donaciji. Vsak prispevek šteje!</1>"
 
 #: src/dialogs/api-key/create.tsx
 msgid "1 month"
@@ -94,8 +94,8 @@ msgid "A link to your resume has been copied to clipboard."
 msgstr "Povezava do vašega življenjepisa je bila kopirana v odložišče."
 
 #: src/routes/_home/-sections/testimonials.tsx
-msgid "A lot of people have written to me over the years to share their experiences with Reactive Resume and how it has helped them, and I never get tired of reading them. If you have a story to share, let me know by sending me an email at <0>{email}</0>."
-msgstr "Preko let mi je veliko ljudi pisalo in delilo svoje izkušnje z Reactive Resume in kako jim je pomagal, teh zgodb se nikoli ne naveličam brati. Če imate svojo zgodbo, jo delite z mano tako, da mi pošljete e-pošto na <0>{email}</0>."
+msgid "A lot of people have written to me over the years to share their experiences with Ascend and how it has helped them, and I never get tired of reading them. If you have a story to share, let me know by sending me an email at <0>{email}</0>."
+msgstr "Preko let mi je veliko ljudi pisalo in delilo svoje izkušnje z Ascend in kako jim je pomagal, teh zgodb se nikoli ne naveličam brati. Če imate svojo zgodbo, jo delite z mano tako, da mi pošljete e-pošto na <0>{email}</0>."
 
 #: src/routes/dashboard/settings/profile.tsx
 msgid "A new verification link has been sent to your email address. Please check your inbox to verify your account."
@@ -595,8 +595,8 @@ msgid "Continue where you left off"
 msgstr "Nadaljujte tam, kjer ste ostali"
 
 #: src/dialogs/resume/import.tsx
-msgid "Continue where you left off by importing an existing resume you created using Reactive Resume or any another resume builder. Supported formats include PDF, Microsoft Word, as well as JSON files from Reactive Resume."
-msgstr "Nadaljujte tam, kjer ste ostali, tako da uvozite že obstoječi življenjepis, ki ste ga ustvarili z aplikacijo Reactive Resume ali katerim koli drugim graditeljem življenjepisa. Podprte oblike vključujejo PDF, Microsoft Word, kot tudi JSON datoteke iz Reactive Resume."
+msgid "Continue where you left off by importing an existing resume you created using Ascend or any another resume builder. Supported formats include PDF, Microsoft Word, as well as JSON files from Ascend."
+msgstr "Nadaljujte tam, kjer ste ostali, tako da uvozite že obstoječi življenjepis, ki ste ga ustvarili z aplikacijo Ascend ali katerim koli drugim graditeljem življenjepisa. Podprte oblike vključujejo PDF, Microsoft Word, kot tudi JSON datoteke iz Ascend."
 
 #: src/routes/_home/-sections/donate.tsx
 msgid "Contributions fund bug fixes, security updates, and continuous improvements to keep the app running smoothly."
@@ -883,8 +883,8 @@ msgid "Don't have an account? <0><1>Create one now <2/></1></0>"
 msgstr "Nimate računa? <0><1>Ustvarite ga zdaj <2/></1></0>"
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/information.tsx
-msgid "Donate to Reactive Resume"
-msgstr "Donirajte za Reactive Resume"
+msgid "Donate to Ascend"
+msgstr "Donirajte za Ascend"
 
 #: src/dialogs/auth/enable-two-factor.tsx
 #: src/routes/$username/$slug.tsx
@@ -1054,12 +1054,12 @@ msgid "Expires on {0}"
 msgstr "Poteče {0}"
 
 #: src/routes/_home/-sections/templates.tsx
-msgid "Explore our diverse selection of templates, each designed to fit different styles, professions, and personalities. Reactive Resume currently offers 12 templates, with more on the way."
-msgstr "Raziščite našo raznoliko izbiro predlog, vsaka je oblikovana za različne sloge, poklice in osebnosti. Reactive Resume trenutno ponuja 12 predlog, nove so že na poti."
+msgid "Explore our diverse selection of templates, each designed to fit different styles, professions, and personalities. Ascend currently offers 12 templates, with more on the way."
+msgstr "Raziščite našo raznoliko izbiro predlog, vsaka je oblikovana za različne sloge, poklice in osebnosti. Ascend trenutno ponuja 12 predlog, nove so že na poti."
 
 #: src/routes/dashboard/settings/api-keys.tsx
-msgid "Explore the API documentation to learn how to integrate Reactive Resume with your applications. Find detailed endpoints, request examples, and authentication methods."
-msgstr "Raziščite API dokumentacijo in izvedite, kako integrirati Reactive Resume z vašimi aplikacijami. Najdite podrobne končne točke, primere zahtevkov in metode preverjanja pristnosti."
+msgid "Explore the API documentation to learn how to integrate Ascend with your applications. Find detailed endpoints, request examples, and authentication methods."
+msgstr "Raziščite API dokumentacijo in izvedite, kako integrirati Ascend z vašimi aplikacijami. Najdite podrobne končne točke, primere zahtevkov in metode preverjanja pristnosti."
 
 #: src/utils/resume/section.tsx
 msgid "Export"
@@ -1335,12 +1335,12 @@ msgid "Interests"
 msgstr "Interesi"
 
 #: src/routes/_home/-sections/faq.tsx
-msgid "Is Reactive Resume available in multiple languages?"
-msgstr "Ali je Reactive Resume na voljo v več jezikih?"
+msgid "Is Ascend available in multiple languages?"
+msgstr "Ali je Ascend na voljo v več jezikih?"
 
 #: src/routes/_home/-sections/faq.tsx
-msgid "Is Reactive Resume really free?"
-msgstr "Ali je Reactive Resume res brezplačen?"
+msgid "Is Ascend really free?"
+msgstr "Ali je Ascend res brezplačen?"
 
 #: src/dialogs/resume/sections/certification.tsx
 msgid "Issuer"
@@ -1835,28 +1835,28 @@ msgid "Publisher"
 msgstr "Založnik"
 
 #: src/routes/_home/-sections/header.tsx
-msgid "Reactive Resume - Go to homepage"
-msgstr "Reactive Resume - Pojdi na domačo stran"
+msgid "Ascend - Go to homepage"
+msgstr "Ascend - Pojdi na domačo stran"
 
 #: src/routes/_home/-sections/prefooter.tsx
-msgid "Reactive Resume continues to grow thanks to its vibrant community. This project owes its progress to numerous individuals who've dedicated their time and skills to make it better. We celebrate the coders who've enhanced its features on GitHub, the linguists whose translations on Crowdin have made it accessible to a broader audience, and the people who've donated to support its continued development."
-msgstr "Reactive Resume raste zahvaljujoč svoji živahni skupnosti. Ta projekt dolguje napredek številnim posameznikom, ki so vložili svoj čas in znanje, da so ga izboljšali. Zahvaljujemo se programerjem, ki so nadgradili funkcionalnosti na GitHubu, jezikoslovcem, katerih prevodi na Crowdin so pripomogli k večji dostopnosti, in vsem, ki so z donacijami podprli nadaljnji razvoj."
+msgid "Ascend continues to grow thanks to its vibrant community. This project owes its progress to numerous individuals who've dedicated their time and skills to make it better. We celebrate the coders who've enhanced its features on GitHub, the linguists whose translations on Crowdin have made it accessible to a broader audience, and the people who've donated to support its continued development."
+msgstr "Ascend raste zahvaljujoč svoji živahni skupnosti. Ta projekt dolguje napredek številnim posameznikom, ki so vložili svoj čas in znanje, da so ga izboljšali. Zahvaljujemo se programerjem, ki so nadgradili funkcionalnosti na GitHubu, jezikoslovcem, katerih prevodi na Crowdin so pripomogli k večji dostopnosti, in vsem, ki so z donacijami podprli nadaljnji razvoj."
 
 #: src/routes/_home/-sections/donate.tsx
-msgid "Reactive Resume is a free and open-source project, built with love and maintained by me and a community of contributors. Your donations help keep the lights on and the code flowing."
-msgstr "Reactive Resume je brezplačen in odprtokodni projekt, ustvarjen z ljubeznijo ter vzdrževan s strani mene in skupnosti sodelujočih. Vaše donacije pomagajo, da projekt ostaja živ in se lahko še naprej razvija."
+msgid "Ascend is a free and open-source project, built with love and maintained by me and a community of contributors. Your donations help keep the lights on and the code flowing."
+msgstr "Ascend je brezplačen in odprtokodni projekt, ustvarjen z ljubeznijo ter vzdrževan s strani mene in skupnosti sodelujočih. Vaše donacije pomagajo, da projekt ostaja živ in se lahko še naprej razvija."
 
 #: src/routes/_home/-sections/hero.tsx
-msgid "Reactive Resume is a free and open-source resume builder that simplifies the process of creating, updating, and sharing your resume."
-msgstr "Reactive Resume je brezplačen in odprtokoden urejevalnik življenjepisa, ki poenostavi ustvarjanje, posodabljanje in deljenje vašega življenjepisa."
+msgid "Ascend is a free and open-source resume builder that simplifies the process of creating, updating, and sharing your resume."
+msgstr "Ascend je brezplačen in odprtokoden urejevalnik življenjepisa, ki poenostavi ustvarjanje, posodabljanje in deljenje vašega življenjepisa."
 
 #: src/routes/_home/-sections/product-hunt-banner.tsx
-msgid "Reactive Resume is launching on Product Hunt today, head over to show some love!"
-msgstr "Reactive Resume danes začenja na Product Huntu, obiščite nas in pokažite podporo!"
+msgid "Ascend is launching on Product Hunt today, head over to show some love!"
+msgstr "Ascend danes začenja na Product Huntu, obiščite nas in pokažite podporo!"
 
 #: src/routes/_home/-sections/faq.tsx
-msgid "Reactive Resume is open-source, privacy-focused, and completely free. Unlike other resume builders, it doesn't show ads, track your data, or limit your features behind a paywall."
-msgstr "Reactive Resume je odprtokoden, osredotočen na zasebnost in popolnoma brezplačen. Za razliko od drugih graditeljev življenjepisov ne prikazuje oglasov, ne sledi vašim podatkom in ne omejuje funkcij z zidovi plačila."
+msgid "Ascend is open-source, privacy-focused, and completely free. Unlike other resume builders, it doesn't show ads, track your data, or limit your features behind a paywall."
+msgstr "Ascend je odprtokoden, osredotočen na zasebnost in popolnoma brezplačen. Za razliko od drugih graditeljev življenjepisov ne prikazuje oglasov, ne sledi vašim podatkom in ne omejuje funkcij z zidovi plačila."
 
 #: src/dialogs/resume/sections/cover-letter.tsx
 msgid "Recipient"
@@ -2245,8 +2245,8 @@ msgid "Summary"
 msgstr "Povzetek"
 
 #: src/routes/_home/-sections/donate.tsx
-msgid "Support Reactive Resume"
-msgstr "Podprite Reactive Resume"
+msgid "Support Ascend"
+msgstr "Podprite Ascend"
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/information.tsx
 msgid "Support the app by doing what you can!"
@@ -2400,12 +2400,12 @@ msgid "This step is optional, but recommended."
 msgstr "Ta korak je neobvezen, vendar priporočen."
 
 #: src/dialogs/api-key/create.tsx
-msgid "This will generate a new API key to access the Reactive Resume API to allow machines to interact with your resume data."
-msgstr "To bo ustvarilo nov API ključ za dostop do API-ja Reactive Resume, da bodo stroji lahko dostopali do vaših podatkov življenjepisa."
+msgid "This will generate a new API key to access the Ascend API to allow machines to interact with your resume data."
+msgstr "To bo ustvarilo nov API ključ za dostop do API-ja Ascend, da bodo stroji lahko dostopali do vaših podatkov življenjepisa."
 
 #: src/routes/_home/-sections/hero.tsx
-msgid "Timelapse demonstration of building a resume with Reactive Resume"
-msgstr "Časovni posnetek gradnje življenjepisa z Reactive Resume"
+msgid "Timelapse demonstration of building a resume with Ascend"
+msgstr "Časovni posnetek gradnje življenjepisa z Ascend"
 
 #: src/dialogs/api-key/create.tsx
 msgid "Tip: Give your API key a name, corresponding to the purpose of the key, to help you identify it later."
@@ -2720,7 +2720,7 @@ msgid "What do you want to rename this section to?"
 msgstr "Kako želite preimenovati ta razdelek?"
 
 #: src/routes/_home/-sections/faq.tsx
-msgid "What makes Reactive Resume different from other resume builders?"
+msgid "What makes Ascend different from other resume builders?"
 msgstr "Kaj naredi Reactive Življenjepis drugačen od drugih graditeljev življenjepisov?"
 
 #: src/routes/_home/-sections/hero.tsx
@@ -2738,15 +2738,15 @@ msgid "Write your own CSS (or use an AI to generate it for you) to customize you
 msgstr "Napišite svoj CSS (ali uporabite umetno inteligenco za njegovo generiranje), da po meri prilagodite svoj življenjepis do potankosti."
 
 #: src/routes/_home/-sections/faq.tsx
-msgid "Yes, Reactive Resume is available in multiple languages. You can choose your preferred language in the settings page, or using the language switcher in the top right corner. If you don't see your language, or you would like to improve the existing translations, you can <0>contribute to the translations on Crowdin<1> (opens in new tab)</1></0>."
-msgstr "Da, Reactive Resume je na voljo v več jezikih. Želeni jezik lahko izberete na strani z nastavitvami ali z izbirnikom jezika v zgornjem desnem kotu. Če svojega jezika ne najdete ali bi želeli izboljšati obstoječe prevode, lahko <0>prispevate prevode na Crowdin<1> (odpre se v novem zavihku)</1></0>."
+msgid "Yes, Ascend is available in multiple languages. You can choose your preferred language in the settings page, or using the language switcher in the top right corner. If you don't see your language, or you would like to improve the existing translations, you can <0>contribute to the translations on Crowdin<1> (opens in new tab)</1></0>."
+msgstr "Da, Ascend je na voljo v več jezikih. Želeni jezik lahko izberete na strani z nastavitvami ali z izbirnikom jezika v zgornjem desnem kotu. Če svojega jezika ne najdete ali bi želeli izboljšati obstoječe prevode, lahko <0>prispevate prevode na Crowdin<1> (odpre se v novem zavihku)</1></0>."
 
 #: src/routes/_home/-sections/faq.tsx
 msgid "Yes! Every template is fully customizable. You can change colors, fonts, spacing, and even write custom CSS for complete control over your resume's appearance."
 msgstr "Da! Vsaka predloga je popolnoma prilagodljiva. Lahko spremenite barve, pisave, razmike in celo napišete svoj CSS za popoln nadzor nad videzom vašega življenjepisa."
 
 #: src/routes/_home/-sections/faq.tsx
-msgid "Yes! Reactive Resume is completely free to use, with no hidden costs, premium tiers, or subscription fees. It's open-source and will always remain free."
+msgid "Yes! Ascend is completely free to use, with no hidden costs, premium tiers, or subscription fees. It's open-source and will always remain free."
 msgstr "Da! Reactive Življenjepis je popolnoma brezplačen za uporabo, brez skritih stroškov, premium nivojev ali naročnin. Je odprtokoden in bo vedno ostal brezplačen."
 
 #: src/routes/_home/-sections/features.tsx
@@ -2791,7 +2791,7 @@ msgid "Your data is stored locally"
 msgstr "Vaši podatki so shranjeni lokalno"
 
 #: src/routes/_home/-sections/faq.tsx
-msgid "Your data is stored securely and is never shared with third parties. You can also self-host Reactive Resume on your own servers for complete control over your data."
+msgid "Your data is stored securely and is never shared with third parties. You can also self-host Ascend on your own servers for complete control over your data."
 msgstr "Vaši podatki so varno shranjeni in se nikoli ne delijo s tretjimi osebami. Reactive Življenjepis lahko tudi gostite sami na svojih strežnikih za popoln nadzor nad svojimi podatki."
 
 #: src/routes/auth/reset-password.tsx

@@ -16,9 +16,9 @@ import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
 import { useFormBlocker } from "@/hooks/use-form-blocker";
 import { useAIStore } from "@/integrations/ai/store";
+import { AscendJSONImporter } from "@/integrations/import/ascend-json";
+import { AscendV4JSONImporter } from "@/integrations/import/ascend-v4-json";
 import { JSONResumeImporter } from "@/integrations/import/json-resume";
-import { ReactiveResumeJSONImporter } from "@/integrations/import/reactive-resume-json";
-import { ReactiveResumeV4JSONImporter } from "@/integrations/import/reactive-resume-v4-json";
 import { client, orpc } from "@/integrations/orpc/client";
 import type { ResumeData } from "@/schema/resume/data";
 import { arrayBufferToBase64 } from "@/utils/arraybuffer-to-base64";
@@ -43,13 +43,13 @@ const formSchema = z.discriminatedUnion("type", [
 			),
 	}),
 	z.object({
-		type: z.literal("reactive-resume-json"),
+		type: z.literal("ascend-json"),
 		file: z
 			.instanceof(File)
 			.refine((file) => file.type === "application/json", { message: "File must be a JSON file" }),
 	}),
 	z.object({
-		type: z.literal("reactive-resume-v4-json"),
+		type: z.literal("ascend-v4-json"),
 		file: z
 			.instanceof(File)
 			.refine((file) => file.type === "application/json", { message: "File must be a JSON file" }),
@@ -120,15 +120,15 @@ export function ImportResumeDialog(_: DialogProps<"resume.import">) {
 				data = importer.parse(json);
 			}
 
-			if (values.type === "reactive-resume-json") {
+			if (values.type === "ascend-json") {
 				const json = await values.file.text();
-				const importer = new ReactiveResumeJSONImporter();
+				const importer = new AscendJSONImporter();
 				data = importer.parse(json);
 			}
 
-			if (values.type === "reactive-resume-v4-json") {
+			if (values.type === "ascend-v4-json") {
 				const json = await values.file.text();
-				const importer = new ReactiveResumeV4JSONImporter();
+				const importer = new AscendV4JSONImporter();
 				data = importer.parse(json);
 			}
 
@@ -216,8 +216,8 @@ export function ImportResumeDialog(_: DialogProps<"resume.import">) {
 										value={field.value}
 										onValueChange={field.onChange}
 										options={[
-											{ value: "reactive-resume-json", label: "Ascend (JSON)" },
-											{ value: "reactive-resume-v4-json", label: "Ascend v4 (JSON)" },
+											{ value: "ascend-json", label: "Ascend (JSON)" },
+											{ value: "ascend-v4-json", label: "Ascend v4 (JSON)" },
 											{ value: "json-resume-json", label: "JSON Resume" },
 											{
 												value: "pdf",

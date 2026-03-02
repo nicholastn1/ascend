@@ -1,11 +1,11 @@
 ---
 name: resume-builder
-description: Generate professional resumes that conform to the Reactive Resume schema. Use when the user wants to create, build, or generate a resume through conversational AI, or asks about resume structure, sections, or content. This skill guides the agent to ask clarifying questions, avoid hallucination, and produce valid JSON output.
+description: Generate professional resumes that conform to the Ascend schema. Use when the user wants to create, build, or generate a resume through conversational AI, or asks about resume structure, sections, or content. This skill guides the agent to ask clarifying questions, avoid hallucination, and produce valid JSON output.
 ---
 
-# Resume Builder for Reactive Resume
+# Resume Builder for Ascend
 
-Build professional resumes through conversational AI for Reactive Resume.
+Build professional resumes through conversational AI for Ascend.
 
 ## Core Principles
 
@@ -51,7 +51,7 @@ Ask about preferences:
 
 ### Step 4: Generate Valid JSON
 
-Output must conform to the Reactive Resume schema. See [references/schema.md](references/schema.md) for the complete schema structure.
+Output must conform to the Ascend schema. See [references/schema.md](references/schema.md) for the complete schema structure.
 
 Key requirements:
 - All item `id` fields must be valid UUIDs
@@ -99,7 +99,7 @@ For students/recent graduates:
 
 ## Output Format
 
-When generating the resume, output a complete JSON object that conforms to the Reactive Resume schema. The user can then import this JSON directly into Reactive Resume.
+When generating the resume, output a complete JSON object that conforms to the Ascend schema. The user can then import this JSON directly into Ascend.
 
 Example minimal structure:
 

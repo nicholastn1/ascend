@@ -1,11 +1,11 @@
 ---
 title: "Quickstart"
-description: "Get started with Reactive Resume in minutes — use our hosted version or deploy your own instance"
+description: "Get started with Ascend in minutes — use our hosted version or deploy your own instance"
 ---
 
 ## Options
 
-Reactive Resume offers flexibility in how you want to use it. Choose the option that best fits your needs:
+Ascend offers flexibility in how you want to use it. Choose the option that best fits your needs:
 
 <CardGroup cols={2}>
   <Card title="Use the Cloud Version" icon="cloud" href="#use-the-cloud-version">
@@ -20,7 +20,7 @@ Reactive Resume offers flexibility in how you want to use it. Choose the option 
 
 ## Using the Cloud Version
 
-The easiest way to use Reactive Resume is through our cloud version at [localhost](/). **This service is completely free and will always remain free.**
+The easiest way to use Ascend is through our cloud version at [localhost](/). **This service is completely free and will always remain free.**
 
 <Steps>
   <Step title="Create an Account">
@@ -54,7 +54,7 @@ The easiest way to use Reactive Resume is through our cloud version at [localhos
 
 ## Self-Host with Docker
 
-For users who prefer complete control over their data, you can deploy Reactive Resume on your own infrastructure using Docker.
+For users who prefer complete control over their data, you can deploy Ascend on your own infrastructure using Docker.
 
 ### Prerequisites
 
@@ -74,7 +74,7 @@ Before you begin, ensure you have the following installed:
   <Step title="Clone the Repository">
     ```bash
     git clone #.git
-    cd Reactive-Resume
+    cd ascend
     ```
   </Step>
   
@@ -95,7 +95,7 @@ Before you begin, ensure you have the following installed:
     S3_ACCESS_KEY_ID=seaweedfs
     S3_SECRET_ACCESS_KEY=seaweedfs
     S3_ENDPOINT=http://seaweedfs:8333
-    S3_BUCKET=reactive-resume
+    S3_BUCKET=ascend
     S3_FORCE_PATH_STYLE=true
     ```
     
@@ -113,11 +113,11 @@ Before you begin, ensure you have the following installed:
     - **PostgreSQL** — Database for storing user data and resumes
     - **SeaweedFS** — S3-compatible storage for file uploads
     - **Printer** — PDF and screenshot generation service (browserless/chromium)
-    - **Reactive Resume** — The main application
+    - **Ascend** — The main application
   </Step>
   
   <Step title="Access Your Instance">
-    Once all services are running, access your Reactive Resume instance at:
+    Once all services are running, access your Ascend instance at:
     
     ```
     http://localhost:3000
@@ -134,7 +134,7 @@ Here's what each service in the stack does:
 | `postgres` | 5432 | PostgreSQL database for storing all application data |
 | `seaweedfs` | 8333 | S3-compatible object storage for file uploads |
 | `printer` | 4000 | Headless Chromium service for PDF and screenshot generation |
-| `app` | 3000 | The main Reactive Resume application |
+| `app` | 3000 | The main Ascend application |
 
 ### Health Checks
 
@@ -198,7 +198,7 @@ Here's a complete list of environment variables you can configure:
 > **Note:** Some variables are only required for using related features (OAuth, SMTP, S3, etc.) and can be left unset if unused.
 
 <Note>
-  **Hybrid Setup Note**: The `PRINTER_APP_URL` variable is required when running Reactive Resume outside of Docker while the printer service is running inside Docker. In this scenario, the printer needs to reach your local app to render resumes for PDF generation. Since Docker containers cannot access `localhost` on your host machine directly, you must set `PRINTER_APP_URL` to `http://host.docker.internal:3000`. This special hostname allows Docker containers to communicate with services running on your host machine.
+  **Hybrid Setup Note**: The `PRINTER_APP_URL` variable is required when running Ascend outside of Docker while the printer service is running inside Docker. In this scenario, the printer needs to reach your local app to render resumes for PDF generation. Since Docker containers cannot access `localhost` on your host machine directly, you must set `PRINTER_APP_URL` to `http://host.docker.internal:3000`. This special hostname allows Docker containers to communicate with services running on your host machine.
 </Note>
 
 <Note>
@@ -215,7 +215,7 @@ Here's a complete list of environment variables you can configure:
     icon="code"
     href="/contributing/development"
   >
-    Set up a development environment to contribute or customize Reactive Resume.
+    Set up a development environment to contribute or customize Ascend.
   </Card>
   <Card
     title="Project Architecture"

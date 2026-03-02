@@ -37,7 +37,7 @@ FROM node:24-slim AS runtime
 
 LABEL maintainer="Nicholas Nogueira"
 LABEL org.opencontainers.image.licenses="MIT"
-LABEL org.opencontainers.image.title="Reactive Resume"
+LABEL org.opencontainers.image.title="Ascend"
 LABEL org.opencontainers.image.description="A career management platform for creating, updating, and sharing resumes."
 LABEL org.opencontainers.image.vendor="Nicholas Nogueira"
 

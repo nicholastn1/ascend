@@ -1,11 +1,11 @@
 ---
 title: "Migrating from v4 to v5"
-description: "A step-by-step guide to migrate your Reactive Resume instance from v4 to v5, including manual and automated migration options."
+description: "A step-by-step guide to migrate your Ascend instance from v4 to v5, including manual and automated migration options."
 ---
 
 ## Overview
 
-This guide walks you through migrating your Reactive Resume installation from **v4 to v5**. The migration process involves setting up a new v5 instance alongside your existing v4 instance, then transferring your users and resumes to the new system.
+This guide walks you through migrating your Ascend installation from **v4 to v5**. The migration process involves setting up a new v5 instance alongside your existing v4 instance, then transferring your users and resumes to the new system.
 
 <Warning>
   **Keep your v4 instance running** until you have successfully migrated all data to v5 and verified everything works correctly. This ensures you have a fallback in case anything goes wrong during the migration.
@@ -17,10 +17,10 @@ Before starting the migration, ensure you have:
 
 <CardGroup cols={2}>
   <Card title="Running v4 Instance">
-    Your existing Reactive Resume v4 instance should be running and accessible.
+    Your existing Ascend v4 instance should be running and accessible.
   </Card>
   <Card title="New v5 Instance">
-    A fresh Reactive Resume v5 instance set up and running. Follow the [Self-Hosting with Docker](/self-hosting/docker) guide if you haven't done this yet.
+    A fresh Ascend v5 instance set up and running. Follow the [Self-Hosting with Docker](/self-hosting/docker) guide if you haven't done this yet.
   </Card>
   <Card title="Database Access">
     Access to both your v4 PostgreSQL database (source) and v5 PostgreSQL database (target).
@@ -60,7 +60,7 @@ If you have only a few resumes to migrate, the simplest approach is to use the *
     In your new v5 instance:
     1. Log in or create a new account
     2. Click **Create Resume** or use the **Import** option
-    3. Select the **Reactive Resume v4** format
+    3. Select the **Ascend v4** format
     4. Upload your exported JSON file
     
     The import process automatically converts the v4 format to v5.
@@ -97,11 +97,11 @@ To run the migration scripts, you need the following installed on your host mach
     ```
     Alternatively, you can use `dotenv`, `direnv`, or export the variables manually.
   </Card>
-  <Card title="Reactive Resume Source Code">
-    Clone the Reactive Resume repository to access the migration scripts:
+  <Card title="Ascend Source Code">
+    Clone the Ascend repository to access the migration scripts:
     ```bash
     git clone #.git
-    cd reactive-resume
+    cd ascend
     pnpm install
     ```
   </Card>
@@ -113,10 +113,10 @@ Create a `.env` file in the root of the repository with the following variables:
 
 ```bash .env
 # Connection string to your NEW v5 PostgreSQL database (target)
-DATABASE_URL="postgresql://user:password@localhost:5432/reactive_resume_v5"
+DATABASE_URL="postgresql://user:password@localhost:5432/ascend_v5"
 
 # Connection string to your OLD v4 PostgreSQL database (source)
-PRODUCTION_DATABASE_URL="postgresql://user:password@localhost:5432/reactive_resume_v4"
+PRODUCTION_DATABASE_URL="postgresql://user:password@localhost:5432/ascend_v4"
 ```
 
 <Warning>

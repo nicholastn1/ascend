@@ -1,7 +1,7 @@
 {
 	"$schema": "https://mintlify.com/docs.json",
 	"theme": "mint",
-	"name": "Reactive Resume",
+	"name": "Ascend",
 	"favicon": "/favicon.svg",
 	"description": "A resume builder that keeps your privacy in mind. Completely secure, customizable, portable and free.",
 	"fonts": {
@@ -95,7 +95,7 @@
 			"anchors": [
 				{
 					"icon": "link",
-					"anchor": "Reactive Resume",
+					"anchor": "Ascend",
 					"href": "/"
 				}
 			]

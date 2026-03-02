@@ -1,9 +1,9 @@
 ---
 title: "Using the MCP Server"
-description: "Connect Reactive Resume to AI tools like Claude Desktop, Cursor, and Codex using the Model Context Protocol"
+description: "Connect Ascend to AI tools like Claude Desktop, Cursor, and Codex using the Model Context Protocol"
 ---
 
-The Reactive Resume MCP server lets you manage and modify your resumes through any MCP-compatible AI tool — Claude Desktop, Cursor, Codex, and more. It connects to the Reactive Resume API and exposes tools for listing, reading, and patching resumes using natural language.
+The Ascend MCP server lets you manage and modify your resumes through any MCP-compatible AI tool — Claude Desktop, Cursor, Codex, and more. It connects to the Ascend API and exposes tools for listing, reading, and patching resumes using natural language.
 
 ## What is MCP?
 
@@ -30,7 +30,7 @@ If your client supports the `url` field (e.g. **Cursor**), use this — no extra
 ```json
 {
   "mcpServers": {
-    "reactive-resume": {
+    "ascend": {
       "url": "//mcp",
       "headers": {
         "x-api-key": "your-api-key"
@@ -47,7 +47,7 @@ If your client only supports `command` / `args` (e.g. **Claude Desktop**), use [
 ```json
 {
   "mcpServers": {
-    "reactive-resume": {
+    "ascend": {
       "command": "npx",
       "args": [
         "mcp-remote",
@@ -74,7 +74,7 @@ If your client only supports `command` / `args` (e.g. **Claude Desktop**), use [
 
 ## Self-Hosting
 
-If you're running a self-hosted Reactive Resume instance, replace `//mcp` with your instance URL:
+If you're running a self-hosted Ascend instance, replace `//mcp` with your instance URL:
 
 ```json
 {
@@ -175,6 +175,6 @@ Once your MCP client is connected, you can use natural language to interact with
 | --- | --- |
 | "API error (401)" | Your API key is invalid or expired. Create a new one in **Settings → API Keys** |
 | "API error (404)" | The resume ID doesn't exist. Use `list_resumes` to find valid IDs |
-| "API error (403)" | The resume is locked. Unlock it in the Reactive Resume dashboard |
+| "API error (403)" | The resume is locked. Unlock it in the Ascend dashboard |
 | Connection refused | Check that the URL is correct and the instance is running |
 | "ReferenceError: File is not defined" when using `mcp-remote` | You're running Node.js 18. `mcp-remote` requires **Node.js 20 or later** — upgrade with `nvm use 20` or `nvm alias default 20` |
