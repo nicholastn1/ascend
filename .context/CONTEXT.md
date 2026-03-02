@@ -35,7 +35,7 @@ src/
 │   ├── command-palette/     # Cmd+K command palette
 │   ├── input/               # Custom inputs (chip, color, icon, rich text, URL)
 │   ├── resume/
-│   │   ├── templates/       # 13 resume templates (azurill, bronzor, chikorita, etc.)
+│   │   ├── templates/       # 1 resume template (mdi)
 │   │   ├── shared/          # Shared resume rendering (sections, items, page)
 │   │   ├── hooks/           # CSS variables, webfont loading
 │   │   └── preview.tsx      # Main resume preview renderer
@@ -147,7 +147,7 @@ locales/                     # Translation files (managed via Crowdin)
 
 | Term | Definition |
 |------|------------|
-| **Template** | A React component that renders resume data into a visual layout (13 available, Pokemon-themed names) |
+| **Template** | A React component that renders resume data into a visual layout (1 available: mdi) |
 | **Section** | A discrete part of a resume (e.g., experience, education, skills). Each has its own Zod schema and editor dialog. |
 | **Builder** | The main resume editing interface at `/builder/$resumeId` with left sidebar (content), right sidebar (design), and center preview. |
 | **Printer** | The server-side route and service that renders resumes headlessly for PDF/screenshot generation via Puppeteer. |

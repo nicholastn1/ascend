@@ -12,7 +12,7 @@
 
 Create a new file at `src/components/resume/templates/<name>.tsx`.
 
-Follow the existing pattern (see `azurill.tsx` or `ditto.tsx` for reference):
+Follow the existing pattern (see `mdi.tsx` for reference):
 
 ```tsx
 import { getSectionComponent } from "@/components/resume/shared/get-section-component";
@@ -65,7 +65,7 @@ Key points:
 Add the template to the template registry in `src/schema/templates.ts`:
 
 - Add the template name to the templates array/enum
-- The name should be lowercase (existing templates use Pokemon-themed names)
+- The name should be lowercase
 
 ### 3. Add to Preview Renderer
 
