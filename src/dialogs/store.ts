@@ -1,5 +1,6 @@
 import z from "zod";
 import { create } from "zustand/react";
+import { applicationStatusSchema } from "@/schema/application";
 import {
 	awardItemSchema,
 	certificationItemSchema,
@@ -154,6 +155,26 @@ const dialogTypeSchema = z.discriminatedUnion("type", [
 	}),
 	z.object({ type: z.literal("resume.sections.custom.create"), data: customSectionSchema.optional() }),
 	z.object({ type: z.literal("resume.sections.custom.update"), data: customSectionSchema }),
+	z.object({
+		type: z.literal("application.create"),
+		data: z.object({ initialStatus: applicationStatusSchema.optional() }).optional(),
+	}),
+	z.object({
+		type: z.literal("application.update"),
+		data: z.object({ id: z.string() }),
+	}),
+	z.object({
+		type: z.literal("application.delete"),
+		data: z.object({ id: z.string(), companyName: z.string(), jobTitle: z.string() }),
+	}),
+	z.object({
+		type: z.literal("application.contacts"),
+		data: z.object({ id: z.string() }),
+	}),
+	z.object({
+		type: z.literal("application.history"),
+		data: z.object({ id: z.string() }),
+	}),
 ]);
 
 type DialogSchema = z.infer<typeof dialogTypeSchema>;

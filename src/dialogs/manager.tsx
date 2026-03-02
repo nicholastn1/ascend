@@ -1,6 +1,11 @@
 import { match } from "ts-pattern";
 import { Dialog } from "@/components/ui/dialog";
 import { CreateApiKeyDialog } from "./api-key/create";
+import { ContactsDialog } from "./application/contacts";
+import { CreateApplicationDialog } from "./application/create";
+import { DeleteApplicationDialog } from "./application/delete";
+import { HistoryDialog } from "./application/history";
+import { UpdateApplicationDialog } from "./application/update";
 import { ChangePasswordDialog } from "./auth/change-password";
 import { DisableTwoFactorDialog } from "./auth/disable-two-factor";
 import { EnableTwoFactorDialog } from "./auth/enable-two-factor";
@@ -67,6 +72,11 @@ export function DialogManager() {
 		.with({ type: "resume.sections.cover-letter.update" }, ({ data }) => <UpdateCoverLetterDialog data={data} />)
 		.with({ type: "resume.sections.custom.create" }, ({ data }) => <CreateCustomSectionDialog data={data} />)
 		.with({ type: "resume.sections.custom.update" }, ({ data }) => <UpdateCustomSectionDialog data={data} />)
+		.with({ type: "application.create" }, ({ data }) => <CreateApplicationDialog data={data} />)
+		.with({ type: "application.update" }, ({ data }) => <UpdateApplicationDialog data={data} />)
+		.with({ type: "application.delete" }, ({ data }) => <DeleteApplicationDialog data={data} />)
+		.with({ type: "application.contacts" }, ({ data }) => <ContactsDialog data={data} />)
+		.with({ type: "application.history" }, ({ data }) => <HistoryDialog data={data} />)
 		.otherwise(() => null);
 
 	return (

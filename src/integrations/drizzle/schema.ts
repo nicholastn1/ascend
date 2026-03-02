@@ -2,6 +2,18 @@ import * as pg from "drizzle-orm/pg-core";
 import { defaultResumeData, type ResumeData } from "@/schema/resume/data";
 import { generateId } from "@/utils/string";
 
+export const applicationStatusEnum = pg.pgEnum("application_status", [
+	"applied",
+	"screening",
+	"interviewing",
+	"offer",
+	"accepted",
+	"rejected",
+	"withdrawn",
+]);
+
+export const salaryPeriodEnum = pg.pgEnum("salary_period", ["monthly", "yearly"]);
+
 export const user = pg.pgTable(
 	"user",
 	{
@@ -254,4 +266,85 @@ export const apikey = pg.pgTable(
 		metadata: pg.jsonb("metadata"),
 	},
 	(t) => [pg.index().on(t.userId), pg.index().on(t.key), pg.index().on(t.enabled, t.userId)],
+);
+
+export const application = pg.pgTable(
+	"application",
+	{
+		id: pg
+			.uuid("id")
+			.notNull()
+			.primaryKey()
+			.$defaultFn(() => generateId()),
+		userId: pg
+			.uuid("user_id")
+			.notNull()
+			.references(() => user.id, { onDelete: "cascade" }),
+		currentStatus: applicationStatusEnum("current_status").notNull().default("applied"),
+		companyName: pg.text("company_name").notNull(),
+		jobTitle: pg.text("job_title").notNull(),
+		jobUrl: pg.text("job_url"),
+		salaryAmount: pg.numeric("salary_amount"),
+		salaryCurrency: pg.text("salary_currency").default("USD"),
+		salaryPeriod: salaryPeriodEnum("salary_period"),
+		notes: pg.text("notes"),
+		applicationDate: pg.date("application_date"),
+		createdAt: pg.timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+		updatedAt: pg
+			.timestamp("updated_at", { withTimezone: true })
+			.notNull()
+			.defaultNow()
+			.$onUpdate(() => /* @__PURE__ */ new Date()),
+	},
+	(t) => [
+		pg.index().on(t.userId, t.currentStatus),
+		pg.index().on(t.userId, t.createdAt.desc()),
+		pg.index().on(t.userId, t.companyName),
+	],
+);
+
+export const applicationContact = pg.pgTable(
+	"application_contact",
+	{
+		id: pg
+			.uuid("id")
+			.notNull()
+			.primaryKey()
+			.$defaultFn(() => generateId()),
+		applicationId: pg
+			.uuid("application_id")
+			.notNull()
+			.references(() => application.id, { onDelete: "cascade" }),
+		name: pg.text("name").notNull(),
+		role: pg.text("role"),
+		email: pg.text("email"),
+		phone: pg.text("phone"),
+		linkedinUrl: pg.text("linkedin_url"),
+		createdAt: pg.timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+		updatedAt: pg
+			.timestamp("updated_at", { withTimezone: true })
+			.notNull()
+			.defaultNow()
+			.$onUpdate(() => /* @__PURE__ */ new Date()),
+	},
+	(t) => [pg.index().on(t.applicationId)],
+);
+
+export const applicationHistory = pg.pgTable(
+	"application_history",
+	{
+		id: pg
+			.uuid("id")
+			.notNull()
+			.primaryKey()
+			.$defaultFn(() => generateId()),
+		applicationId: pg
+			.uuid("application_id")
+			.notNull()
+			.references(() => application.id, { onDelete: "cascade" }),
+		fromStatus: applicationStatusEnum("from_status"),
+		toStatus: applicationStatusEnum("to_status").notNull(),
+		changedAt: pg.timestamp("changed_at", { withTimezone: true }).notNull().defaultNow(),
+	},
+	(t) => [pg.index().on(t.applicationId, t.changedAt.desc())],
 );

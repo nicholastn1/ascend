@@ -4,6 +4,8 @@ import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
 import {
 	BrainIcon,
+	BriefcaseIcon,
+	CaretLeftIcon,
 	GearSixIcon,
 	KeyIcon,
 	ReadCvLogoIcon,
@@ -45,6 +47,11 @@ const appSidebarItems = [
 		icon: <ReadCvLogoIcon />,
 		label: msg`Resumes`,
 		href: "/dashboard/resumes",
+	},
+	{
+		icon: <BriefcaseIcon />,
+		label: msg`Job Tracker`,
+		href: "/dashboard/applications",
 	},
 ] as const satisfies SidebarItem[];
 
@@ -107,19 +114,34 @@ function SidebarItemList({ items }: SidebarItemListProps) {
 }
 
 export function DashboardSidebar() {
-	const { state } = useSidebarState();
+	const { state, toggleSidebar } = useSidebarState();
 
 	return (
 		<Sidebar variant="floating" collapsible="icon">
 			<SidebarHeader>
 				<SidebarMenu>
 					<SidebarMenuItem>
-						<SidebarMenuButton asChild className="h-auto justify-center">
-							<Link to="/">
-								<BrandIcon variant="icon" className="size-6" />
-								<h1 className="sr-only">Reactive Resume</h1>
-							</Link>
-						</SidebarMenuButton>
+						{state === "expanded" ? (
+							<div className="flex items-center gap-1">
+								<SidebarMenuButton asChild className="h-auto flex-1">
+									<Link to="/">
+										<BrandIcon variant="logo" />
+									</Link>
+								</SidebarMenuButton>
+								<button
+									type="button"
+									onClick={toggleSidebar}
+									className="inline-flex size-7 shrink-0 items-center justify-center rounded-md text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground"
+								>
+									<CaretLeftIcon className="size-4" />
+									<span className="sr-only">Collapse Sidebar</span>
+								</button>
+							</div>
+						) : (
+							<SidebarMenuButton className="h-auto justify-center" tooltip="Expand Sidebar" onClick={toggleSidebar}>
+								<BrandIcon variant="icon" />
+							</SidebarMenuButton>
+						)}
 					</SidebarMenuItem>
 				</SidebarMenu>
 			</SidebarHeader>
