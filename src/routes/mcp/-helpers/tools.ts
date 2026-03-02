@@ -242,7 +242,7 @@ export function registerTools(server: McpServer) {
 				"  /sections/experience/items/-           — Append a new experience item",
 				"  /sections/experience/items/0/company   — Update first experience's company",
 				"  /sections/skills/items/-               — Append a new skill",
-				"  /metadata/template                     — Change the template (e.g. 'azurill', 'bronzor', 'onyx')",
+				"  /metadata/template                     — Change the template (e.g. 'mdi')",
 				"  /metadata/design/colors/primary        — Change the primary color (rgba string)",
 				"  /sections/interests/hidden              — Hide/show a section",
 				"",

@@ -14,19 +14,7 @@ import { useCSSVariables } from "./hooks/use-css-variables";
 import { useWebfonts } from "./hooks/use-webfonts";
 import styles from "./preview.module.css";
 import { useResumeStore } from "./store/resume";
-import { AzurillTemplate } from "./templates/azurill";
-import { BronzorTemplate } from "./templates/bronzor";
-import { ChikoritaTemplate } from "./templates/chikorita";
-import { DitgarTemplate } from "./templates/ditgar";
-import { DittoTemplate } from "./templates/ditto";
-import { GengarTemplate } from "./templates/gengar";
-import { GlalieTemplate } from "./templates/glalie";
-import { KakunaTemplate } from "./templates/kakuna";
-import { LaprasTemplate } from "./templates/lapras";
-import { LeafishTemplate } from "./templates/leafish";
-import { OnyxTemplate } from "./templates/onyx";
-import { PikachuTemplate } from "./templates/pikachu";
-import { RhyhornTemplate } from "./templates/rhyhorn";
+import { MdiTemplate } from "./templates/mdi";
 
 export type ExtendedIconProps = IconProps & {
 	hidden?: boolean;
@@ -37,19 +25,7 @@ const CSS_SELECTOR_PATTERN = /^([^{]+)(\{)/;
 
 function getTemplateComponent(template: Template) {
 	return match(template)
-		.with("azurill", () => AzurillTemplate)
-		.with("bronzor", () => BronzorTemplate)
-		.with("chikorita", () => ChikoritaTemplate)
-		.with("ditto", () => DittoTemplate)
-		.with("ditgar", () => DitgarTemplate)
-		.with("gengar", () => GengarTemplate)
-		.with("glalie", () => GlalieTemplate)
-		.with("kakuna", () => KakunaTemplate)
-		.with("lapras", () => LaprasTemplate)
-		.with("leafish", () => LeafishTemplate)
-		.with("onyx", () => OnyxTemplate)
-		.with("pikachu", () => PikachuTemplate)
-		.with("rhyhorn", () => RhyhornTemplate)
+		.with("mdi", () => MdiTemplate)
 		.exhaustive();
 }
 

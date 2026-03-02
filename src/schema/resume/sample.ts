@@ -487,7 +487,7 @@ export const sampleResumeData: ResumeData = {
 		},
 	],
 	metadata: {
-		template: "azurill",
+		template: "mdi",
 		layout: {
 			sidebarWidth: 30,
 			pages: [

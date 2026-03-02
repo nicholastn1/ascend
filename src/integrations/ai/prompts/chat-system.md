@@ -53,7 +53,7 @@ Every `website` field is an object: `{ url: string, label: string }`.
 | Add experience item | `{ "op": "add", "path": "/sections/experience/items/-", "value": { ...full item object } }` |
 | Remove skill at index 2 | `{ "op": "remove", "path": "/sections/skills/items/2" }` |
 | Update a specific item field | `{ "op": "replace", "path": "/sections/experience/items/0/company", "value": "New Corp" }` |
-| Change template | `{ "op": "replace", "path": "/metadata/template", "value": "bronzor" }` |
+| Change template | `{ "op": "replace", "path": "/metadata/template", "value": "mdi" }` |
 | Change primary color | `{ "op": "replace", "path": "/metadata/design/colors/primary", "value": "rgba(37, 99, 235, 1)" }` |
 | Hide a section | `{ "op": "replace", "path": "/sections/interests/hidden", "value": true }` |
 | Rename a section title | `{ "op": "replace", "path": "/sections/experience/title", "value": "Work History" }` |

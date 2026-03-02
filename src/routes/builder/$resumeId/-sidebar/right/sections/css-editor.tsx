@@ -127,19 +127,7 @@ const CSS_SELECTORS = [
 	".references-item-title",
 	".references-item-name",
 	".references-item-description",
-	".template-azurill",
-	".template-bronzor",
-	".template-chikorita",
-	".template-ditto",
-	".template-ditgar",
-	".template-gengar",
-	".template-glalie",
-	".template-kakuna",
-	".template-lapras",
-	".template-leafish",
-	".template-onyx",
-	".template-pikachu",
-	".template-rhyhorn",
+	".template-mdi",
 ];
 
 const CSS_CLASS_SELECTOR_PATTERN = /\.([\w-]*)$/;

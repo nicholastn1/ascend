@@ -1,20 +1,6 @@
 import z from "zod";
 
-export const templateSchema = z.enum([
-	"azurill",
-	"bronzor",
-	"chikorita",
-	"ditgar",
-	"ditto",
-	"gengar",
-	"glalie",
-	"kakuna",
-	"lapras",
-	"leafish",
-	"onyx",
-	"pikachu",
-	"rhyhorn",
-]);
+export const templateSchema = z.enum(["mdi"]);
 
 export type Template = z.infer<typeof templateSchema>;
 
@@ -28,12 +14,4 @@ export type Template = z.infer<typeof templateSchema>;
  * If you are adding a new template that does not have a sidebar background, or any page decoration that extends
  * close to the page borders, consider including it in the `printMarginTemplates` array below.
  */
-export const printMarginTemplates = [
-	"azurill",
-	"bronzor",
-	"kakuna",
-	"lapras",
-	"onyx",
-	"pikachu",
-	"rhyhorn",
-] satisfies Template[] as string[];
+export const printMarginTemplates = ["mdi"] satisfies Template[] as string[];

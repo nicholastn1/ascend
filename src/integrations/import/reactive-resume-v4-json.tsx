@@ -690,7 +690,7 @@ export class ReactiveResumeV4JSONImporter {
 				metadata: {
 					template: (templateSchema.safeParse(v4Data.metadata.template).success
 						? v4Data.metadata.template
-						: "onyx") as Template,
+						: "mdi") as Template,
 					layout: {
 						sidebarWidth: clampSidebarWidth(35),
 						pages: (v4Data.metadata.layout ?? []).map((page) => {
