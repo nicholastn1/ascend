@@ -40,9 +40,9 @@ async function handler({ request }: { request: Request }) {
 	if (request.method === "GET" && request.url.endsWith("/spec.json")) {
 		const spec = await openAPIGenerator.generate(router, {
 			info: {
-				title: "Reactive Resume",
+				title: "Ascend",
 				version: __APP_VERSION__,
-				description: "Reactive Resume API",
+				description: "Ascend API",
 				license: { name: "MIT" },
 				contact: { name: "Nicholas Nogueira" },
 			},

@@ -79,8 +79,8 @@ function RouteComponent() {
 
 						<p className="text-muted-foreground leading-relaxed">
 							<Trans>
-								Explore the API documentation to learn how to integrate Reactive Resume with your applications. Find
-								detailed endpoints, request examples, and authentication methods.
+								Explore the API documentation to learn how to integrate Ascend with your applications. Find detailed
+								endpoints, request examples, and authentication methods.
 							</Trans>
 						</p>
 

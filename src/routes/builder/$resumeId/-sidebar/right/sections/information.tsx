@@ -6,7 +6,7 @@ export function InformationSectionBuilder() {
 		<SectionBase type="information" className="space-y-4">
 			<div className="space-y-2 rounded-md border bg-sky-600 p-5 text-white dark:bg-sky-700">
 				<h4 className="font-medium tracking-tight">
-					<Trans>Welcome to Reactive Resume!</Trans>
+					<Trans>Welcome to Ascend!</Trans>
 				</h4>
 
 				<div className="space-y-2 text-xs leading-normal">

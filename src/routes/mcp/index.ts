@@ -8,11 +8,11 @@ import { registerTools } from "./-helpers/tools";
 
 function createMcpServer() {
 	const server = new McpServer({
-		name: "reactive-resume",
+		name: "ascend",
 		version: "1.0.0",
-		title: "Reactive Resume",
+		title: "Ascend",
 		description:
-			"Reactive Resume is a resume builder. Use this MCP server to interact with your resume using an LLM of your choice.",
+			"Ascend is a career command center. Use this MCP server to interact with your resume using an LLM of your choice.",
 	});
 
 	registerResources(server);

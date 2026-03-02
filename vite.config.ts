@@ -51,9 +51,9 @@ const config = defineConfig({
 				navigateFallback: null, // Disable navigation fallback for SSR
 			},
 			manifest: {
-				name: "Reactive Resume",
-				short_name: "Reactive Resume",
-				description: "A career management platform for creating, updating, and sharing resumes.",
+				name: "Ascend",
+				short_name: "Ascend",
+				description: "Your career command center. Build your resume. Track every application. Land the job.",
 				id: "/?source=pwa",
 				start_url: "/?source=pwa",
 				display: "standalone",
