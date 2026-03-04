@@ -63,6 +63,12 @@ export const env = createEnv({
 		// Set to "false" for virtual-hosted-style URLs (bucket.endpoint), common with AWS S3, Cloudflare R2, etc.
 		S3_FORCE_PATH_STYLE: z.stringbool().default(false),
 
+		// AI Chat (OpenAI-compatible provider)
+		OPENROUTER_API_KEY: z.string().min(1).optional(),
+		OPENAI_API_KEY: z.string().min(1).optional(),
+		AI_MODEL: z.string().min(1).default("gpt-4o-mini"),
+		AI_RATE_LIMIT_DAILY: z.coerce.number().int().min(1).default(50),
+
 		// Feature Flags
 		FLAG_DEBUG_PRINTER: z.stringbool().default(false),
 		FLAG_DISABLE_SIGNUPS: z.stringbool().default(false),

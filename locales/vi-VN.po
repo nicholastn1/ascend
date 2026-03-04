@@ -38,6 +38,12 @@ msgstr "Tên"
 msgid "{0, plural, one {# item} other {# items}}"
 msgstr "{0, plural, other {# mục}}"
 
+#. placeholder {0}: rateLimit.used
+#. placeholder {1}: rateLimit.limit
+#: src/routes/dashboard/chat/-components/message-area.tsx
+msgid "{0} / {1} messages today"
+msgstr ""
+
 #: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-menu.tsx
 msgid "{column, plural, one {# Column} other {# Columns}}"
@@ -71,7 +77,7 @@ msgstr "3 tháng"
 msgid "6 months"
 msgstr "6 tháng"
 
-#: src/routes/dashboard/settings/profile.tsx
+#: src/dialogs/profile/index.tsx
 msgid "A confirmation link has been sent to your current email address. Please check your inbox to confirm the change."
 msgstr "Một liên kết xác nhận đã được gửi đến địa chỉ email hiện tại của bạn. Vui lòng kiểm tra hộp thư đến để xác nhận thay đổi."
 
@@ -80,7 +86,7 @@ msgstr "Một liên kết xác nhận đã được gửi đến địa chỉ em
 msgid "A link to your resume has been copied to clipboard."
 msgstr "Liên kết đến sơ yếu lý lịch của bạn đã được sao chép vào bộ nhớ tạm."
 
-#: src/routes/dashboard/settings/profile.tsx
+#: src/dialogs/profile/index.tsx
 msgid "A new verification link has been sent to your email address. Please check your inbox to verify your account."
 msgstr "Một liên kết xác minh mới đã được gửi tới địa chỉ email của bạn. Vui lòng kiểm tra hộp thư đến để xác minh tài khoản."
 
@@ -98,6 +104,7 @@ msgstr "Khổ giấy A4"
 #: src/components/kanban/filters.tsx
 #: src/dialogs/application/create.tsx
 #: src/dialogs/application/history.tsx
+#: src/dialogs/application/status-badge.tsx
 msgid "Accepted"
 msgstr ""
 
@@ -219,6 +226,14 @@ msgstr ""
 msgid "AI Chat"
 msgstr ""
 
+#: src/routes/dashboard/chat/-components/message-area.tsx
+msgid "AI chat error"
+msgstr ""
+
+#: src/dialogs/settings/tabs/prompts.tsx
+msgid "AI Prompts"
+msgstr ""
+
 #: src/utils/locale.ts
 msgid "Albanian"
 msgstr "Tiếng Albania"
@@ -272,24 +287,17 @@ msgstr "Bất kỳ ai có liên kết đều có thể xem và tải xuống sơ
 msgid "API Access"
 msgstr "Truy cập API"
 
-#: src/routes/dashboard/settings/ai.tsx
+#: src/dialogs/settings/tabs/ai.tsx
 msgid "API Key"
 msgstr "API Key"
 
-#: src/components/command-palette/pages/navigation.tsx
-#: src/components/command-palette/pages/navigation.tsx
-#: src/routes/dashboard/-components/sidebar.tsx
-#: src/routes/dashboard/settings/api-keys.tsx
+#: src/dialogs/settings/index.tsx
 msgid "API Keys"
 msgstr "API Key"
 
-#: src/routes/dashboard/settings/api-keys.tsx
+#: src/dialogs/settings/tabs/api-keys.tsx
 msgid "API Reference"
 msgstr "Tham khảo API"
-
-#: src/routes/dashboard/-components/sidebar.tsx
-msgid "App"
-msgstr "Ứng dụng"
 
 #: src/dialogs/application/create.tsx
 msgid "Application created successfully."
@@ -301,10 +309,6 @@ msgstr ""
 
 #: src/routes/_home/-sections/pillars.tsx
 msgid "Application Kanban"
-msgstr ""
-
-#: src/dialogs/application/update.tsx
-msgid "Application updated successfully."
 msgstr ""
 
 #: src/components/kanban/analytics/status-chart.tsx
@@ -320,6 +324,7 @@ msgstr ""
 #: src/components/kanban/filters.tsx
 #: src/dialogs/application/create.tsx
 #: src/dialogs/application/history.tsx
+#: src/dialogs/application/status-badge.tsx
 msgid "Applied"
 msgstr ""
 
@@ -337,7 +342,7 @@ msgstr ""
 msgid "Are you sure you want to delete the application for <0>{0}</0> at <1>{1}</1>? This action cannot be undone."
 msgstr ""
 
-#: src/routes/dashboard/settings/api-keys.tsx
+#: src/dialogs/settings/tabs/api-keys.tsx
 msgid "Are you sure you want to delete this API key?"
 msgstr "Bạn có chắc muốn xoá API key này không?"
 
@@ -347,7 +352,7 @@ msgstr "Bạn có chắc muốn xoá API key này không?"
 msgid "Are you sure you want to delete this resume?"
 msgstr "Bạn có chắc chắn muốn xóa sơ yếu lý lịch này không?"
 
-#: src/routes/dashboard/settings/danger-zone.tsx
+#: src/dialogs/settings/tabs/danger-zone.tsx
 msgid "Are you sure you want to delete your account?"
 msgstr "Bạn có chắc chắn muốn xóa tài khoản của mình không?"
 
@@ -365,10 +370,7 @@ msgstr "Bạn có chắc chắn muốn bỏ bảo vệ bằng mật khẩu khôn
 msgid "Area of Study"
 msgstr "Lĩnh vực học tập"
 
-#: src/components/command-palette/pages/navigation.tsx
-#: src/components/command-palette/pages/navigation.tsx
-#: src/routes/dashboard/-components/sidebar.tsx
-#: src/routes/dashboard/settings/ai.tsx
+#: src/dialogs/settings/index.tsx
 msgid "Artificial Intelligence"
 msgstr "Trí tuệ nhân tạo"
 
@@ -380,6 +382,14 @@ msgstr ""
 msgid "Ascend is your career command center — from resume to offer:"
 msgstr ""
 
+#: src/routes/dashboard/chat/-components/message-area.tsx
+msgid "Ask me anything about your career..."
+msgstr ""
+
+#: src/routes/dashboard/chat/-components/message-area.tsx
+msgid "Ask me anything..."
+msgstr ""
+
 #: src/components/ai/chat.tsx
 msgid "Ask me to update your resume..."
 msgstr ""
@@ -388,10 +398,7 @@ msgstr ""
 msgid "Aspect Ratio"
 msgstr "Tỷ lệ khung hình"
 
-#: src/components/command-palette/pages/navigation.tsx
-#: src/components/command-palette/pages/navigation.tsx
-#: src/routes/dashboard/-components/sidebar.tsx
-#: src/routes/dashboard/settings/authentication/index.tsx
+#: src/dialogs/settings/index.tsx
 msgid "Authentication"
 msgstr "Xác thực"
 
@@ -429,7 +436,7 @@ msgstr "Màu nền"
 msgid "Backup codes copied to clipboard."
 msgstr "Mã dự phòng đã được sao chép vào bộ nhớ tạm."
 
-#: src/routes/dashboard/settings/ai.tsx
+#: src/dialogs/settings/tabs/ai.tsx
 msgid "Base URL (Optional)"
 msgstr "URL gốc (Tùy chọn)"
 
@@ -496,6 +503,7 @@ msgstr "Danh sách chấm tròn"
 
 #: src/dialogs/application/delete.tsx
 #: src/dialogs/auth/enable-two-factor.tsx
+#: src/dialogs/profile/index.tsx
 #: src/dialogs/resume/sections/award.tsx
 #: src/dialogs/resume/sections/award.tsx
 #: src/dialogs/resume/sections/certification.tsx
@@ -526,13 +534,16 @@ msgstr "Danh sách chấm tròn"
 #: src/dialogs/resume/sections/summary-item.tsx
 #: src/dialogs/resume/sections/volunteer.tsx
 #: src/dialogs/resume/sections/volunteer.tsx
+#: src/dialogs/settings/tabs/api-keys.tsx
+#: src/dialogs/settings/tabs/danger-zone.tsx
 #: src/hooks/use-prompt.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
-#: src/routes/dashboard/settings/api-keys.tsx
-#: src/routes/dashboard/settings/danger-zone.tsx
-#: src/routes/dashboard/settings/profile.tsx
 msgid "Cancel"
 msgstr "Hủy"
+
+#: src/routes/dashboard/chat/-components/message-area.tsx
+msgid "Career Assistant"
+msgstr ""
 
 #: src/utils/locale.ts
 msgid "Catalan"
@@ -607,6 +618,17 @@ msgstr "Xóa lựa chọn"
 msgid "Click here to select a file to import"
 msgstr "Nhấn vào đây để chọn file cần nhập khẩu"
 
+#: src/dialogs/application/update.tsx
+#: src/dialogs/application/update.tsx
+#: src/dialogs/application/update.tsx
+#: src/dialogs/application/update.tsx
+msgid "Click to add..."
+msgstr ""
+
+#: src/dialogs/settings/index.tsx
+msgid "Close"
+msgstr ""
+
 #: src/routes/_home/-sections/pillars.tsx
 msgid "Coach"
 msgstr ""
@@ -615,13 +637,16 @@ msgstr ""
 msgid "Code Block"
 msgstr "Khối mã"
 
+#: src/routes/dashboard/-components/sidebar.tsx
+msgid "Collapse Sidebar"
+msgstr ""
+
 #: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-menu.tsx
 msgid "Columns"
 msgstr "Cột"
 
 #: src/dialogs/application/create.tsx
-#: src/dialogs/application/update.tsx
 #: src/dialogs/resume/sections/experience.tsx
 msgid "Company"
 msgstr "Công ty"
@@ -631,9 +656,9 @@ msgid "Completely free, forever, no hidden costs."
 msgstr "Hoàn toàn miễn phí, mãi mãi, không có chi phí ẩn."
 
 #: src/dialogs/api-key/create.tsx
+#: src/dialogs/settings/tabs/danger-zone.tsx
 #: src/hooks/use-prompt.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
-#: src/routes/dashboard/settings/danger-zone.tsx
 msgid "Confirm"
 msgstr "Xác nhận"
 
@@ -650,11 +675,13 @@ msgid "Contact removed."
 msgstr ""
 
 #: src/dialogs/application/contacts.tsx
+#: src/dialogs/application/update.tsx
 msgid "Contacts"
 msgstr ""
 
 #: src/dialogs/resume/sections/cover-letter.tsx
 #: src/dialogs/resume/sections/summary-item.tsx
+#: src/dialogs/settings/tabs/prompts.tsx
 msgid "Content"
 msgstr ""
 
@@ -672,6 +699,10 @@ msgstr "Tiếp tục từ nơi bạn đã dừng lại"
 
 #: src/dialogs/resume/import.tsx
 msgid "Continue where you left off by importing an existing resume. Supported formats include PDF, Microsoft Word, as well as JSON files from Ascend or other resume builders."
+msgstr ""
+
+#: src/routes/dashboard/-components/sidebar.tsx
+msgid "Conversation deleted."
 msgstr ""
 
 #: src/components/kanban/analytics/funnel-chart.tsx
@@ -729,7 +760,7 @@ msgid "Create a new account"
 msgstr "Tạo tài khoản mới"
 
 #: src/dialogs/api-key/create.tsx
-#: src/routes/dashboard/settings/api-keys.tsx
+#: src/dialogs/settings/tabs/api-keys.tsx
 msgid "Create a new API key"
 msgstr "Tạo khóa API mới"
 
@@ -834,7 +865,6 @@ msgid "Creating your resume..."
 msgstr "Đang tạo sơ yếu lý lịch của bạn..."
 
 #: src/dialogs/application/create.tsx
-#: src/dialogs/application/update.tsx
 msgid "Currency"
 msgstr ""
 
@@ -863,10 +893,7 @@ msgstr ""
 msgid "Czech"
 msgstr "Tiếng Séc"
 
-#: src/components/command-palette/pages/navigation.tsx
-#: src/components/command-palette/pages/navigation.tsx
-#: src/routes/dashboard/-components/sidebar.tsx
-#: src/routes/dashboard/settings/danger-zone.tsx
+#: src/dialogs/settings/index.tsx
 msgid "Danger Zone"
 msgstr "Vùng nguy hiểm"
 
@@ -874,7 +901,6 @@ msgstr "Vùng nguy hiểm"
 msgid "Danish"
 msgstr "Tiếng Đan Mạch"
 
-#: src/components/user/dropdown-menu.tsx
 #: src/utils/theme.ts
 msgid "Dark"
 msgstr "Tối"
@@ -901,16 +927,17 @@ msgstr "Bằng cấp"
 
 #: src/components/kanban/card.tsx
 #: src/dialogs/application/delete.tsx
+#: src/dialogs/application/update.tsx
+#: src/dialogs/settings/tabs/api-keys.tsx
 #: src/routes/builder/$resumeId/-components/header.tsx
 #: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-item.tsx
 #: src/routes/dashboard/resumes/-components/menus/context-menu.tsx
 #: src/routes/dashboard/resumes/-components/menus/dropdown-menu.tsx
-#: src/routes/dashboard/settings/api-keys.tsx
 msgid "Delete"
 msgstr "Xóa"
 
-#: src/routes/dashboard/settings/danger-zone.tsx
+#: src/dialogs/settings/tabs/danger-zone.tsx
 msgid "Delete Account"
 msgstr "Xóa tài khoản"
 
@@ -938,11 +965,11 @@ msgstr "Xóa bảng"
 msgid "Deleting application..."
 msgstr ""
 
-#: src/routes/dashboard/settings/danger-zone.tsx
+#: src/dialogs/settings/tabs/danger-zone.tsx
 msgid "Deleting your account..."
 msgstr "Đang xóa tài khoản của bạn..."
 
-#: src/routes/dashboard/settings/api-keys.tsx
+#: src/dialogs/settings/tabs/api-keys.tsx
 msgid "Deleting your API key..."
 msgstr "Đang xoá khoá API của bạn..."
 
@@ -960,6 +987,7 @@ msgstr "Đang xóa bản lý lịch của bạn..."
 #: src/dialogs/resume/sections/publication.tsx
 #: src/dialogs/resume/sections/reference.tsx
 #: src/dialogs/resume/sections/volunteer.tsx
+#: src/dialogs/settings/tabs/prompts.tsx
 msgid "Description"
 msgstr "Mô tả"
 
@@ -976,7 +1004,7 @@ msgstr "Tắt xác thực 2FA"
 msgid "Disable Two-Factor Authentication"
 msgstr "Tắt xác thực hai yếu tố"
 
-#: src/routes/dashboard/settings/ai.tsx
+#: src/dialogs/settings/tabs/ai.tsx
 msgid "Disabled"
 msgstr "Đã tắt"
 
@@ -1092,10 +1120,10 @@ msgstr "Giáo dục"
 msgid "Email"
 msgstr "Email"
 
+#: src/dialogs/profile/index.tsx
 #: src/routes/auth/forgot-password.tsx
 #: src/routes/auth/login.tsx
 #: src/routes/auth/register.tsx
-#: src/routes/dashboard/settings/profile.tsx
 msgid "Email Address"
 msgstr "Địa chỉ Email"
 
@@ -1108,7 +1136,7 @@ msgstr "Bật"
 msgid "Enable 2FA"
 msgstr "Bật xác thực 2FA"
 
-#: src/routes/dashboard/settings/ai.tsx
+#: src/dialogs/settings/tabs/ai.tsx
 msgid "Enable AI Features"
 msgstr "Bật Tính năng AI"
 
@@ -1116,7 +1144,7 @@ msgstr "Bật Tính năng AI"
 msgid "Enable Two-Factor Authentication"
 msgstr "Bật xác thực hai yếu tố"
 
-#: src/routes/dashboard/settings/ai.tsx
+#: src/dialogs/settings/tabs/ai.tsx
 msgid "Enabled"
 msgstr "Đã bật"
 
@@ -1160,7 +1188,7 @@ msgstr "Nhập mật khẩu của bạn để xác nhận thiết lập xác th�
 msgid "Enter your password to disable two-factor authentication. Your account will be less secure without 2FA enabled."
 msgstr "Nhập mật khẩu của bạn để tắt xác thực hai yếu tố. Tài khoản của bạn sẽ kém an toàn hơn nếu không bật 2FA."
 
-#: src/routes/dashboard/settings/ai.tsx
+#: src/dialogs/settings/tabs/ai.tsx
 msgid "Everything entered here is stored locally on your browser. Your data is only sent to the server when making a request to the AI provider, and is never stored or logged on our servers."
 msgstr "Tất cả thông tin điền ở đây đều được lưu cục bộ trên trình duyệt của bạn. Dữ liệu của bạn chỉ được gửi đến máy chủ khi thực hiện yêu cầu với nhà cung cấp AI, và không bao giờ được lưu trữ hoặc ghi nhận trên máy chủ của chúng tôi."
 
@@ -1186,11 +1214,11 @@ msgid "Expires in"
 msgstr "Hết hạn sau"
 
 #. placeholder {0}: key.expiresAt?.toLocaleDateString()
-#: src/routes/dashboard/settings/api-keys.tsx
+#: src/dialogs/settings/tabs/api-keys.tsx
 msgid "Expires on {0}"
 msgstr "Hết hạn vào {0}"
 
-#: src/routes/dashboard/settings/api-keys.tsx
+#: src/dialogs/settings/tabs/api-keys.tsx
 msgid "Explore the API documentation to learn how to integrate Ascend with your applications. Find detailed endpoints, request examples, and authentication methods."
 msgstr ""
 
@@ -1313,6 +1341,10 @@ msgstr "Chiều rộng đầy đủ"
 msgid "Fullscreen"
 msgstr ""
 
+#: src/routes/dashboard/chat/-components/conversation-list.tsx
+msgid "General"
+msgstr ""
+
 #: src/dialogs/resume/index.tsx
 msgid "Generate a random name"
 msgstr "Tạo tên ngẫu nhiên"
@@ -1392,7 +1424,7 @@ msgstr "Tiêu đề"
 msgid "Hebrew"
 msgstr "Tiếng Do Thái"
 
-#: src/routes/dashboard/settings/preferences.tsx
+#: src/dialogs/settings/tabs/preferences.tsx
 msgid "Help translate the app to your language"
 msgstr "Hỗ trợ dịch ứng dụng sang ngôn ngữ của bạn"
 
@@ -1428,12 +1460,16 @@ msgstr "Làm nổi bật"
 msgid "Hindi"
 msgstr "Tiếng Hindi"
 
+#: src/dialogs/application/update.tsx
+msgid "History"
+msgstr ""
+
 #: src/components/command-palette/pages/navigation.tsx
 #: src/components/command-palette/pages/navigation.tsx
 msgid "Home"
 msgstr "Trang chủ"
 
-#: src/routes/dashboard/settings/api-keys.tsx
+#: src/dialogs/settings/tabs/api-keys.tsx
 msgid "How do I use the API?"
 msgstr "Tôi sử dụng API như thế nào?"
 
@@ -1506,6 +1542,7 @@ msgstr ""
 #: src/components/kanban/filters.tsx
 #: src/dialogs/application/create.tsx
 #: src/dialogs/application/history.tsx
+#: src/dialogs/application/status-badge.tsx
 msgid "Interviewing"
 msgstr ""
 
@@ -1530,7 +1567,6 @@ msgid "Job searching is chaotic. It doesn't have to be."
 msgstr ""
 
 #: src/dialogs/application/create.tsx
-#: src/dialogs/application/update.tsx
 msgid "Job Title"
 msgstr ""
 
@@ -1574,10 +1610,9 @@ msgid "Landscape"
 msgstr "Ngang"
 
 #: src/components/command-palette/pages/preferences/language.tsx
-#: src/components/user/dropdown-menu.tsx
 #: src/dialogs/resume/sections/language.tsx
+#: src/dialogs/settings/tabs/preferences.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/page.tsx
-#: src/routes/dashboard/settings/preferences.tsx
 msgid "Language"
 msgstr "Ngôn ngữ"
 
@@ -1643,7 +1678,6 @@ msgstr "Cấp độ {level} trên 5"
 msgid "Licensed under <0>MIT</0>."
 msgstr "Được cấp phép theo <0>MIT</0>."
 
-#: src/components/user/dropdown-menu.tsx
 #: src/utils/theme.ts
 msgid "Light"
 msgstr "Sáng"
@@ -1722,6 +1756,10 @@ msgstr "Tiếng Malayalam"
 msgid "Manage contacts for this application."
 msgstr ""
 
+#: src/dialogs/settings/index.tsx
+msgid "Manage your preferences and account settings."
+msgstr ""
+
 #: src/utils/locale.ts
 msgid "Marathi"
 msgstr "Marathi"
@@ -1738,7 +1776,7 @@ msgstr "Lề (Dọc)"
 msgid "Missed deadlines"
 msgstr ""
 
-#: src/routes/dashboard/settings/ai.tsx
+#: src/dialogs/settings/tabs/ai.tsx
 msgid "Model"
 msgstr "Mô hình"
 
@@ -1757,6 +1795,7 @@ msgstr "Đa ngôn ngữ"
 
 #: src/dialogs/api-key/create.tsx
 #: src/dialogs/application/contacts.tsx
+#: src/dialogs/profile/index.tsx
 #: src/dialogs/resume/index.tsx
 #: src/dialogs/resume/sections/interest.tsx
 #: src/dialogs/resume/sections/project.tsx
@@ -1764,7 +1803,6 @@ msgstr "Đa ngôn ngữ"
 #: src/dialogs/resume/sections/skill.tsx
 #: src/routes/auth/register.tsx
 #: src/routes/builder/$resumeId/-sidebar/left/sections/basics.tsx
-#: src/routes/dashboard/settings/profile.tsx
 msgid "Name"
 msgstr "Tên"
 
@@ -1779,6 +1817,17 @@ msgstr "Mạng"
 #: src/dialogs/application/create.tsx
 #: src/routes/dashboard/applications/index.tsx
 msgid "New Application"
+msgstr ""
+
+#: src/routes/dashboard/-components/sidebar.tsx
+#: src/routes/dashboard/chat/-components/conversation-list.tsx
+msgid "New Chat"
+msgstr ""
+
+#: src/dialogs/search-chats/index.tsx
+#: src/routes/dashboard/-components/sidebar.tsx
+#: src/routes/dashboard/chat/-components/conversation-list.tsx
+msgid "New conversation"
 msgstr ""
 
 #: src/routes/_home/-sections/features.tsx
@@ -1814,8 +1863,18 @@ msgstr ""
 msgid "No contacts yet."
 msgstr ""
 
+#: src/dialogs/search-chats/index.tsx
+#: src/routes/dashboard/-components/sidebar.tsx
+#: src/routes/dashboard/chat/-components/conversation-list.tsx
+msgid "No conversations yet"
+msgstr ""
+
 #: src/dialogs/application/history.tsx
 msgid "No history available."
+msgstr ""
+
+#: src/dialogs/search-chats/index.tsx
+msgid "No matching conversations"
 msgstr ""
 
 #: src/components/ui/combobox.tsx
@@ -1847,7 +1906,13 @@ msgstr "Odia"
 #: src/components/kanban/filters.tsx
 #: src/dialogs/application/create.tsx
 #: src/dialogs/application/history.tsx
+#: src/dialogs/application/status-badge.tsx
 msgid "Offer"
+msgstr ""
+
+#: src/routes/dashboard/-components/sidebar.tsx
+#: src/routes/dashboard/chat/-components/conversation-list.tsx
+msgid "Older"
 msgstr ""
 
 #: src/routes/_home/-sections/pillars.tsx
@@ -1866,6 +1931,14 @@ msgstr "Mở"
 #: src/routes/auth/forgot-password.tsx
 msgid "Open Email Client"
 msgstr "Mở ứng dụng Email"
+
+#: src/routes/dashboard/-components/sidebar.tsx
+msgid "Open Sidebar"
+msgstr ""
+
+#: src/dialogs/settings/tabs/prompts.tsx
+msgid "Optional description..."
+msgstr ""
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 msgid "Optionally, set a password so that only people with the password can view your resume through the link."
@@ -1931,8 +2004,12 @@ msgstr "Bảo vệ bằng mật khẩu đã bị tắt."
 msgid "Password protection has been enabled."
 msgstr "Bảo vệ bằng mật khẩu đã được bật."
 
+#: src/routes/dashboard/chat/-components/message-area.tsx
+#: src/routes/dashboard/chat/-components/message-area.tsx
+msgid "Paste a recruiter message here..."
+msgstr ""
+
 #: src/dialogs/application/create.tsx
-#: src/dialogs/application/update.tsx
 #: src/dialogs/resume/sections/education.tsx
 #: src/dialogs/resume/sections/experience.tsx
 #: src/dialogs/resume/sections/project.tsx
@@ -2000,17 +2077,19 @@ msgstr "Bồ Đào Nha (Bồ Đào Nha)"
 msgid "Position"
 msgstr "Vị trí"
 
-#: src/components/command-palette/pages/navigation.tsx
-#: src/components/command-palette/pages/navigation.tsx
 #: src/components/command-palette/pages/preferences/index.tsx
-#: src/routes/dashboard/-components/sidebar.tsx
-#: src/routes/dashboard/settings/preferences.tsx
+#: src/dialogs/settings/index.tsx
 msgid "Preferences"
 msgstr "Tùy chọn"
 
 #: src/components/input/chip-input.tsx
 msgid "Press <0>{RETURN_KEY}</0> or <1>{COMMA_KEY}</1> to add or save the current keyword."
 msgstr "Nhấn <0>{RETURN_KEY}</0> hoặc <1>{COMMA_KEY}</1> để thêm hoặc lưu từ khóa hiện tại."
+
+#: src/routes/dashboard/-components/sidebar.tsx
+#: src/routes/dashboard/chat/-components/conversation-list.tsx
+msgid "Previous 7 Days"
+msgstr ""
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/design.tsx
 msgid "Primary Color"
@@ -2022,8 +2101,8 @@ msgstr "Trình độ"
 
 #: src/components/command-palette/pages/navigation.tsx
 #: src/components/command-palette/pages/navigation.tsx
-#: src/routes/dashboard/-components/sidebar.tsx
-#: src/routes/dashboard/settings/profile.tsx
+#: src/components/user/dropdown-menu.tsx
+#: src/dialogs/profile/index.tsx
 msgid "Profile"
 msgstr "Hồ sơ"
 
@@ -2041,6 +2120,14 @@ msgstr "Thanh tiến trình"
 msgid "Projects"
 msgstr "Dự án"
 
+#: src/dialogs/settings/tabs/prompts.tsx
+msgid "Prompt updated successfully."
+msgstr ""
+
+#: src/dialogs/settings/index.tsx
+msgid "Prompts"
+msgstr ""
+
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 msgid "Protect your resume from unauthorized access with a password"
 msgstr "Bảo vệ sơ yếu lý lịch của bạn khỏi truy cập trái phép bằng mật khẩu"
@@ -2049,7 +2136,7 @@ msgstr "Bảo vệ sơ yếu lý lịch của bạn khỏi truy cập trái phé
 msgid "Protect your resume with a password, and let only people with the password view it."
 msgstr "Bảo vệ sơ yếu lý lịch của bạn bằng mật khẩu và chỉ cho phép những ai có mật khẩu xem nó."
 
-#: src/routes/dashboard/settings/ai.tsx
+#: src/dialogs/settings/tabs/ai.tsx
 msgid "Provider"
 msgstr "Nhà cung cấp"
 
@@ -2072,6 +2159,15 @@ msgstr ""
 
 #: src/dialogs/resume/sections/cover-letter.tsx
 msgid "Recipient"
+msgstr ""
+
+#: src/routes/dashboard/chat/-components/conversation-list.tsx
+msgid "Recruiter"
+msgstr ""
+
+#: src/routes/dashboard/chat/-components/conversation-list.tsx
+#: src/routes/dashboard/chat/-components/message-area.tsx
+msgid "Recruiter Reply"
 msgstr ""
 
 #: src/components/level/combobox.tsx
@@ -2101,6 +2197,7 @@ msgstr "Làm mới"
 #: src/components/kanban/filters.tsx
 #: src/dialogs/application/create.tsx
 #: src/dialogs/application/history.tsx
+#: src/dialogs/application/status-badge.tsx
 msgid "Rejected"
 msgstr ""
 
@@ -2124,11 +2221,11 @@ msgstr "Đang xóa bảo vệ mật khẩu..."
 msgid "Rename"
 msgstr "Đổi tên"
 
-#: src/routes/dashboard/settings/profile.tsx
+#: src/dialogs/profile/index.tsx
 msgid "Resend verification email"
 msgstr "Gửi lại email xác minh"
 
-#: src/routes/dashboard/settings/profile.tsx
+#: src/dialogs/profile/index.tsx
 msgid "Resending verification email..."
 msgstr "Đang gửi lại email xác minh..."
 
@@ -2199,7 +2296,11 @@ msgstr ""
 msgid "Salary negotiation tips"
 msgstr ""
 
-#: src/dialogs/application/update.tsx
+#: src/dialogs/settings/tabs/prompts.tsx
+msgid "Save"
+msgstr ""
+
+#: src/dialogs/profile/index.tsx
 #: src/dialogs/resume/index.tsx
 #: src/dialogs/resume/sections/award.tsx
 #: src/dialogs/resume/sections/certification.tsx
@@ -2216,7 +2317,6 @@ msgstr ""
 #: src/dialogs/resume/sections/skill.tsx
 #: src/dialogs/resume/sections/summary-item.tsx
 #: src/dialogs/resume/sections/volunteer.tsx
-#: src/routes/dashboard/settings/profile.tsx
 msgid "Save Changes"
 msgstr "Lưu thay đổi"
 
@@ -2237,11 +2337,21 @@ msgstr "Trường"
 #: src/components/kanban/filters.tsx
 #: src/dialogs/application/create.tsx
 #: src/dialogs/application/history.tsx
+#: src/dialogs/application/status-badge.tsx
 msgid "Screening"
 msgstr ""
 
 #: src/components/kanban/search-bar.tsx
 msgid "Search by company or job title..."
+msgstr ""
+
+#: src/dialogs/search-chats/index.tsx
+#: src/routes/dashboard/-components/sidebar.tsx
+msgid "Search Chats"
+msgstr ""
+
+#: src/dialogs/search-chats/index.tsx
+msgid "Search conversations..."
 msgstr ""
 
 #: src/components/input/icon-picker.tsx
@@ -2252,6 +2362,10 @@ msgstr "Tìm kiếm biểu tượng"
 #: src/components/command-palette/pages/resumes.tsx
 msgid "Search for..."
 msgstr "Tìm kiếm..."
+
+#: src/dialogs/search-chats/index.tsx
+msgid "Search through your conversations."
+msgstr ""
 
 #: src/components/ui/combobox.tsx
 #: src/components/ui/multiple-combobox.tsx
@@ -2269,6 +2383,10 @@ msgstr "Loại phần"
 #: src/dialogs/application/create.tsx
 #: src/dialogs/application/update.tsx
 msgid "Select"
+msgstr ""
+
+#: src/dialogs/settings/tabs/prompts.tsx
+msgid "Select a prompt to edit"
 msgstr ""
 
 #: src/components/ui/combobox.tsx
@@ -2308,8 +2426,9 @@ msgstr ""
 
 #: src/components/command-palette/pages/navigation.tsx
 #: src/components/command-palette/pages/navigation.tsx
-#: src/components/command-palette/pages/navigation.tsx
-#: src/routes/dashboard/-components/sidebar.tsx
+#: src/components/user/dropdown-menu.tsx
+#: src/dialogs/settings/index.tsx
+#: src/dialogs/settings/index.tsx
 msgid "Settings"
 msgstr "Cài đặt"
 
@@ -2470,6 +2589,10 @@ msgstr ""
 msgid "Strike"
 msgstr "Gạch ngang"
 
+#: src/routes/dashboard/chat/-components/message-area.tsx
+msgid "Suggested"
+msgstr ""
+
 #: src/dialogs/resume/sections/custom.tsx
 #: src/utils/resume/section.tsx
 msgid "Summary"
@@ -2519,7 +2642,7 @@ msgstr "Mẫu"
 msgid "Template Gallery"
 msgstr "Thư viện mẫu"
 
-#: src/routes/dashboard/settings/ai.tsx
+#: src/dialogs/settings/tabs/ai.tsx
 msgid "Test Connection"
 msgstr "Kiểm tra kết nối"
 
@@ -2531,11 +2654,11 @@ msgstr "Màu chữ"
 msgid "Thai"
 msgstr "Thái"
 
-#: src/routes/dashboard/settings/api-keys.tsx
+#: src/dialogs/settings/tabs/api-keys.tsx
 msgid "The API key has been deleted successfully."
 msgstr "Khóa API đã được xóa thành công."
 
-#: src/routes/dashboard/settings/api-keys.tsx
+#: src/dialogs/settings/tabs/api-keys.tsx
 msgid "The API key will no longer be able to access your data after deletion. This action cannot be undone."
 msgstr "Khóa API sẽ không còn có thể truy cập dữ liệu của bạn sau khi xóa. Hành động này không thể hoàn tác."
 
@@ -2564,8 +2687,7 @@ msgid "The URL you entered is not valid."
 msgstr "URL bạn đã nhập không hợp lệ."
 
 #: src/components/command-palette/pages/preferences/theme.tsx
-#: src/components/user/dropdown-menu.tsx
-#: src/routes/dashboard/settings/preferences.tsx
+#: src/dialogs/settings/tabs/preferences.tsx
 msgid "Theme"
 msgstr "Chủ đề"
 
@@ -2588,7 +2710,7 @@ msgstr ""
 msgid "This action cannot be undone."
 msgstr "Hành động này không thể hoàn tác."
 
-#: src/routes/dashboard/settings/danger-zone.tsx
+#: src/dialogs/settings/tabs/danger-zone.tsx
 msgid "This action cannot be undone. All your data will be permanently deleted."
 msgstr "Hành động này không thể hoàn tác. Tất cả dữ liệu của bạn sẽ bị xóa vĩnh viễn."
 
@@ -2654,12 +2776,18 @@ msgstr "Mẹo: Bạn có thể đặt tên hồ sơ theo vị trí bạn đang �
 #: src/dialogs/resume/sections/certification.tsx
 #: src/dialogs/resume/sections/custom.tsx
 #: src/dialogs/resume/sections/publication.tsx
+#: src/dialogs/settings/tabs/prompts.tsx
 msgid "Title"
 msgstr "Tiêu đề"
 
-#: src/routes/dashboard/settings/danger-zone.tsx
+#: src/dialogs/settings/tabs/danger-zone.tsx
 msgid "To delete your account, you need to enter the confirmation text and click the button below."
 msgstr "Để xóa tài khoản của bạn, bạn cần nhập văn bản xác nhận và nhấp vào nút bên dưới."
+
+#: src/routes/dashboard/-components/sidebar.tsx
+#: src/routes/dashboard/chat/-components/conversation-list.tsx
+msgid "Today"
+msgstr ""
 
 #: src/components/kanban/analytics/overview-cards.tsx
 msgid "Total Applications"
@@ -2707,7 +2835,7 @@ msgstr "Xác thực hai yếu tố đã được thiết lập thành công."
 msgid "Type"
 msgstr "Loại"
 
-#: src/routes/dashboard/settings/danger-zone.tsx
+#: src/dialogs/settings/tabs/danger-zone.tsx
 msgid "Type \"{CONFIRMATION_TEXT}\" to confirm"
 msgstr "Nhập \"{CONFIRMATION_TEXT}\" để xác nhận"
 
@@ -2747,7 +2875,7 @@ msgstr "Đang hủy liên kết tài khoản {providerName} của bạn..."
 msgid "Unlock"
 msgstr "Mở khoá"
 
-#: src/routes/dashboard/settings/profile.tsx
+#: src/dialogs/profile/index.tsx
 msgid "Unverified"
 msgstr "Chưa xác minh"
 
@@ -2836,12 +2964,12 @@ msgstr ""
 msgid "Update your password"
 msgstr "Cập nhật mật khẩu của bạn"
 
-#: src/components/ai/chat.tsx
-msgid "Updated"
+#: src/dialogs/profile/index.tsx
+msgid "Update your personal information."
 msgstr ""
 
-#: src/dialogs/application/update.tsx
-msgid "Updating application..."
+#: src/components/ai/chat.tsx
+msgid "Updated"
 msgstr ""
 
 #: src/dialogs/auth/change-password.tsx
@@ -2860,9 +2988,9 @@ msgstr "Đang tải lên hình ảnh..."
 msgid "URL"
 msgstr "URL"
 
+#: src/dialogs/profile/index.tsx
 #: src/dialogs/resume/sections/profile.tsx
 #: src/routes/auth/register.tsx
-#: src/routes/dashboard/settings/profile.tsx
 msgid "Username"
 msgstr "Tên người dùng"
 
@@ -2874,7 +3002,7 @@ msgstr "Uzbek"
 msgid "Valid URLs must start with http:// or https://."
 msgstr "URL hợp lệ phải bắt đầu với http:// hoặc https://."
 
-#: src/routes/dashboard/settings/profile.tsx
+#: src/dialogs/profile/index.tsx
 msgid "Verified"
 msgstr "Đã xác minh"
 
@@ -2953,6 +3081,7 @@ msgstr "Khi bị khoá, resume không thể được cập nhật hoặc xóa."
 #: src/components/kanban/filters.tsx
 #: src/dialogs/application/create.tsx
 #: src/dialogs/application/history.tsx
+#: src/dialogs/application/status-badge.tsx
 msgid "Withdrawn"
 msgstr ""
 
@@ -2986,7 +3115,7 @@ msgstr ""
 msgid "You've got mail!"
 msgstr "Bạn vừa nhận thư!"
 
-#: src/routes/dashboard/settings/danger-zone.tsx
+#: src/dialogs/settings/tabs/danger-zone.tsx
 msgid "Your account has been deleted successfully."
 msgstr "Tài khoản của bạn đã được xóa thành công."
 
@@ -3010,7 +3139,7 @@ msgstr "Thay đổi của bạn được lưu tự động."
 msgid "Your data is secure, and never shared or sold to anyone."
 msgstr "Dữ liệu của bạn được an toàn, và không bao giờ được chia sẻ hoặc bán cho bất kỳ ai."
 
-#: src/routes/dashboard/settings/ai.tsx
+#: src/dialogs/settings/tabs/ai.tsx
 msgid "Your data is stored locally"
 msgstr "Dữ liệu của bạn được lưu trữ cục bộ"
 
@@ -3022,7 +3151,7 @@ msgstr "Mật khẩu của bạn đã được đặt lại thành công. Bây g
 msgid "Your password has been updated successfully."
 msgstr "Mật khẩu của bạn đã được cập nhật thành công."
 
-#: src/routes/dashboard/settings/profile.tsx
+#: src/dialogs/profile/index.tsx
 msgid "Your profile has been updated successfully."
 msgstr "Hồ sơ của bạn đã được cập nhật thành công."
 

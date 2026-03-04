@@ -38,6 +38,12 @@ msgstr "名稱"
 msgid "{0, plural, one {# item} other {# items}}"
 msgstr "{0, plural, other {# 個項目}}"
 
+#. placeholder {0}: rateLimit.used
+#. placeholder {1}: rateLimit.limit
+#: src/routes/dashboard/chat/-components/message-area.tsx
+msgid "{0} / {1} messages today"
+msgstr ""
+
 #: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-menu.tsx
 msgid "{column, plural, one {# Column} other {# Columns}}"
@@ -71,7 +77,7 @@ msgstr "3 個月"
 msgid "6 months"
 msgstr "6 個月"
 
-#: src/routes/dashboard/settings/profile.tsx
+#: src/dialogs/profile/index.tsx
 msgid "A confirmation link has been sent to your current email address. Please check your inbox to confirm the change."
 msgstr "確認連結已傳送至您目前的電子郵件地址。請檢查收件匣以完成變更確認。"
 
@@ -80,7 +86,7 @@ msgstr "確認連結已傳送至您目前的電子郵件地址。請檢查收件
 msgid "A link to your resume has been copied to clipboard."
 msgstr "履歷連結已複製到剪貼簿。"
 
-#: src/routes/dashboard/settings/profile.tsx
+#: src/dialogs/profile/index.tsx
 msgid "A new verification link has been sent to your email address. Please check your inbox to verify your account."
 msgstr "新的驗證連結已傳送至您的電子郵件地址。請檢查收件匣以驗證您的帳戶。"
 
@@ -98,6 +104,7 @@ msgstr "A4"
 #: src/components/kanban/filters.tsx
 #: src/dialogs/application/create.tsx
 #: src/dialogs/application/history.tsx
+#: src/dialogs/application/status-badge.tsx
 msgid "Accepted"
 msgstr ""
 
@@ -219,6 +226,14 @@ msgstr ""
 msgid "AI Chat"
 msgstr ""
 
+#: src/routes/dashboard/chat/-components/message-area.tsx
+msgid "AI chat error"
+msgstr ""
+
+#: src/dialogs/settings/tabs/prompts.tsx
+msgid "AI Prompts"
+msgstr ""
+
 #: src/utils/locale.ts
 msgid "Albanian"
 msgstr "阿爾巴尼亞語"
@@ -272,24 +287,17 @@ msgstr "任何擁有連結的人都可以檢視和下載履歷。"
 msgid "API Access"
 msgstr "API 存取"
 
-#: src/routes/dashboard/settings/ai.tsx
+#: src/dialogs/settings/tabs/ai.tsx
 msgid "API Key"
 msgstr "API Key"
 
-#: src/components/command-palette/pages/navigation.tsx
-#: src/components/command-palette/pages/navigation.tsx
-#: src/routes/dashboard/-components/sidebar.tsx
-#: src/routes/dashboard/settings/api-keys.tsx
+#: src/dialogs/settings/index.tsx
 msgid "API Keys"
 msgstr "API Key"
 
-#: src/routes/dashboard/settings/api-keys.tsx
+#: src/dialogs/settings/tabs/api-keys.tsx
 msgid "API Reference"
 msgstr "API 參考文件"
-
-#: src/routes/dashboard/-components/sidebar.tsx
-msgid "App"
-msgstr "應用程式"
 
 #: src/dialogs/application/create.tsx
 msgid "Application created successfully."
@@ -301,10 +309,6 @@ msgstr ""
 
 #: src/routes/_home/-sections/pillars.tsx
 msgid "Application Kanban"
-msgstr ""
-
-#: src/dialogs/application/update.tsx
-msgid "Application updated successfully."
 msgstr ""
 
 #: src/components/kanban/analytics/status-chart.tsx
@@ -320,6 +324,7 @@ msgstr ""
 #: src/components/kanban/filters.tsx
 #: src/dialogs/application/create.tsx
 #: src/dialogs/application/history.tsx
+#: src/dialogs/application/status-badge.tsx
 msgid "Applied"
 msgstr ""
 
@@ -337,7 +342,7 @@ msgstr ""
 msgid "Are you sure you want to delete the application for <0>{0}</0> at <1>{1}</1>? This action cannot be undone."
 msgstr ""
 
-#: src/routes/dashboard/settings/api-keys.tsx
+#: src/dialogs/settings/tabs/api-keys.tsx
 msgid "Are you sure you want to delete this API key?"
 msgstr "確定要刪除此 API Key 嗎？"
 
@@ -347,7 +352,7 @@ msgstr "確定要刪除此 API Key 嗎？"
 msgid "Are you sure you want to delete this resume?"
 msgstr "您確定要刪除這份履歷嗎？"
 
-#: src/routes/dashboard/settings/danger-zone.tsx
+#: src/dialogs/settings/tabs/danger-zone.tsx
 msgid "Are you sure you want to delete your account?"
 msgstr "您確定要刪除您的帳戶嗎？"
 
@@ -365,10 +370,7 @@ msgstr "您確定要移除密碼保護嗎？"
 msgid "Area of Study"
 msgstr "學習領域"
 
-#: src/components/command-palette/pages/navigation.tsx
-#: src/components/command-palette/pages/navigation.tsx
-#: src/routes/dashboard/-components/sidebar.tsx
-#: src/routes/dashboard/settings/ai.tsx
+#: src/dialogs/settings/index.tsx
 msgid "Artificial Intelligence"
 msgstr "人工智慧"
 
@@ -380,6 +382,14 @@ msgstr ""
 msgid "Ascend is your career command center — from resume to offer:"
 msgstr ""
 
+#: src/routes/dashboard/chat/-components/message-area.tsx
+msgid "Ask me anything about your career..."
+msgstr ""
+
+#: src/routes/dashboard/chat/-components/message-area.tsx
+msgid "Ask me anything..."
+msgstr ""
+
 #: src/components/ai/chat.tsx
 msgid "Ask me to update your resume..."
 msgstr ""
@@ -388,10 +398,7 @@ msgstr ""
 msgid "Aspect Ratio"
 msgstr "顯示比例"
 
-#: src/components/command-palette/pages/navigation.tsx
-#: src/components/command-palette/pages/navigation.tsx
-#: src/routes/dashboard/-components/sidebar.tsx
-#: src/routes/dashboard/settings/authentication/index.tsx
+#: src/dialogs/settings/index.tsx
 msgid "Authentication"
 msgstr "驗證"
 
@@ -429,7 +436,7 @@ msgstr "背景顏色"
 msgid "Backup codes copied to clipboard."
 msgstr "備份代碼已複製到剪貼簿。"
 
-#: src/routes/dashboard/settings/ai.tsx
+#: src/dialogs/settings/tabs/ai.tsx
 msgid "Base URL (Optional)"
 msgstr "基底 URL（選填）"
 
@@ -496,6 +503,7 @@ msgstr "項目符號清單"
 
 #: src/dialogs/application/delete.tsx
 #: src/dialogs/auth/enable-two-factor.tsx
+#: src/dialogs/profile/index.tsx
 #: src/dialogs/resume/sections/award.tsx
 #: src/dialogs/resume/sections/award.tsx
 #: src/dialogs/resume/sections/certification.tsx
@@ -526,13 +534,16 @@ msgstr "項目符號清單"
 #: src/dialogs/resume/sections/summary-item.tsx
 #: src/dialogs/resume/sections/volunteer.tsx
 #: src/dialogs/resume/sections/volunteer.tsx
+#: src/dialogs/settings/tabs/api-keys.tsx
+#: src/dialogs/settings/tabs/danger-zone.tsx
 #: src/hooks/use-prompt.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
-#: src/routes/dashboard/settings/api-keys.tsx
-#: src/routes/dashboard/settings/danger-zone.tsx
-#: src/routes/dashboard/settings/profile.tsx
 msgid "Cancel"
 msgstr "取消"
+
+#: src/routes/dashboard/chat/-components/message-area.tsx
+msgid "Career Assistant"
+msgstr ""
 
 #: src/utils/locale.ts
 msgid "Catalan"
@@ -607,6 +618,17 @@ msgstr "清除選取"
 msgid "Click here to select a file to import"
 msgstr "按這裡選擇要匯入的檔案"
 
+#: src/dialogs/application/update.tsx
+#: src/dialogs/application/update.tsx
+#: src/dialogs/application/update.tsx
+#: src/dialogs/application/update.tsx
+msgid "Click to add..."
+msgstr ""
+
+#: src/dialogs/settings/index.tsx
+msgid "Close"
+msgstr ""
+
 #: src/routes/_home/-sections/pillars.tsx
 msgid "Coach"
 msgstr ""
@@ -615,13 +637,16 @@ msgstr ""
 msgid "Code Block"
 msgstr "程式碼區塊"
 
+#: src/routes/dashboard/-components/sidebar.tsx
+msgid "Collapse Sidebar"
+msgstr ""
+
 #: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-menu.tsx
 msgid "Columns"
 msgstr "欄"
 
 #: src/dialogs/application/create.tsx
-#: src/dialogs/application/update.tsx
 #: src/dialogs/resume/sections/experience.tsx
 msgid "Company"
 msgstr "公司"
@@ -631,9 +656,9 @@ msgid "Completely free, forever, no hidden costs."
 msgstr "完全免費，永遠如此，沒有任何隱藏費用。"
 
 #: src/dialogs/api-key/create.tsx
+#: src/dialogs/settings/tabs/danger-zone.tsx
 #: src/hooks/use-prompt.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
-#: src/routes/dashboard/settings/danger-zone.tsx
 msgid "Confirm"
 msgstr "確認"
 
@@ -650,11 +675,13 @@ msgid "Contact removed."
 msgstr ""
 
 #: src/dialogs/application/contacts.tsx
+#: src/dialogs/application/update.tsx
 msgid "Contacts"
 msgstr ""
 
 #: src/dialogs/resume/sections/cover-letter.tsx
 #: src/dialogs/resume/sections/summary-item.tsx
+#: src/dialogs/settings/tabs/prompts.tsx
 msgid "Content"
 msgstr ""
 
@@ -672,6 +699,10 @@ msgstr "從上次中斷的地方繼續"
 
 #: src/dialogs/resume/import.tsx
 msgid "Continue where you left off by importing an existing resume. Supported formats include PDF, Microsoft Word, as well as JSON files from Ascend or other resume builders."
+msgstr ""
+
+#: src/routes/dashboard/-components/sidebar.tsx
+msgid "Conversation deleted."
 msgstr ""
 
 #: src/components/kanban/analytics/funnel-chart.tsx
@@ -729,7 +760,7 @@ msgid "Create a new account"
 msgstr "建立一個新帳戶"
 
 #: src/dialogs/api-key/create.tsx
-#: src/routes/dashboard/settings/api-keys.tsx
+#: src/dialogs/settings/tabs/api-keys.tsx
 msgid "Create a new API key"
 msgstr "建立新的 API Key"
 
@@ -834,7 +865,6 @@ msgid "Creating your resume..."
 msgstr "正在建立您的履歷…"
 
 #: src/dialogs/application/create.tsx
-#: src/dialogs/application/update.tsx
 msgid "Currency"
 msgstr ""
 
@@ -863,10 +893,7 @@ msgstr ""
 msgid "Czech"
 msgstr "捷克語"
 
-#: src/components/command-palette/pages/navigation.tsx
-#: src/components/command-palette/pages/navigation.tsx
-#: src/routes/dashboard/-components/sidebar.tsx
-#: src/routes/dashboard/settings/danger-zone.tsx
+#: src/dialogs/settings/index.tsx
 msgid "Danger Zone"
 msgstr "危險操作"
 
@@ -874,7 +901,6 @@ msgstr "危險操作"
 msgid "Danish"
 msgstr "丹麥語"
 
-#: src/components/user/dropdown-menu.tsx
 #: src/utils/theme.ts
 msgid "Dark"
 msgstr "暗色"
@@ -901,16 +927,17 @@ msgstr "學位"
 
 #: src/components/kanban/card.tsx
 #: src/dialogs/application/delete.tsx
+#: src/dialogs/application/update.tsx
+#: src/dialogs/settings/tabs/api-keys.tsx
 #: src/routes/builder/$resumeId/-components/header.tsx
 #: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-item.tsx
 #: src/routes/dashboard/resumes/-components/menus/context-menu.tsx
 #: src/routes/dashboard/resumes/-components/menus/dropdown-menu.tsx
-#: src/routes/dashboard/settings/api-keys.tsx
 msgid "Delete"
 msgstr "刪除"
 
-#: src/routes/dashboard/settings/danger-zone.tsx
+#: src/dialogs/settings/tabs/danger-zone.tsx
 msgid "Delete Account"
 msgstr "刪除帳號"
 
@@ -938,11 +965,11 @@ msgstr "刪除表格"
 msgid "Deleting application..."
 msgstr ""
 
-#: src/routes/dashboard/settings/danger-zone.tsx
+#: src/dialogs/settings/tabs/danger-zone.tsx
 msgid "Deleting your account..."
 msgstr "正在刪除您的帳戶…"
 
-#: src/routes/dashboard/settings/api-keys.tsx
+#: src/dialogs/settings/tabs/api-keys.tsx
 msgid "Deleting your API key..."
 msgstr "正在刪除您的 API Key…"
 
@@ -960,6 +987,7 @@ msgstr "正在刪除您的履歷…"
 #: src/dialogs/resume/sections/publication.tsx
 #: src/dialogs/resume/sections/reference.tsx
 #: src/dialogs/resume/sections/volunteer.tsx
+#: src/dialogs/settings/tabs/prompts.tsx
 msgid "Description"
 msgstr "詳細資訊"
 
@@ -976,7 +1004,7 @@ msgstr "停用雙因子驗證（2FA）"
 msgid "Disable Two-Factor Authentication"
 msgstr "停用雙因子驗證"
 
-#: src/routes/dashboard/settings/ai.tsx
+#: src/dialogs/settings/tabs/ai.tsx
 msgid "Disabled"
 msgstr "已停用"
 
@@ -1092,10 +1120,10 @@ msgstr "學歷"
 msgid "Email"
 msgstr "電子郵件"
 
+#: src/dialogs/profile/index.tsx
 #: src/routes/auth/forgot-password.tsx
 #: src/routes/auth/login.tsx
 #: src/routes/auth/register.tsx
-#: src/routes/dashboard/settings/profile.tsx
 msgid "Email Address"
 msgstr "電子郵件地址"
 
@@ -1108,7 +1136,7 @@ msgstr "啟用"
 msgid "Enable 2FA"
 msgstr "啟用雙因子驗證"
 
-#: src/routes/dashboard/settings/ai.tsx
+#: src/dialogs/settings/tabs/ai.tsx
 msgid "Enable AI Features"
 msgstr "啟用 AI 功能"
 
@@ -1116,7 +1144,7 @@ msgstr "啟用 AI 功能"
 msgid "Enable Two-Factor Authentication"
 msgstr "啟用雙因子驗證"
 
-#: src/routes/dashboard/settings/ai.tsx
+#: src/dialogs/settings/tabs/ai.tsx
 msgid "Enabled"
 msgstr "已啟用"
 
@@ -1160,7 +1188,7 @@ msgstr "請輸入您的密碼以確認設定雙因子驗證。啟用後，每次
 msgid "Enter your password to disable two-factor authentication. Your account will be less secure without 2FA enabled."
 msgstr "請輸入您的密碼以停用雙因子驗證。停用後，您的帳戶將會比較不安全。"
 
-#: src/routes/dashboard/settings/ai.tsx
+#: src/dialogs/settings/tabs/ai.tsx
 msgid "Everything entered here is stored locally on your browser. Your data is only sent to the server when making a request to the AI provider, and is never stored or logged on our servers."
 msgstr "您在這裡輸入的所有內容都會儲存在瀏覽器本機。只有在向 AI 服務提供者發出請求時，您的資料才會被傳送到伺服器，而且絕不會在我們的伺服器上儲存或記錄。"
 
@@ -1186,11 +1214,11 @@ msgid "Expires in"
 msgstr "到期時間"
 
 #. placeholder {0}: key.expiresAt?.toLocaleDateString()
-#: src/routes/dashboard/settings/api-keys.tsx
+#: src/dialogs/settings/tabs/api-keys.tsx
 msgid "Expires on {0}"
 msgstr "將於 {0} 到期"
 
-#: src/routes/dashboard/settings/api-keys.tsx
+#: src/dialogs/settings/tabs/api-keys.tsx
 msgid "Explore the API documentation to learn how to integrate Ascend with your applications. Find detailed endpoints, request examples, and authentication methods."
 msgstr ""
 
@@ -1313,6 +1341,10 @@ msgstr "全幅寬"
 msgid "Fullscreen"
 msgstr ""
 
+#: src/routes/dashboard/chat/-components/conversation-list.tsx
+msgid "General"
+msgstr ""
+
 #: src/dialogs/resume/index.tsx
 msgid "Generate a random name"
 msgstr "產生隨機名稱"
@@ -1392,7 +1424,7 @@ msgstr "標題"
 msgid "Hebrew"
 msgstr "希伯來語"
 
-#: src/routes/dashboard/settings/preferences.tsx
+#: src/dialogs/settings/tabs/preferences.tsx
 msgid "Help translate the app to your language"
 msgstr "協助將此應用程式翻譯成您的語言"
 
@@ -1428,12 +1460,16 @@ msgstr "螢光標記"
 msgid "Hindi"
 msgstr "印地語"
 
+#: src/dialogs/application/update.tsx
+msgid "History"
+msgstr ""
+
 #: src/components/command-palette/pages/navigation.tsx
 #: src/components/command-palette/pages/navigation.tsx
 msgid "Home"
 msgstr "首頁"
 
-#: src/routes/dashboard/settings/api-keys.tsx
+#: src/dialogs/settings/tabs/api-keys.tsx
 msgid "How do I use the API?"
 msgstr "我要如何使用 API？"
 
@@ -1506,6 +1542,7 @@ msgstr ""
 #: src/components/kanban/filters.tsx
 #: src/dialogs/application/create.tsx
 #: src/dialogs/application/history.tsx
+#: src/dialogs/application/status-badge.tsx
 msgid "Interviewing"
 msgstr ""
 
@@ -1530,7 +1567,6 @@ msgid "Job searching is chaotic. It doesn't have to be."
 msgstr ""
 
 #: src/dialogs/application/create.tsx
-#: src/dialogs/application/update.tsx
 msgid "Job Title"
 msgstr ""
 
@@ -1574,10 +1610,9 @@ msgid "Landscape"
 msgstr "橫向"
 
 #: src/components/command-palette/pages/preferences/language.tsx
-#: src/components/user/dropdown-menu.tsx
 #: src/dialogs/resume/sections/language.tsx
+#: src/dialogs/settings/tabs/preferences.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/page.tsx
-#: src/routes/dashboard/settings/preferences.tsx
 msgid "Language"
 msgstr "語言"
 
@@ -1643,7 +1678,6 @@ msgstr "5 個等級中的第 {level} 級"
 msgid "Licensed under <0>MIT</0>."
 msgstr "以 <0>MIT</0> 授權。"
 
-#: src/components/user/dropdown-menu.tsx
 #: src/utils/theme.ts
 msgid "Light"
 msgstr "亮色"
@@ -1722,6 +1756,10 @@ msgstr "馬拉雅拉姆語"
 msgid "Manage contacts for this application."
 msgstr ""
 
+#: src/dialogs/settings/index.tsx
+msgid "Manage your preferences and account settings."
+msgstr ""
+
 #: src/utils/locale.ts
 msgid "Marathi"
 msgstr "馬拉提語"
@@ -1738,7 +1776,7 @@ msgstr "邊界（垂直）"
 msgid "Missed deadlines"
 msgstr ""
 
-#: src/routes/dashboard/settings/ai.tsx
+#: src/dialogs/settings/tabs/ai.tsx
 msgid "Model"
 msgstr "模型"
 
@@ -1757,6 +1795,7 @@ msgstr "多語系"
 
 #: src/dialogs/api-key/create.tsx
 #: src/dialogs/application/contacts.tsx
+#: src/dialogs/profile/index.tsx
 #: src/dialogs/resume/index.tsx
 #: src/dialogs/resume/sections/interest.tsx
 #: src/dialogs/resume/sections/project.tsx
@@ -1764,7 +1803,6 @@ msgstr "多語系"
 #: src/dialogs/resume/sections/skill.tsx
 #: src/routes/auth/register.tsx
 #: src/routes/builder/$resumeId/-sidebar/left/sections/basics.tsx
-#: src/routes/dashboard/settings/profile.tsx
 msgid "Name"
 msgstr "名稱"
 
@@ -1779,6 +1817,17 @@ msgstr "網路"
 #: src/dialogs/application/create.tsx
 #: src/routes/dashboard/applications/index.tsx
 msgid "New Application"
+msgstr ""
+
+#: src/routes/dashboard/-components/sidebar.tsx
+#: src/routes/dashboard/chat/-components/conversation-list.tsx
+msgid "New Chat"
+msgstr ""
+
+#: src/dialogs/search-chats/index.tsx
+#: src/routes/dashboard/-components/sidebar.tsx
+#: src/routes/dashboard/chat/-components/conversation-list.tsx
+msgid "New conversation"
 msgstr ""
 
 #: src/routes/_home/-sections/features.tsx
@@ -1814,8 +1863,18 @@ msgstr ""
 msgid "No contacts yet."
 msgstr ""
 
+#: src/dialogs/search-chats/index.tsx
+#: src/routes/dashboard/-components/sidebar.tsx
+#: src/routes/dashboard/chat/-components/conversation-list.tsx
+msgid "No conversations yet"
+msgstr ""
+
 #: src/dialogs/application/history.tsx
 msgid "No history available."
+msgstr ""
+
+#: src/dialogs/search-chats/index.tsx
+msgid "No matching conversations"
 msgstr ""
 
 #: src/components/ui/combobox.tsx
@@ -1847,7 +1906,13 @@ msgstr "歐利亞語"
 #: src/components/kanban/filters.tsx
 #: src/dialogs/application/create.tsx
 #: src/dialogs/application/history.tsx
+#: src/dialogs/application/status-badge.tsx
 msgid "Offer"
+msgstr ""
+
+#: src/routes/dashboard/-components/sidebar.tsx
+#: src/routes/dashboard/chat/-components/conversation-list.tsx
+msgid "Older"
 msgstr ""
 
 #: src/routes/_home/-sections/pillars.tsx
@@ -1866,6 +1931,14 @@ msgstr "開啟"
 #: src/routes/auth/forgot-password.tsx
 msgid "Open Email Client"
 msgstr "開啟電子郵件用戶端"
+
+#: src/routes/dashboard/-components/sidebar.tsx
+msgid "Open Sidebar"
+msgstr ""
+
+#: src/dialogs/settings/tabs/prompts.tsx
+msgid "Optional description..."
+msgstr ""
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 msgid "Optionally, set a password so that only people with the password can view your resume through the link."
@@ -1931,8 +2004,12 @@ msgstr "已停用密碼保護。"
 msgid "Password protection has been enabled."
 msgstr "已啟用密碼保護。"
 
+#: src/routes/dashboard/chat/-components/message-area.tsx
+#: src/routes/dashboard/chat/-components/message-area.tsx
+msgid "Paste a recruiter message here..."
+msgstr ""
+
 #: src/dialogs/application/create.tsx
-#: src/dialogs/application/update.tsx
 #: src/dialogs/resume/sections/education.tsx
 #: src/dialogs/resume/sections/experience.tsx
 #: src/dialogs/resume/sections/project.tsx
@@ -2000,17 +2077,19 @@ msgstr "葡萄牙語（葡萄牙）"
 msgid "Position"
 msgstr "職位"
 
-#: src/components/command-palette/pages/navigation.tsx
-#: src/components/command-palette/pages/navigation.tsx
 #: src/components/command-palette/pages/preferences/index.tsx
-#: src/routes/dashboard/-components/sidebar.tsx
-#: src/routes/dashboard/settings/preferences.tsx
+#: src/dialogs/settings/index.tsx
 msgid "Preferences"
 msgstr "偏好設定"
 
 #: src/components/input/chip-input.tsx
 msgid "Press <0>{RETURN_KEY}</0> or <1>{COMMA_KEY}</1> to add or save the current keyword."
 msgstr "請按下 <0>{RETURN_KEY}</0> 或 <1>{COMMA_KEY}</1> 來新增或儲存目前的關鍵字。"
+
+#: src/routes/dashboard/-components/sidebar.tsx
+#: src/routes/dashboard/chat/-components/conversation-list.tsx
+msgid "Previous 7 Days"
+msgstr ""
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/design.tsx
 msgid "Primary Color"
@@ -2022,8 +2101,8 @@ msgstr "熟練度"
 
 #: src/components/command-palette/pages/navigation.tsx
 #: src/components/command-palette/pages/navigation.tsx
-#: src/routes/dashboard/-components/sidebar.tsx
-#: src/routes/dashboard/settings/profile.tsx
+#: src/components/user/dropdown-menu.tsx
+#: src/dialogs/profile/index.tsx
 msgid "Profile"
 msgstr "個人設置"
 
@@ -2041,6 +2120,14 @@ msgstr "進度條"
 msgid "Projects"
 msgstr "專案"
 
+#: src/dialogs/settings/tabs/prompts.tsx
+msgid "Prompt updated successfully."
+msgstr ""
+
+#: src/dialogs/settings/index.tsx
+msgid "Prompts"
+msgstr ""
+
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 msgid "Protect your resume from unauthorized access with a password"
 msgstr "使用密碼保護履歷，避免未經授權的存取"
@@ -2049,7 +2136,7 @@ msgstr "使用密碼保護履歷，避免未經授權的存取"
 msgid "Protect your resume with a password, and let only people with the password view it."
 msgstr "使用密碼保護您的履歷，只有知道密碼的人才能檢視。"
 
-#: src/routes/dashboard/settings/ai.tsx
+#: src/dialogs/settings/tabs/ai.tsx
 msgid "Provider"
 msgstr "服務提供者"
 
@@ -2072,6 +2159,15 @@ msgstr ""
 
 #: src/dialogs/resume/sections/cover-letter.tsx
 msgid "Recipient"
+msgstr ""
+
+#: src/routes/dashboard/chat/-components/conversation-list.tsx
+msgid "Recruiter"
+msgstr ""
+
+#: src/routes/dashboard/chat/-components/conversation-list.tsx
+#: src/routes/dashboard/chat/-components/message-area.tsx
+msgid "Recruiter Reply"
 msgstr ""
 
 #: src/components/level/combobox.tsx
@@ -2101,6 +2197,7 @@ msgstr "重新整理"
 #: src/components/kanban/filters.tsx
 #: src/dialogs/application/create.tsx
 #: src/dialogs/application/history.tsx
+#: src/dialogs/application/status-badge.tsx
 msgid "Rejected"
 msgstr ""
 
@@ -2124,11 +2221,11 @@ msgstr "正在移除密碼保護…"
 msgid "Rename"
 msgstr "重新命名"
 
-#: src/routes/dashboard/settings/profile.tsx
+#: src/dialogs/profile/index.tsx
 msgid "Resend verification email"
 msgstr "重新傳送驗證電子郵件"
 
-#: src/routes/dashboard/settings/profile.tsx
+#: src/dialogs/profile/index.tsx
 msgid "Resending verification email..."
 msgstr "正在重新傳送驗證電子郵件…"
 
@@ -2199,7 +2296,11 @@ msgstr ""
 msgid "Salary negotiation tips"
 msgstr ""
 
-#: src/dialogs/application/update.tsx
+#: src/dialogs/settings/tabs/prompts.tsx
+msgid "Save"
+msgstr ""
+
+#: src/dialogs/profile/index.tsx
 #: src/dialogs/resume/index.tsx
 #: src/dialogs/resume/sections/award.tsx
 #: src/dialogs/resume/sections/certification.tsx
@@ -2216,7 +2317,6 @@ msgstr ""
 #: src/dialogs/resume/sections/skill.tsx
 #: src/dialogs/resume/sections/summary-item.tsx
 #: src/dialogs/resume/sections/volunteer.tsx
-#: src/routes/dashboard/settings/profile.tsx
 msgid "Save Changes"
 msgstr "儲存變更"
 
@@ -2237,11 +2337,21 @@ msgstr "學校"
 #: src/components/kanban/filters.tsx
 #: src/dialogs/application/create.tsx
 #: src/dialogs/application/history.tsx
+#: src/dialogs/application/status-badge.tsx
 msgid "Screening"
 msgstr ""
 
 #: src/components/kanban/search-bar.tsx
 msgid "Search by company or job title..."
+msgstr ""
+
+#: src/dialogs/search-chats/index.tsx
+#: src/routes/dashboard/-components/sidebar.tsx
+msgid "Search Chats"
+msgstr ""
+
+#: src/dialogs/search-chats/index.tsx
+msgid "Search conversations..."
 msgstr ""
 
 #: src/components/input/icon-picker.tsx
@@ -2252,6 +2362,10 @@ msgstr "搜尋圖示"
 #: src/components/command-palette/pages/resumes.tsx
 msgid "Search for..."
 msgstr "搜尋履歷…"
+
+#: src/dialogs/search-chats/index.tsx
+msgid "Search through your conversations."
+msgstr ""
 
 #: src/components/ui/combobox.tsx
 #: src/components/ui/multiple-combobox.tsx
@@ -2269,6 +2383,10 @@ msgstr "段落類型"
 #: src/dialogs/application/create.tsx
 #: src/dialogs/application/update.tsx
 msgid "Select"
+msgstr ""
+
+#: src/dialogs/settings/tabs/prompts.tsx
+msgid "Select a prompt to edit"
 msgstr ""
 
 #: src/components/ui/combobox.tsx
@@ -2308,8 +2426,9 @@ msgstr ""
 
 #: src/components/command-palette/pages/navigation.tsx
 #: src/components/command-palette/pages/navigation.tsx
-#: src/components/command-palette/pages/navigation.tsx
-#: src/routes/dashboard/-components/sidebar.tsx
+#: src/components/user/dropdown-menu.tsx
+#: src/dialogs/settings/index.tsx
+#: src/dialogs/settings/index.tsx
 msgid "Settings"
 msgstr "設定"
 
@@ -2470,6 +2589,10 @@ msgstr ""
 msgid "Strike"
 msgstr "刪除線"
 
+#: src/routes/dashboard/chat/-components/message-area.tsx
+msgid "Suggested"
+msgstr ""
+
 #: src/dialogs/resume/sections/custom.tsx
 #: src/utils/resume/section.tsx
 msgid "Summary"
@@ -2519,7 +2642,7 @@ msgstr "範本"
 msgid "Template Gallery"
 msgstr "範本圖庫"
 
-#: src/routes/dashboard/settings/ai.tsx
+#: src/dialogs/settings/tabs/ai.tsx
 msgid "Test Connection"
 msgstr "測試連線"
 
@@ -2531,11 +2654,11 @@ msgstr "字型色彩"
 msgid "Thai"
 msgstr "泰文"
 
-#: src/routes/dashboard/settings/api-keys.tsx
+#: src/dialogs/settings/tabs/api-keys.tsx
 msgid "The API key has been deleted successfully."
 msgstr "API Key 已成功刪除。"
 
-#: src/routes/dashboard/settings/api-keys.tsx
+#: src/dialogs/settings/tabs/api-keys.tsx
 msgid "The API key will no longer be able to access your data after deletion. This action cannot be undone."
 msgstr "刪除後，此 API Key 將無法再存取您的資料。此動作無法復原。"
 
@@ -2564,8 +2687,7 @@ msgid "The URL you entered is not valid."
 msgstr "您輸入的 URL 無效。"
 
 #: src/components/command-palette/pages/preferences/theme.tsx
-#: src/components/user/dropdown-menu.tsx
-#: src/routes/dashboard/settings/preferences.tsx
+#: src/dialogs/settings/tabs/preferences.tsx
 msgid "Theme"
 msgstr "佈景主題"
 
@@ -2588,7 +2710,7 @@ msgstr ""
 msgid "This action cannot be undone."
 msgstr "此動作無法復原。"
 
-#: src/routes/dashboard/settings/danger-zone.tsx
+#: src/dialogs/settings/tabs/danger-zone.tsx
 msgid "This action cannot be undone. All your data will be permanently deleted."
 msgstr "此動作無法復原。您的所有資料都將被永久刪除。"
 
@@ -2654,12 +2776,18 @@ msgstr "祕訣： 您可以參考您申請的職位為履歷命名。"
 #: src/dialogs/resume/sections/certification.tsx
 #: src/dialogs/resume/sections/custom.tsx
 #: src/dialogs/resume/sections/publication.tsx
+#: src/dialogs/settings/tabs/prompts.tsx
 msgid "Title"
 msgstr "標題"
 
-#: src/routes/dashboard/settings/danger-zone.tsx
+#: src/dialogs/settings/tabs/danger-zone.tsx
 msgid "To delete your account, you need to enter the confirmation text and click the button below."
 msgstr "若要刪除帳戶，您必須先輸入確認文字，然後點擊下方按鈕。"
+
+#: src/routes/dashboard/-components/sidebar.tsx
+#: src/routes/dashboard/chat/-components/conversation-list.tsx
+msgid "Today"
+msgstr ""
 
 #: src/components/kanban/analytics/overview-cards.tsx
 msgid "Total Applications"
@@ -2707,7 +2835,7 @@ msgstr "已成功設定雙因子驗證。"
 msgid "Type"
 msgstr "類型"
 
-#: src/routes/dashboard/settings/danger-zone.tsx
+#: src/dialogs/settings/tabs/danger-zone.tsx
 msgid "Type \"{CONFIRMATION_TEXT}\" to confirm"
 msgstr "輸入「{CONFIRMATION_TEXT}」以確認"
 
@@ -2747,7 +2875,7 @@ msgstr "正在取消連結您的 {providerName} 帳戶…"
 msgid "Unlock"
 msgstr "解鎖"
 
-#: src/routes/dashboard/settings/profile.tsx
+#: src/dialogs/profile/index.tsx
 msgid "Unverified"
 msgstr "未驗證"
 
@@ -2836,12 +2964,12 @@ msgstr ""
 msgid "Update your password"
 msgstr "更新您的密碼"
 
-#: src/components/ai/chat.tsx
-msgid "Updated"
+#: src/dialogs/profile/index.tsx
+msgid "Update your personal information."
 msgstr ""
 
-#: src/dialogs/application/update.tsx
-msgid "Updating application..."
+#: src/components/ai/chat.tsx
+msgid "Updated"
 msgstr ""
 
 #: src/dialogs/auth/change-password.tsx
@@ -2860,9 +2988,9 @@ msgstr "正在上傳圖片…"
 msgid "URL"
 msgstr "URL"
 
+#: src/dialogs/profile/index.tsx
 #: src/dialogs/resume/sections/profile.tsx
 #: src/routes/auth/register.tsx
-#: src/routes/dashboard/settings/profile.tsx
 msgid "Username"
 msgstr "使用者名稱"
 
@@ -2874,7 +3002,7 @@ msgstr "烏茲別克語"
 msgid "Valid URLs must start with http:// or https://."
 msgstr "有效的 URL 必須以 http:// 或 https:// 開頭。"
 
-#: src/routes/dashboard/settings/profile.tsx
+#: src/dialogs/profile/index.tsx
 msgid "Verified"
 msgstr "已驗證"
 
@@ -2953,6 +3081,7 @@ msgstr "履歷被鎖定時，將無法更新或刪除。"
 #: src/components/kanban/filters.tsx
 #: src/dialogs/application/create.tsx
 #: src/dialogs/application/history.tsx
+#: src/dialogs/application/status-badge.tsx
 msgid "Withdrawn"
 msgstr ""
 
@@ -2986,7 +3115,7 @@ msgstr ""
 msgid "You've got mail!"
 msgstr "你有新郵件"
 
-#: src/routes/dashboard/settings/danger-zone.tsx
+#: src/dialogs/settings/tabs/danger-zone.tsx
 msgid "Your account has been deleted successfully."
 msgstr "您的帳戶已成功刪除。"
 
@@ -3010,7 +3139,7 @@ msgstr "您的變更會自動儲存。"
 msgid "Your data is secure, and never shared or sold to anyone."
 msgstr "您的資料是安全的，絕不會與任何人分享或出售。"
 
-#: src/routes/dashboard/settings/ai.tsx
+#: src/dialogs/settings/tabs/ai.tsx
 msgid "Your data is stored locally"
 msgstr "您的資料將儲存在本機裝置中"
 
@@ -3022,7 +3151,7 @@ msgstr "您的密碼已成功重設。您現在可以使用新密碼登入。"
 msgid "Your password has been updated successfully."
 msgstr "您的密碼已成功更新。"
 
-#: src/routes/dashboard/settings/profile.tsx
+#: src/dialogs/profile/index.tsx
 msgid "Your profile has been updated successfully."
 msgstr "您的個人設定已成功更新。"
 

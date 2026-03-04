@@ -19,7 +19,14 @@ import {
 	volunteerItemSchema,
 } from "@/schema/resume/data";
 
+const settingsTabSchema = z.enum(["preferences", "authentication", "api-keys", "ai", "danger-zone", "prompts"]);
+
+export type SettingsTab = z.infer<typeof settingsTabSchema>;
+
 const dialogTypeSchema = z.discriminatedUnion("type", [
+	z.object({ type: z.literal("profile"), data: z.undefined() }),
+	z.object({ type: z.literal("settings"), data: z.object({ initialTab: settingsTabSchema.optional() }).optional() }),
+	z.object({ type: z.literal("search-chats"), data: z.undefined() }),
 	z.object({ type: z.literal("auth.change-password"), data: z.undefined() }),
 	z.object({ type: z.literal("auth.two-factor.enable"), data: z.undefined() }),
 	z.object({ type: z.literal("auth.two-factor.disable"), data: z.undefined() }),

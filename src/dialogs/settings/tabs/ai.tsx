@@ -1,9 +1,6 @@
-import { t } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
-import { BrainIcon, CheckCircleIcon, InfoIcon, XCircleIcon } from "@phosphor-icons/react";
+import { CheckCircleIcon, InfoIcon, XCircleIcon } from "@phosphor-icons/react";
 import { useMutation } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
-import { motion } from "motion/react";
 import { useMemo } from "react";
 import { toast } from "sonner";
 import { useIsClient } from "usehooks-ts";
@@ -17,11 +14,6 @@ import { Switch } from "@/components/ui/switch";
 import { type AIProvider, useAIStore } from "@/integrations/ai/store";
 import { orpc } from "@/integrations/orpc/client";
 import { cn } from "@/utils/style";
-import { DashboardHeader } from "../-components/header";
-
-export const Route = createFileRoute("/dashboard/settings/ai")({
-	component: RouteComponent,
-});
 
 const providerOptions: (ComboboxOption<AIProvider> & { defaultBaseURL: string })[] = [
 	{
@@ -159,7 +151,6 @@ function AIForm() {
 					autoComplete="off"
 					spellCheck="false"
 					autoCapitalize="off"
-					// ignore password managers
 					data-lpignore="true"
 					data-bwignore="true"
 					data-1p-ignore="true"
@@ -201,7 +192,7 @@ function AIForm() {
 	);
 }
 
-function RouteComponent() {
+export function AITab() {
 	const isClient = useIsClient();
 
 	const enabled = useAIStore((state) => state.enabled);
@@ -211,52 +202,41 @@ function RouteComponent() {
 	if (!isClient) return null;
 
 	return (
-		<div className="space-y-4">
-			<DashboardHeader icon={BrainIcon} title={t`Artificial Intelligence`} />
+		<div className="grid max-w-xl gap-6">
+			<div className="flex items-start gap-4 rounded-sm border bg-popover p-6">
+				<div className="rounded-sm bg-primary/10 p-2.5">
+					<InfoIcon className="text-primary" size={24} />
+				</div>
+
+				<div className="flex-1 space-y-2">
+					<h3 className="font-semibold">
+						<Trans>Your data is stored locally</Trans>
+					</h3>
+
+					<p className="text-muted-foreground leading-relaxed">
+						<Trans>
+							Everything entered here is stored locally on your browser. Your data is only sent to the server when
+							making a request to the AI provider, and is never stored or logged on our servers.
+						</Trans>
+					</p>
+				</div>
+			</div>
 
 			<Separator />
 
-			<motion.div
-				initial={{ opacity: 0, y: -20 }}
-				animate={{ opacity: 1, y: 0 }}
-				transition={{ duration: 0.3 }}
-				className="grid max-w-xl gap-6"
-			>
-				<div className="flex items-start gap-4 rounded-sm border bg-popover p-6">
-					<div className="rounded-sm bg-primary/10 p-2.5">
-						<InfoIcon className="text-primary" size={24} />
-					</div>
+			<div className="flex items-center justify-between">
+				<Label htmlFor="enable-ai">
+					<Trans>Enable AI Features</Trans>
+				</Label>
+				<Switch id="enable-ai" checked={enabled} disabled={!canEnable} onCheckedChange={setEnabled} />
+			</div>
 
-					<div className="flex-1 space-y-2">
-						<h3 className="font-semibold">
-							<Trans>Your data is stored locally</Trans>
-						</h3>
+			<p className={cn("flex items-center gap-x-2", enabled ? "text-success" : "text-destructive")}>
+				{enabled ? <CheckCircleIcon /> : <XCircleIcon />}
+				{enabled ? <Trans>Enabled</Trans> : <Trans>Disabled</Trans>}
+			</p>
 
-						<p className="text-muted-foreground leading-relaxed">
-							<Trans>
-								Everything entered here is stored locally on your browser. Your data is only sent to the server when
-								making a request to the AI provider, and is never stored or logged on our servers.
-							</Trans>
-						</p>
-					</div>
-				</div>
-
-				<Separator />
-
-				<div className="flex items-center justify-between">
-					<Label htmlFor="enable-ai">
-						<Trans>Enable AI Features</Trans>
-					</Label>
-					<Switch id="enable-ai" checked={enabled} disabled={!canEnable} onCheckedChange={setEnabled} />
-				</div>
-
-				<p className={cn("flex items-center gap-x-2", enabled ? "text-success" : "text-destructive")}>
-					{enabled ? <CheckCircleIcon /> : <XCircleIcon />}
-					{enabled ? <Trans>Enabled</Trans> : <Trans>Disabled</Trans>}
-				</p>
-
-				<AIForm />
-			</motion.div>
+			<AIForm />
 		</div>
 	);
 }

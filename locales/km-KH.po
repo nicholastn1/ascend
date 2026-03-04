@@ -38,6 +38,12 @@ msgstr "ឈ្មោះ"
 msgid "{0, plural, one {# item} other {# items}}"
 msgstr "{0, plural, other {# ធាតុ}}"
 
+#. placeholder {0}: rateLimit.used
+#. placeholder {1}: rateLimit.limit
+#: src/routes/dashboard/chat/-components/message-area.tsx
+msgid "{0} / {1} messages today"
+msgstr ""
+
 #: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-menu.tsx
 msgid "{column, plural, one {# Column} other {# Columns}}"
@@ -71,7 +77,7 @@ msgstr "៣ ខែ"
 msgid "6 months"
 msgstr "៦ ខែ"
 
-#: src/routes/dashboard/settings/profile.tsx
+#: src/dialogs/profile/index.tsx
 msgid "A confirmation link has been sent to your current email address. Please check your inbox to confirm the change."
 msgstr "តំណ​ផ្ទៀងផ្ទាត់​ត្រូវ​បាន​ផ្ញើ​ទៅកាន់​អាសយដ្ឋាន​អ៊ីមែល​បច្ចុប្បន្ន​របស់​អ្នក​ហើយ។ សូម​ពិនិត្យ​រក​សារថ្មី​នៅក្នុង​ប្រអប់​សំបុត្រ​របស់​អ្នក ដើម្បី​បញ្ជាក់​ការ​ផ្លាស់ប្ដូរ។"
 
@@ -80,7 +86,7 @@ msgstr "តំណ​ផ្ទៀងផ្ទាត់​ត្រូវ​បា
 msgid "A link to your resume has been copied to clipboard."
 msgstr "តំណ​ទៅកាន់ប្រវត្តិរូប​របស់​អ្នក​ត្រូវ​បាន​ចម្លង​ទៅ​ក្ដារ​តម្រៀប។"
 
-#: src/routes/dashboard/settings/profile.tsx
+#: src/dialogs/profile/index.tsx
 msgid "A new verification link has been sent to your email address. Please check your inbox to verify your account."
 msgstr "តំណ​ផ្ទៀងផ្ទាត់​ថ្មី​មួយ​ត្រូវ​បាន​ផ្ញើ​ទៅកាន់​អាសយដ្ឋាន​អ៊ីមែល​របស់​អ្នក​ហើយ។ សូម​ពិនិត្យ​រក​សារថ្មី​នៅ​ក្នុង​ប្រអប់​សំបុត្រ​របស់​អ្នក ដើម្បី​បញ្ជាក់​គណនី​របស់​អ្នក។"
 
@@ -98,6 +104,7 @@ msgstr "A4"
 #: src/components/kanban/filters.tsx
 #: src/dialogs/application/create.tsx
 #: src/dialogs/application/history.tsx
+#: src/dialogs/application/status-badge.tsx
 msgid "Accepted"
 msgstr ""
 
@@ -219,6 +226,14 @@ msgstr ""
 msgid "AI Chat"
 msgstr ""
 
+#: src/routes/dashboard/chat/-components/message-area.tsx
+msgid "AI chat error"
+msgstr ""
+
+#: src/dialogs/settings/tabs/prompts.tsx
+msgid "AI Prompts"
+msgstr ""
+
 #: src/utils/locale.ts
 msgid "Albanian"
 msgstr "Albanian"
@@ -272,24 +287,17 @@ msgstr "អ្នក​ណា​ដែល​មាន​តំណ​នេះ �
 msgid "API Access"
 msgstr "ការចូលដំណើរការ API"
 
-#: src/routes/dashboard/settings/ai.tsx
+#: src/dialogs/settings/tabs/ai.tsx
 msgid "API Key"
 msgstr "កូនសោ API"
 
-#: src/components/command-palette/pages/navigation.tsx
-#: src/components/command-palette/pages/navigation.tsx
-#: src/routes/dashboard/-components/sidebar.tsx
-#: src/routes/dashboard/settings/api-keys.tsx
+#: src/dialogs/settings/index.tsx
 msgid "API Keys"
 msgstr "កូនសោ API"
 
-#: src/routes/dashboard/settings/api-keys.tsx
+#: src/dialogs/settings/tabs/api-keys.tsx
 msgid "API Reference"
 msgstr "ឯកសារ​យោង API"
-
-#: src/routes/dashboard/-components/sidebar.tsx
-msgid "App"
-msgstr "កម្មវិធី"
 
 #: src/dialogs/application/create.tsx
 msgid "Application created successfully."
@@ -301,10 +309,6 @@ msgstr ""
 
 #: src/routes/_home/-sections/pillars.tsx
 msgid "Application Kanban"
-msgstr ""
-
-#: src/dialogs/application/update.tsx
-msgid "Application updated successfully."
 msgstr ""
 
 #: src/components/kanban/analytics/status-chart.tsx
@@ -320,6 +324,7 @@ msgstr ""
 #: src/components/kanban/filters.tsx
 #: src/dialogs/application/create.tsx
 #: src/dialogs/application/history.tsx
+#: src/dialogs/application/status-badge.tsx
 msgid "Applied"
 msgstr ""
 
@@ -337,7 +342,7 @@ msgstr ""
 msgid "Are you sure you want to delete the application for <0>{0}</0> at <1>{1}</1>? This action cannot be undone."
 msgstr ""
 
-#: src/routes/dashboard/settings/api-keys.tsx
+#: src/dialogs/settings/tabs/api-keys.tsx
 msgid "Are you sure you want to delete this API key?"
 msgstr "តើ​អ្នក​ប្រាកដ​ជា​ចង់​លុប​កូនសោ API នេះ​ឬ?"
 
@@ -347,7 +352,7 @@ msgstr "តើ​អ្នក​ប្រាកដ​ជា​ចង់​លុ
 msgid "Are you sure you want to delete this resume?"
 msgstr "តើ​អ្នក​ប្រាកដ​ជា​ចង់​លុប​ប្រវត្តិរូប​នេះ​ឬ?"
 
-#: src/routes/dashboard/settings/danger-zone.tsx
+#: src/dialogs/settings/tabs/danger-zone.tsx
 msgid "Are you sure you want to delete your account?"
 msgstr "តើ​អ្នក​ប្រាកដ​ជា​ចង់​លុប​គណនី​របស់​អ្នក​ឬ?"
 
@@ -365,10 +370,7 @@ msgstr "តើ​អ្នក​ប្រាកដ​ជា​ចង់​ដក
 msgid "Area of Study"
 msgstr "ជំនាញ​រៀន"
 
-#: src/components/command-palette/pages/navigation.tsx
-#: src/components/command-palette/pages/navigation.tsx
-#: src/routes/dashboard/-components/sidebar.tsx
-#: src/routes/dashboard/settings/ai.tsx
+#: src/dialogs/settings/index.tsx
 msgid "Artificial Intelligence"
 msgstr "បញ្ញាសិប្បនិម្មិត"
 
@@ -380,6 +382,14 @@ msgstr ""
 msgid "Ascend is your career command center — from resume to offer:"
 msgstr ""
 
+#: src/routes/dashboard/chat/-components/message-area.tsx
+msgid "Ask me anything about your career..."
+msgstr ""
+
+#: src/routes/dashboard/chat/-components/message-area.tsx
+msgid "Ask me anything..."
+msgstr ""
+
 #: src/components/ai/chat.tsx
 msgid "Ask me to update your resume..."
 msgstr ""
@@ -388,10 +398,7 @@ msgstr ""
 msgid "Aspect Ratio"
 msgstr "សមាមាត្រទ្រង់ទ្រាយ"
 
-#: src/components/command-palette/pages/navigation.tsx
-#: src/components/command-palette/pages/navigation.tsx
-#: src/routes/dashboard/-components/sidebar.tsx
-#: src/routes/dashboard/settings/authentication/index.tsx
+#: src/dialogs/settings/index.tsx
 msgid "Authentication"
 msgstr "ការផ្ទៀងផ្ទាត់​ភាពត្រឹមត្រូវ"
 
@@ -429,7 +436,7 @@ msgstr "ពណ៌​ផ្ទៃ​ខាង​ក្រោយ"
 msgid "Backup codes copied to clipboard."
 msgstr "លេខ​កូដ​បម្រុងទុក​ត្រូវ​បាន​ចម្លង​ទៅ​ក្ដារ​តម្រៀប។"
 
-#: src/routes/dashboard/settings/ai.tsx
+#: src/dialogs/settings/tabs/ai.tsx
 msgid "Base URL (Optional)"
 msgstr "Base URL (ជា​ជម្រើស)"
 
@@ -496,6 +503,7 @@ msgstr "បញ្ជី​មាន​គ្រាប់ចំណុច"
 
 #: src/dialogs/application/delete.tsx
 #: src/dialogs/auth/enable-two-factor.tsx
+#: src/dialogs/profile/index.tsx
 #: src/dialogs/resume/sections/award.tsx
 #: src/dialogs/resume/sections/award.tsx
 #: src/dialogs/resume/sections/certification.tsx
@@ -526,13 +534,16 @@ msgstr "បញ្ជី​មាន​គ្រាប់ចំណុច"
 #: src/dialogs/resume/sections/summary-item.tsx
 #: src/dialogs/resume/sections/volunteer.tsx
 #: src/dialogs/resume/sections/volunteer.tsx
+#: src/dialogs/settings/tabs/api-keys.tsx
+#: src/dialogs/settings/tabs/danger-zone.tsx
 #: src/hooks/use-prompt.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
-#: src/routes/dashboard/settings/api-keys.tsx
-#: src/routes/dashboard/settings/danger-zone.tsx
-#: src/routes/dashboard/settings/profile.tsx
 msgid "Cancel"
 msgstr "បោះបង់"
+
+#: src/routes/dashboard/chat/-components/message-area.tsx
+msgid "Career Assistant"
+msgstr ""
 
 #: src/utils/locale.ts
 msgid "Catalan"
@@ -607,6 +618,17 @@ msgstr "សម្អាត​ការ​ជ្រើសរើស"
 msgid "Click here to select a file to import"
 msgstr "ចុច​ទីនេះ​ដើម្បី​ជ្រើស​ឯកសារ​មួយ​ដើម្បី​នាំចូល"
 
+#: src/dialogs/application/update.tsx
+#: src/dialogs/application/update.tsx
+#: src/dialogs/application/update.tsx
+#: src/dialogs/application/update.tsx
+msgid "Click to add..."
+msgstr ""
+
+#: src/dialogs/settings/index.tsx
+msgid "Close"
+msgstr ""
+
 #: src/routes/_home/-sections/pillars.tsx
 msgid "Coach"
 msgstr ""
@@ -615,13 +637,16 @@ msgstr ""
 msgid "Code Block"
 msgstr "កូដ​ប្លុក"
 
+#: src/routes/dashboard/-components/sidebar.tsx
+msgid "Collapse Sidebar"
+msgstr ""
+
 #: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-menu.tsx
 msgid "Columns"
 msgstr "ជួរឈរ"
 
 #: src/dialogs/application/create.tsx
-#: src/dialogs/application/update.tsx
 #: src/dialogs/resume/sections/experience.tsx
 msgid "Company"
 msgstr "ក្រុមហ៊ុន"
@@ -631,9 +656,9 @@ msgid "Completely free, forever, no hidden costs."
 msgstr "ឥតគិតថ្លៃ​ពេញលេញ ជារៀងរហូត គ្មាន​ចំនាយ​លាក់​កំបាំង។"
 
 #: src/dialogs/api-key/create.tsx
+#: src/dialogs/settings/tabs/danger-zone.tsx
 #: src/hooks/use-prompt.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
-#: src/routes/dashboard/settings/danger-zone.tsx
 msgid "Confirm"
 msgstr "អះអាង"
 
@@ -650,11 +675,13 @@ msgid "Contact removed."
 msgstr ""
 
 #: src/dialogs/application/contacts.tsx
+#: src/dialogs/application/update.tsx
 msgid "Contacts"
 msgstr ""
 
 #: src/dialogs/resume/sections/cover-letter.tsx
 #: src/dialogs/resume/sections/summary-item.tsx
+#: src/dialogs/settings/tabs/prompts.tsx
 msgid "Content"
 msgstr ""
 
@@ -672,6 +699,10 @@ msgstr "បន្ត​ពី​កន្លែង​ដែល​អ្នក​
 
 #: src/dialogs/resume/import.tsx
 msgid "Continue where you left off by importing an existing resume. Supported formats include PDF, Microsoft Word, as well as JSON files from Ascend or other resume builders."
+msgstr ""
+
+#: src/routes/dashboard/-components/sidebar.tsx
+msgid "Conversation deleted."
 msgstr ""
 
 #: src/components/kanban/analytics/funnel-chart.tsx
@@ -729,7 +760,7 @@ msgid "Create a new account"
 msgstr "បង្កើត​គណនី​ថ្មី"
 
 #: src/dialogs/api-key/create.tsx
-#: src/routes/dashboard/settings/api-keys.tsx
+#: src/dialogs/settings/tabs/api-keys.tsx
 msgid "Create a new API key"
 msgstr "បង្កើត​កូនសោ API ថ្មី"
 
@@ -834,7 +865,6 @@ msgid "Creating your resume..."
 msgstr "កំពុង​បង្កើត​ប្រវត្តិរូប​របស់​អ្នក..."
 
 #: src/dialogs/application/create.tsx
-#: src/dialogs/application/update.tsx
 msgid "Currency"
 msgstr ""
 
@@ -863,10 +893,7 @@ msgstr ""
 msgid "Czech"
 msgstr "Czech"
 
-#: src/components/command-palette/pages/navigation.tsx
-#: src/components/command-palette/pages/navigation.tsx
-#: src/routes/dashboard/-components/sidebar.tsx
-#: src/routes/dashboard/settings/danger-zone.tsx
+#: src/dialogs/settings/index.tsx
 msgid "Danger Zone"
 msgstr "តំបន់​គ្រោះថ្នាក់"
 
@@ -874,7 +901,6 @@ msgstr "តំបន់​គ្រោះថ្នាក់"
 msgid "Danish"
 msgstr "Danish"
 
-#: src/components/user/dropdown-menu.tsx
 #: src/utils/theme.ts
 msgid "Dark"
 msgstr "ងងឹត"
@@ -901,16 +927,17 @@ msgstr "សញ្ញាប័ត្រ"
 
 #: src/components/kanban/card.tsx
 #: src/dialogs/application/delete.tsx
+#: src/dialogs/application/update.tsx
+#: src/dialogs/settings/tabs/api-keys.tsx
 #: src/routes/builder/$resumeId/-components/header.tsx
 #: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-item.tsx
 #: src/routes/dashboard/resumes/-components/menus/context-menu.tsx
 #: src/routes/dashboard/resumes/-components/menus/dropdown-menu.tsx
-#: src/routes/dashboard/settings/api-keys.tsx
 msgid "Delete"
 msgstr "លុប"
 
-#: src/routes/dashboard/settings/danger-zone.tsx
+#: src/dialogs/settings/tabs/danger-zone.tsx
 msgid "Delete Account"
 msgstr "លុប​គណនី"
 
@@ -938,11 +965,11 @@ msgstr "លុប​តារាង"
 msgid "Deleting application..."
 msgstr ""
 
-#: src/routes/dashboard/settings/danger-zone.tsx
+#: src/dialogs/settings/tabs/danger-zone.tsx
 msgid "Deleting your account..."
 msgstr "កំពុង​លុប​គណនី​របស់​អ្នក..."
 
-#: src/routes/dashboard/settings/api-keys.tsx
+#: src/dialogs/settings/tabs/api-keys.tsx
 msgid "Deleting your API key..."
 msgstr "កំពុង​លុប​កូនសោ API របស់​អ្នក..."
 
@@ -960,6 +987,7 @@ msgstr "កំពុង​លុប​ប្រវត្តិរូប​រប
 #: src/dialogs/resume/sections/publication.tsx
 #: src/dialogs/resume/sections/reference.tsx
 #: src/dialogs/resume/sections/volunteer.tsx
+#: src/dialogs/settings/tabs/prompts.tsx
 msgid "Description"
 msgstr "សេចក្ដី​ពិពណ៌នា"
 
@@ -976,7 +1004,7 @@ msgstr "បិទ 2FA"
 msgid "Disable Two-Factor Authentication"
 msgstr "បិទ​ការ​ផ្ទៀងផ្ទាត់​ពីរ​ជាន់"
 
-#: src/routes/dashboard/settings/ai.tsx
+#: src/dialogs/settings/tabs/ai.tsx
 msgid "Disabled"
 msgstr "បាន​បិទ"
 
@@ -1092,10 +1120,10 @@ msgstr "ការ​សិក្សា"
 msgid "Email"
 msgstr "អ៊ីមែល"
 
+#: src/dialogs/profile/index.tsx
 #: src/routes/auth/forgot-password.tsx
 #: src/routes/auth/login.tsx
 #: src/routes/auth/register.tsx
-#: src/routes/dashboard/settings/profile.tsx
 msgid "Email Address"
 msgstr "អាសយដ្ឋាន​អ៊ីមែល"
 
@@ -1108,7 +1136,7 @@ msgstr "បើក​ប្រើ"
 msgid "Enable 2FA"
 msgstr "បើក​ប្រើ 2FA"
 
-#: src/routes/dashboard/settings/ai.tsx
+#: src/dialogs/settings/tabs/ai.tsx
 msgid "Enable AI Features"
 msgstr "បើក​ប្រើ​មុខងារ AI"
 
@@ -1116,7 +1144,7 @@ msgstr "បើក​ប្រើ​មុខងារ AI"
 msgid "Enable Two-Factor Authentication"
 msgstr "បើក​ប្រើ​ការ​ផ្ទៀងផ្ទាត់​ពីរ​ជាន់"
 
-#: src/routes/dashboard/settings/ai.tsx
+#: src/dialogs/settings/tabs/ai.tsx
 msgid "Enabled"
 msgstr "បានបើក"
 
@@ -1160,7 +1188,7 @@ msgstr "បញ្ចូល​ពាក្យសម្ងាត់​របស់
 msgid "Enter your password to disable two-factor authentication. Your account will be less secure without 2FA enabled."
 msgstr "បញ្ចូល​ពាក្យសម្ងាត់​របស់​អ្នក ដើម្បី​បិទ​ការ​ផ្ទៀងផ្ទាត់​ពីរ​ជាន់។ គណនី​របស់​អ្នក​នឹង​កាន់តែ​មាន​ហានិភ័យ​នៅពេល​មិន​បាន​បើក 2FA ទៀត។"
 
-#: src/routes/dashboard/settings/ai.tsx
+#: src/dialogs/settings/tabs/ai.tsx
 msgid "Everything entered here is stored locally on your browser. Your data is only sent to the server when making a request to the AI provider, and is never stored or logged on our servers."
 msgstr "អ្វី​ដែល​បាន​បញ្ចូល​នៅ​ទីនេះ​ទាំងអស់ ត្រូវ​បាន​រក្សាទុក​នៅ​ក្នុង​កម្មវិធី​រុករក​របស់​អ្នក​តែប៉ុណ្ណោះ។ ទិន្នន័យ​របស់​អ្នក​ត្រូវ​បាន​ផ្ញើ​ទៅ​ម៉ាស៊ីន​បម្រើ​តែ​នៅ​ពេល​មាន​សំណើ​ទៅ​កាន់​អ្នកផ្តល់​សេវា AI ប៉ុណ្ណោះ ហើយ​មិនត្រូវ​បាន​រក្សាទុក ឬ​កត់ត្រា​នៅ​លើ​ម៉ាស៊ីន​បម្រើ​របស់​យើង​ឡើយ។"
 
@@ -1186,11 +1214,11 @@ msgid "Expires in"
 msgstr "ផុតកំណត់ក្នុង"
 
 #. placeholder {0}: key.expiresAt?.toLocaleDateString()
-#: src/routes/dashboard/settings/api-keys.tsx
+#: src/dialogs/settings/tabs/api-keys.tsx
 msgid "Expires on {0}"
 msgstr "ផុតកំណត់​នៅ​ថ្ងៃទី {0}"
 
-#: src/routes/dashboard/settings/api-keys.tsx
+#: src/dialogs/settings/tabs/api-keys.tsx
 msgid "Explore the API documentation to learn how to integrate Ascend with your applications. Find detailed endpoints, request examples, and authentication methods."
 msgstr ""
 
@@ -1313,6 +1341,10 @@ msgstr "ទទឹង​ពេញ"
 msgid "Fullscreen"
 msgstr ""
 
+#: src/routes/dashboard/chat/-components/conversation-list.tsx
+msgid "General"
+msgstr ""
+
 #: src/dialogs/resume/index.tsx
 msgid "Generate a random name"
 msgstr "បង្កើត​ឈ្មោះចៃដន្យ"
@@ -1392,7 +1424,7 @@ msgstr "ក្បាលសារពណ៌នាខ្លី"
 msgid "Hebrew"
 msgstr "Hebrew"
 
-#: src/routes/dashboard/settings/preferences.tsx
+#: src/dialogs/settings/tabs/preferences.tsx
 msgid "Help translate the app to your language"
 msgstr "ជួយ​បកប្រែ​កម្មវិធី​ទៅ​ជា​ភាសា​របស់​អ្នក"
 
@@ -1428,12 +1460,16 @@ msgstr "រំលេច"
 msgid "Hindi"
 msgstr "Hindi"
 
+#: src/dialogs/application/update.tsx
+msgid "History"
+msgstr ""
+
 #: src/components/command-palette/pages/navigation.tsx
 #: src/components/command-palette/pages/navigation.tsx
 msgid "Home"
 msgstr "ទំព័រដើម"
 
-#: src/routes/dashboard/settings/api-keys.tsx
+#: src/dialogs/settings/tabs/api-keys.tsx
 msgid "How do I use the API?"
 msgstr "តើ​ខ្ញុំ​ប្រើ API ដោយ​របៀបណា?"
 
@@ -1506,6 +1542,7 @@ msgstr ""
 #: src/components/kanban/filters.tsx
 #: src/dialogs/application/create.tsx
 #: src/dialogs/application/history.tsx
+#: src/dialogs/application/status-badge.tsx
 msgid "Interviewing"
 msgstr ""
 
@@ -1530,7 +1567,6 @@ msgid "Job searching is chaotic. It doesn't have to be."
 msgstr ""
 
 #: src/dialogs/application/create.tsx
-#: src/dialogs/application/update.tsx
 msgid "Job Title"
 msgstr ""
 
@@ -1574,10 +1610,9 @@ msgid "Landscape"
 msgstr "ផ្ទៃ​ទេសភាព"
 
 #: src/components/command-palette/pages/preferences/language.tsx
-#: src/components/user/dropdown-menu.tsx
 #: src/dialogs/resume/sections/language.tsx
+#: src/dialogs/settings/tabs/preferences.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/page.tsx
-#: src/routes/dashboard/settings/preferences.tsx
 msgid "Language"
 msgstr "ភាសា"
 
@@ -1643,7 +1678,6 @@ msgstr "កម្រិត {level} ក្នុងចំណោម ៥"
 msgid "Licensed under <0>MIT</0>."
 msgstr "មាន​អាជ្ញាប័ណ្ណ​ក្រោម <0>MIT</0>។"
 
-#: src/components/user/dropdown-menu.tsx
 #: src/utils/theme.ts
 msgid "Light"
 msgstr "ភ្លឺ"
@@ -1722,6 +1756,10 @@ msgstr "Malayalam"
 msgid "Manage contacts for this application."
 msgstr ""
 
+#: src/dialogs/settings/index.tsx
+msgid "Manage your preferences and account settings."
+msgstr ""
+
 #: src/utils/locale.ts
 msgid "Marathi"
 msgstr "Marathi"
@@ -1738,7 +1776,7 @@ msgstr "រឹម (បញ្ឈរ)"
 msgid "Missed deadlines"
 msgstr ""
 
-#: src/routes/dashboard/settings/ai.tsx
+#: src/dialogs/settings/tabs/ai.tsx
 msgid "Model"
 msgstr "ម៉ូដែល"
 
@@ -1757,6 +1795,7 @@ msgstr "ច្រើន​ភាសា"
 
 #: src/dialogs/api-key/create.tsx
 #: src/dialogs/application/contacts.tsx
+#: src/dialogs/profile/index.tsx
 #: src/dialogs/resume/index.tsx
 #: src/dialogs/resume/sections/interest.tsx
 #: src/dialogs/resume/sections/project.tsx
@@ -1764,7 +1803,6 @@ msgstr "ច្រើន​ភាសា"
 #: src/dialogs/resume/sections/skill.tsx
 #: src/routes/auth/register.tsx
 #: src/routes/builder/$resumeId/-sidebar/left/sections/basics.tsx
-#: src/routes/dashboard/settings/profile.tsx
 msgid "Name"
 msgstr "ឈ្មោះ"
 
@@ -1779,6 +1817,17 @@ msgstr "បណ្ដាញ"
 #: src/dialogs/application/create.tsx
 #: src/routes/dashboard/applications/index.tsx
 msgid "New Application"
+msgstr ""
+
+#: src/routes/dashboard/-components/sidebar.tsx
+#: src/routes/dashboard/chat/-components/conversation-list.tsx
+msgid "New Chat"
+msgstr ""
+
+#: src/dialogs/search-chats/index.tsx
+#: src/routes/dashboard/-components/sidebar.tsx
+#: src/routes/dashboard/chat/-components/conversation-list.tsx
+msgid "New conversation"
 msgstr ""
 
 #: src/routes/_home/-sections/features.tsx
@@ -1814,8 +1863,18 @@ msgstr ""
 msgid "No contacts yet."
 msgstr ""
 
+#: src/dialogs/search-chats/index.tsx
+#: src/routes/dashboard/-components/sidebar.tsx
+#: src/routes/dashboard/chat/-components/conversation-list.tsx
+msgid "No conversations yet"
+msgstr ""
+
 #: src/dialogs/application/history.tsx
 msgid "No history available."
+msgstr ""
+
+#: src/dialogs/search-chats/index.tsx
+msgid "No matching conversations"
 msgstr ""
 
 #: src/components/ui/combobox.tsx
@@ -1847,7 +1906,13 @@ msgstr "Odia"
 #: src/components/kanban/filters.tsx
 #: src/dialogs/application/create.tsx
 #: src/dialogs/application/history.tsx
+#: src/dialogs/application/status-badge.tsx
 msgid "Offer"
+msgstr ""
+
+#: src/routes/dashboard/-components/sidebar.tsx
+#: src/routes/dashboard/chat/-components/conversation-list.tsx
+msgid "Older"
 msgstr ""
 
 #: src/routes/_home/-sections/pillars.tsx
@@ -1866,6 +1931,14 @@ msgstr "បើក"
 #: src/routes/auth/forgot-password.tsx
 msgid "Open Email Client"
 msgstr "បើក​កម្មវិធី​អ៊ីមែល"
+
+#: src/routes/dashboard/-components/sidebar.tsx
+msgid "Open Sidebar"
+msgstr ""
+
+#: src/dialogs/settings/tabs/prompts.tsx
+msgid "Optional description..."
+msgstr ""
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 msgid "Optionally, set a password so that only people with the password can view your resume through the link."
@@ -1931,8 +2004,12 @@ msgstr "ការ​ការពារ​ដោយ​ពាក្យសម្ង
 msgid "Password protection has been enabled."
 msgstr "ការ​ការពារ​ដោយ​ពាក្យសម្ងាត់​ត្រូវ​បាន​បើក។"
 
+#: src/routes/dashboard/chat/-components/message-area.tsx
+#: src/routes/dashboard/chat/-components/message-area.tsx
+msgid "Paste a recruiter message here..."
+msgstr ""
+
 #: src/dialogs/application/create.tsx
-#: src/dialogs/application/update.tsx
 #: src/dialogs/resume/sections/education.tsx
 #: src/dialogs/resume/sections/experience.tsx
 #: src/dialogs/resume/sections/project.tsx
@@ -2000,17 +2077,19 @@ msgstr "Portuguese (Portugal)"
 msgid "Position"
 msgstr "តួនាទី"
 
-#: src/components/command-palette/pages/navigation.tsx
-#: src/components/command-palette/pages/navigation.tsx
 #: src/components/command-palette/pages/preferences/index.tsx
-#: src/routes/dashboard/-components/sidebar.tsx
-#: src/routes/dashboard/settings/preferences.tsx
+#: src/dialogs/settings/index.tsx
 msgid "Preferences"
 msgstr "ចំណង់ចំណូលចិត្ត"
 
 #: src/components/input/chip-input.tsx
 msgid "Press <0>{RETURN_KEY}</0> or <1>{COMMA_KEY}</1> to add or save the current keyword."
 msgstr "ចុច <0>{RETURN_KEY}</0> ឬ <1>{COMMA_KEY}</1> ដើម្បីបន្ថែម ឬរក្សាទុកពាក្យគន្លឹះបច្ចុប្បន្ន។"
+
+#: src/routes/dashboard/-components/sidebar.tsx
+#: src/routes/dashboard/chat/-components/conversation-list.tsx
+msgid "Previous 7 Days"
+msgstr ""
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/design.tsx
 msgid "Primary Color"
@@ -2022,8 +2101,8 @@ msgstr "កម្រិត​ជំនាញ"
 
 #: src/components/command-palette/pages/navigation.tsx
 #: src/components/command-palette/pages/navigation.tsx
-#: src/routes/dashboard/-components/sidebar.tsx
-#: src/routes/dashboard/settings/profile.tsx
+#: src/components/user/dropdown-menu.tsx
+#: src/dialogs/profile/index.tsx
 msgid "Profile"
 msgstr "ប្រវត្តិ​សង្ខេប"
 
@@ -2041,6 +2120,14 @@ msgstr "របារ​វឌ្ឍនភាព"
 msgid "Projects"
 msgstr "គម្រោង"
 
+#: src/dialogs/settings/tabs/prompts.tsx
+msgid "Prompt updated successfully."
+msgstr ""
+
+#: src/dialogs/settings/index.tsx
+msgid "Prompts"
+msgstr ""
+
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 msgid "Protect your resume from unauthorized access with a password"
 msgstr "ការពារ​ប្រវត្តិរូប​របស់​អ្នក​ពី​ការ​ចូល​ដំណើរការ​ដោយ​មិន​បាន​អនុញ្ញាត ដោយ​ប្រើ​ពាក្យសម្ងាត់"
@@ -2049,7 +2136,7 @@ msgstr "ការពារ​ប្រវត្តិរូប​របស់​
 msgid "Protect your resume with a password, and let only people with the password view it."
 msgstr "ការពារ​ប្រវត្តិរូប​របស់​អ្នក​ដោយ​ពាក្យសម្ងាត់ ហើយ​អនុញ្ញាត​ឲ្យ​តែ​មនុស្ស​ដែល​មាន​ពាក្យសម្ងាត់​ប៉ុណ្ណោះ​អាច​មើល​វា។"
 
-#: src/routes/dashboard/settings/ai.tsx
+#: src/dialogs/settings/tabs/ai.tsx
 msgid "Provider"
 msgstr "អ្នកផ្តល់សេវា"
 
@@ -2072,6 +2159,15 @@ msgstr ""
 
 #: src/dialogs/resume/sections/cover-letter.tsx
 msgid "Recipient"
+msgstr ""
+
+#: src/routes/dashboard/chat/-components/conversation-list.tsx
+msgid "Recruiter"
+msgstr ""
+
+#: src/routes/dashboard/chat/-components/conversation-list.tsx
+#: src/routes/dashboard/chat/-components/message-area.tsx
+msgid "Recruiter Reply"
 msgstr ""
 
 #: src/components/level/combobox.tsx
@@ -2101,6 +2197,7 @@ msgstr "ផ្ទៀងផ្ទាត់​ម្ដងទៀត"
 #: src/components/kanban/filters.tsx
 #: src/dialogs/application/create.tsx
 #: src/dialogs/application/history.tsx
+#: src/dialogs/application/status-badge.tsx
 msgid "Rejected"
 msgstr ""
 
@@ -2124,11 +2221,11 @@ msgstr "កំពុង​ដក​ការ​ការពារ​ដោយ​
 msgid "Rename"
 msgstr "ប្ដូរ​ឈ្មោះ"
 
-#: src/routes/dashboard/settings/profile.tsx
+#: src/dialogs/profile/index.tsx
 msgid "Resend verification email"
 msgstr "ផ្ញើ​អ៊ីមែល​ផ្ទៀងផ្ទាត់​ម្តងទៀត"
 
-#: src/routes/dashboard/settings/profile.tsx
+#: src/dialogs/profile/index.tsx
 msgid "Resending verification email..."
 msgstr "កំពុង​ផ្ញើ​អ៊ីមែល​ផ្ទៀងផ្ទាត់​ម្តងទៀត..."
 
@@ -2199,7 +2296,11 @@ msgstr ""
 msgid "Salary negotiation tips"
 msgstr ""
 
-#: src/dialogs/application/update.tsx
+#: src/dialogs/settings/tabs/prompts.tsx
+msgid "Save"
+msgstr ""
+
+#: src/dialogs/profile/index.tsx
 #: src/dialogs/resume/index.tsx
 #: src/dialogs/resume/sections/award.tsx
 #: src/dialogs/resume/sections/certification.tsx
@@ -2216,7 +2317,6 @@ msgstr ""
 #: src/dialogs/resume/sections/skill.tsx
 #: src/dialogs/resume/sections/summary-item.tsx
 #: src/dialogs/resume/sections/volunteer.tsx
-#: src/routes/dashboard/settings/profile.tsx
 msgid "Save Changes"
 msgstr "រក្សាទុក​ការ​ផ្លាស់ប្ដូរ"
 
@@ -2237,11 +2337,21 @@ msgstr "សាលា"
 #: src/components/kanban/filters.tsx
 #: src/dialogs/application/create.tsx
 #: src/dialogs/application/history.tsx
+#: src/dialogs/application/status-badge.tsx
 msgid "Screening"
 msgstr ""
 
 #: src/components/kanban/search-bar.tsx
 msgid "Search by company or job title..."
+msgstr ""
+
+#: src/dialogs/search-chats/index.tsx
+#: src/routes/dashboard/-components/sidebar.tsx
+msgid "Search Chats"
+msgstr ""
+
+#: src/dialogs/search-chats/index.tsx
+msgid "Search conversations..."
 msgstr ""
 
 #: src/components/input/icon-picker.tsx
@@ -2252,6 +2362,10 @@ msgstr "ស្វែងរក​រូបតំណាង"
 #: src/components/command-palette/pages/resumes.tsx
 msgid "Search for..."
 msgstr "ស្វែងរក​ប្រវត្តិរូប..."
+
+#: src/dialogs/search-chats/index.tsx
+msgid "Search through your conversations."
+msgstr ""
 
 #: src/components/ui/combobox.tsx
 #: src/components/ui/multiple-combobox.tsx
@@ -2269,6 +2383,10 @@ msgstr "ប្រភេទ​ផ្នែក"
 #: src/dialogs/application/create.tsx
 #: src/dialogs/application/update.tsx
 msgid "Select"
+msgstr ""
+
+#: src/dialogs/settings/tabs/prompts.tsx
+msgid "Select a prompt to edit"
 msgstr ""
 
 #: src/components/ui/combobox.tsx
@@ -2308,8 +2426,9 @@ msgstr ""
 
 #: src/components/command-palette/pages/navigation.tsx
 #: src/components/command-palette/pages/navigation.tsx
-#: src/components/command-palette/pages/navigation.tsx
-#: src/routes/dashboard/-components/sidebar.tsx
+#: src/components/user/dropdown-menu.tsx
+#: src/dialogs/settings/index.tsx
+#: src/dialogs/settings/index.tsx
 msgid "Settings"
 msgstr "ការកំណត់"
 
@@ -2470,6 +2589,10 @@ msgstr ""
 msgid "Strike"
 msgstr "អក្សរ​ឆូត"
 
+#: src/routes/dashboard/chat/-components/message-area.tsx
+msgid "Suggested"
+msgstr ""
+
 #: src/dialogs/resume/sections/custom.tsx
 #: src/utils/resume/section.tsx
 msgid "Summary"
@@ -2519,7 +2642,7 @@ msgstr "គំរូ"
 msgid "Template Gallery"
 msgstr "វិចិត្រសាល​គំរូ"
 
-#: src/routes/dashboard/settings/ai.tsx
+#: src/dialogs/settings/tabs/ai.tsx
 msgid "Test Connection"
 msgstr "សាក​ល្បង​តភ្ជាប់"
 
@@ -2531,11 +2654,11 @@ msgstr "ពណ៌​អត្ថបទ"
 msgid "Thai"
 msgstr "Thai"
 
-#: src/routes/dashboard/settings/api-keys.tsx
+#: src/dialogs/settings/tabs/api-keys.tsx
 msgid "The API key has been deleted successfully."
 msgstr "កូនសោ API ត្រូវ​បាន​លុប​ដោយ​ជោគជ័យ។"
 
-#: src/routes/dashboard/settings/api-keys.tsx
+#: src/dialogs/settings/tabs/api-keys.tsx
 msgid "The API key will no longer be able to access your data after deletion. This action cannot be undone."
 msgstr "បន្ទាប់​ពី​លុប កូនសោ API នេះ​នឹង​មិន​អាច​ចូល​ដំណើរការ​ទិន្នន័យ​របស់​អ្នក​បាន​ទៀត​ទេ។ សកម្មភាព​នេះ​មិន​អាច​មិនធ្វើវិញ​បានទេ។"
 
@@ -2564,8 +2687,7 @@ msgid "The URL you entered is not valid."
 msgstr "URL ដែល​អ្នក​បាន​បញ្ចូល មិន​ត្រឹមត្រូវ​ទេ។"
 
 #: src/components/command-palette/pages/preferences/theme.tsx
-#: src/components/user/dropdown-menu.tsx
-#: src/routes/dashboard/settings/preferences.tsx
+#: src/dialogs/settings/tabs/preferences.tsx
 msgid "Theme"
 msgstr "ស្បែក"
 
@@ -2588,7 +2710,7 @@ msgstr ""
 msgid "This action cannot be undone."
 msgstr "សកម្មភាព​នេះ​មិន​អាច​មិនធ្វើវិញ​បានទេ។"
 
-#: src/routes/dashboard/settings/danger-zone.tsx
+#: src/dialogs/settings/tabs/danger-zone.tsx
 msgid "This action cannot be undone. All your data will be permanently deleted."
 msgstr "សកម្មភាព​នេះ​មិន​អាច​មិនធ្វើវិញ​បានទេ។ ទិន្នន័យ​ទាំងអស់​របស់​អ្នក​នឹង​ត្រូវ​បាន​លុប​ជា​អចិន្ត្រៃយ៍។"
 
@@ -2654,12 +2776,18 @@ msgstr "គន្លឹះ៖ អ្នក​អាច​ដាក់​ឈ្�
 #: src/dialogs/resume/sections/certification.tsx
 #: src/dialogs/resume/sections/custom.tsx
 #: src/dialogs/resume/sections/publication.tsx
+#: src/dialogs/settings/tabs/prompts.tsx
 msgid "Title"
 msgstr "ចំណងជើង"
 
-#: src/routes/dashboard/settings/danger-zone.tsx
+#: src/dialogs/settings/tabs/danger-zone.tsx
 msgid "To delete your account, you need to enter the confirmation text and click the button below."
 msgstr "ដើម្បី​លុប​គណនី​របស់​អ្នក អ្នក​ត្រូវ​បញ្ចូល​អក្សរ​បញ្ជាក់ ហើយ​ចុច​ប៊ូតុង​ខាងក្រោម។"
+
+#: src/routes/dashboard/-components/sidebar.tsx
+#: src/routes/dashboard/chat/-components/conversation-list.tsx
+msgid "Today"
+msgstr ""
 
 #: src/components/kanban/analytics/overview-cards.tsx
 msgid "Total Applications"
@@ -2707,7 +2835,7 @@ msgstr "ការ​ផ្ទៀងផ្ទាត់​ពីរ​ជាន់
 msgid "Type"
 msgstr "ប្រភេទ"
 
-#: src/routes/dashboard/settings/danger-zone.tsx
+#: src/dialogs/settings/tabs/danger-zone.tsx
 msgid "Type \"{CONFIRMATION_TEXT}\" to confirm"
 msgstr "វាយ \"{CONFIRMATION_TEXT}\" ដើម្បី​បញ្ជាក់"
 
@@ -2747,7 +2875,7 @@ msgstr "កំពុង​ផ្ដាច់​គណនី {providerName} រ�
 msgid "Unlock"
 msgstr "ដោះ​សោ"
 
-#: src/routes/dashboard/settings/profile.tsx
+#: src/dialogs/profile/index.tsx
 msgid "Unverified"
 msgstr "មិន​ទាន់​ផ្ទៀងផ្ទាត់"
 
@@ -2836,12 +2964,12 @@ msgstr ""
 msgid "Update your password"
 msgstr "បច្ចុប្បន្នភាព​ពាក្យសម្ងាត់​របស់​អ្នក"
 
-#: src/components/ai/chat.tsx
-msgid "Updated"
+#: src/dialogs/profile/index.tsx
+msgid "Update your personal information."
 msgstr ""
 
-#: src/dialogs/application/update.tsx
-msgid "Updating application..."
+#: src/components/ai/chat.tsx
+msgid "Updated"
 msgstr ""
 
 #: src/dialogs/auth/change-password.tsx
@@ -2860,9 +2988,9 @@ msgstr "កំពុង​អាប់ឡូដ​រូបភាព..."
 msgid "URL"
 msgstr "URL"
 
+#: src/dialogs/profile/index.tsx
 #: src/dialogs/resume/sections/profile.tsx
 #: src/routes/auth/register.tsx
-#: src/routes/dashboard/settings/profile.tsx
 msgid "Username"
 msgstr "ឈ្មោះ​អ្នក​ប្រើ"
 
@@ -2874,7 +3002,7 @@ msgstr "Uzbek"
 msgid "Valid URLs must start with http:// or https://."
 msgstr "URL ត្រឹមត្រូវ ត្រូវតែ​ចាប់ផ្តើម​ដោយ http:// ឬ https://។"
 
-#: src/routes/dashboard/settings/profile.tsx
+#: src/dialogs/profile/index.tsx
 msgid "Verified"
 msgstr "បាន​ផ្ទៀងផ្ទាត់"
 
@@ -2953,6 +3081,7 @@ msgstr "នៅ​ពេល​ចាក់សោ ប្រវត្តិរូ�
 #: src/components/kanban/filters.tsx
 #: src/dialogs/application/create.tsx
 #: src/dialogs/application/history.tsx
+#: src/dialogs/application/status-badge.tsx
 msgid "Withdrawn"
 msgstr ""
 
@@ -2986,7 +3115,7 @@ msgstr ""
 msgid "You've got mail!"
 msgstr "អ្នក​មាន​សារ​មកដល់​ហើយ!"
 
-#: src/routes/dashboard/settings/danger-zone.tsx
+#: src/dialogs/settings/tabs/danger-zone.tsx
 msgid "Your account has been deleted successfully."
 msgstr "គណនី​របស់​អ្នក​ត្រូវ​បាន​លុប​ដោយ​ជោគជ័យ។"
 
@@ -3010,7 +3139,7 @@ msgstr "ការ​ផ្លាស់ប្ដូរ​របស់​អ្ន
 msgid "Your data is secure, and never shared or sold to anyone."
 msgstr "ទិន្នន័យ​របស់​អ្នក​មាន​សុវត្ថិភាព ហើយ​មិន​ដែល​ត្រូវ​បាន​ចែករំលែក ឬ​លក់​ឲ្យ​នរណា​ម្នាក់​ទេ។"
 
-#: src/routes/dashboard/settings/ai.tsx
+#: src/dialogs/settings/tabs/ai.tsx
 msgid "Your data is stored locally"
 msgstr "ទិន្នន័យ​របស់​អ្នក​ត្រូវ​បានរក្សាទុក​ក្នុងកម្មវិធីរុករករបស់​អ្នក​តែប៉ុណ្ណោះ"
 
@@ -3022,7 +3151,7 @@ msgstr "ពាក្យសម្ងាត់​របស់​អ្នក​ត
 msgid "Your password has been updated successfully."
 msgstr "ពាក្យសម្ងាត់​របស់​អ្នក​ត្រូវ​បាន​បច្ចុប្បន្នភាព​ដោយ​ជោគជ័យ។"
 
-#: src/routes/dashboard/settings/profile.tsx
+#: src/dialogs/profile/index.tsx
 msgid "Your profile has been updated successfully."
 msgstr "ប្រវត្តិ​សង្ខេប​របស់​អ្នក​ត្រូវ​បាន​បច្ចុប្បន្នភាព​ដោយ​ជោគជ័យ។"
 

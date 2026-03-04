@@ -33,6 +33,12 @@ msgstr "Name"
 msgid "{0, plural, one {# item} other {# items}}"
 msgstr "{0, plural, one {# item} other {# items}}"
 
+#. placeholder {0}: rateLimit.used
+#. placeholder {1}: rateLimit.limit
+#: src/routes/dashboard/chat/-components/message-area.tsx
+msgid "{0} / {1} messages today"
+msgstr "{0} / {1} messages today"
+
 #: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-menu.tsx
 msgid "{column, plural, one {# Column} other {# Columns}}"
@@ -66,7 +72,7 @@ msgstr "3 months"
 msgid "6 months"
 msgstr "6 months"
 
-#: src/routes/dashboard/settings/profile.tsx
+#: src/dialogs/profile/index.tsx
 msgid "A confirmation link has been sent to your current email address. Please check your inbox to confirm the change."
 msgstr "A confirmation link has been sent to your current email address. Please check your inbox to confirm the change."
 
@@ -75,7 +81,7 @@ msgstr "A confirmation link has been sent to your current email address. Please 
 msgid "A link to your resume has been copied to clipboard."
 msgstr "A link to your resume has been copied to clipboard."
 
-#: src/routes/dashboard/settings/profile.tsx
+#: src/dialogs/profile/index.tsx
 msgid "A new verification link has been sent to your email address. Please check your inbox to verify your account."
 msgstr "A new verification link has been sent to your email address. Please check your inbox to verify your account."
 
@@ -93,6 +99,7 @@ msgstr "A4"
 #: src/components/kanban/filters.tsx
 #: src/dialogs/application/create.tsx
 #: src/dialogs/application/history.tsx
+#: src/dialogs/application/status-badge.tsx
 msgid "Accepted"
 msgstr "Accepted"
 
@@ -214,6 +221,14 @@ msgstr "AI Career Assistant"
 msgid "AI Chat"
 msgstr "AI Chat"
 
+#: src/routes/dashboard/chat/-components/message-area.tsx
+msgid "AI chat error"
+msgstr "AI chat error"
+
+#: src/dialogs/settings/tabs/prompts.tsx
+msgid "AI Prompts"
+msgstr "AI Prompts"
+
 #: src/utils/locale.ts
 msgid "Albanian"
 msgstr "Albanian"
@@ -267,24 +282,17 @@ msgstr "Anyone with the link can view and download the resume."
 msgid "API Access"
 msgstr "API Access"
 
-#: src/routes/dashboard/settings/ai.tsx
+#: src/dialogs/settings/tabs/ai.tsx
 msgid "API Key"
 msgstr "API Key"
 
-#: src/components/command-palette/pages/navigation.tsx
-#: src/components/command-palette/pages/navigation.tsx
-#: src/routes/dashboard/-components/sidebar.tsx
-#: src/routes/dashboard/settings/api-keys.tsx
+#: src/dialogs/settings/index.tsx
 msgid "API Keys"
 msgstr "API Keys"
 
-#: src/routes/dashboard/settings/api-keys.tsx
+#: src/dialogs/settings/tabs/api-keys.tsx
 msgid "API Reference"
 msgstr "API Reference"
-
-#: src/routes/dashboard/-components/sidebar.tsx
-msgid "App"
-msgstr "App"
 
 #: src/dialogs/application/create.tsx
 msgid "Application created successfully."
@@ -297,10 +305,6 @@ msgstr "Application deleted successfully."
 #: src/routes/_home/-sections/pillars.tsx
 msgid "Application Kanban"
 msgstr "Application Kanban"
-
-#: src/dialogs/application/update.tsx
-msgid "Application updated successfully."
-msgstr "Application updated successfully."
 
 #: src/components/kanban/analytics/status-chart.tsx
 msgid "Applications by Status"
@@ -315,6 +319,7 @@ msgstr "Applications Over Time"
 #: src/components/kanban/filters.tsx
 #: src/dialogs/application/create.tsx
 #: src/dialogs/application/history.tsx
+#: src/dialogs/application/status-badge.tsx
 msgid "Applied"
 msgstr "Applied"
 
@@ -332,7 +337,7 @@ msgstr "Are you sure you want to close this dialog?"
 msgid "Are you sure you want to delete the application for <0>{0}</0> at <1>{1}</1>? This action cannot be undone."
 msgstr "Are you sure you want to delete the application for <0>{0}</0> at <1>{1}</1>? This action cannot be undone."
 
-#: src/routes/dashboard/settings/api-keys.tsx
+#: src/dialogs/settings/tabs/api-keys.tsx
 msgid "Are you sure you want to delete this API key?"
 msgstr "Are you sure you want to delete this API key?"
 
@@ -342,7 +347,7 @@ msgstr "Are you sure you want to delete this API key?"
 msgid "Are you sure you want to delete this resume?"
 msgstr "Are you sure you want to delete this resume?"
 
-#: src/routes/dashboard/settings/danger-zone.tsx
+#: src/dialogs/settings/tabs/danger-zone.tsx
 msgid "Are you sure you want to delete your account?"
 msgstr "Are you sure you want to delete your account?"
 
@@ -360,10 +365,7 @@ msgstr "Are you sure you want to remove password protection?"
 msgid "Area of Study"
 msgstr "Area of Study"
 
-#: src/components/command-palette/pages/navigation.tsx
-#: src/components/command-palette/pages/navigation.tsx
-#: src/routes/dashboard/-components/sidebar.tsx
-#: src/routes/dashboard/settings/ai.tsx
+#: src/dialogs/settings/index.tsx
 msgid "Artificial Intelligence"
 msgstr "Artificial Intelligence"
 
@@ -375,6 +377,14 @@ msgstr "Ascend - Go to homepage"
 msgid "Ascend is your career command center — from resume to offer:"
 msgstr "Ascend is your career command center — from resume to offer:"
 
+#: src/routes/dashboard/chat/-components/message-area.tsx
+msgid "Ask me anything about your career..."
+msgstr "Ask me anything about your career..."
+
+#: src/routes/dashboard/chat/-components/message-area.tsx
+msgid "Ask me anything..."
+msgstr "Ask me anything..."
+
 #: src/components/ai/chat.tsx
 msgid "Ask me to update your resume..."
 msgstr "Ask me to update your resume..."
@@ -383,10 +393,7 @@ msgstr "Ask me to update your resume..."
 msgid "Aspect Ratio"
 msgstr "Aspect Ratio"
 
-#: src/components/command-palette/pages/navigation.tsx
-#: src/components/command-palette/pages/navigation.tsx
-#: src/routes/dashboard/-components/sidebar.tsx
-#: src/routes/dashboard/settings/authentication/index.tsx
+#: src/dialogs/settings/index.tsx
 msgid "Authentication"
 msgstr "Authentication"
 
@@ -424,7 +431,7 @@ msgstr "Background Color"
 msgid "Backup codes copied to clipboard."
 msgstr "Backup codes copied to clipboard."
 
-#: src/routes/dashboard/settings/ai.tsx
+#: src/dialogs/settings/tabs/ai.tsx
 msgid "Base URL (Optional)"
 msgstr "Base URL (Optional)"
 
@@ -491,6 +498,7 @@ msgstr "Bullet List"
 
 #: src/dialogs/application/delete.tsx
 #: src/dialogs/auth/enable-two-factor.tsx
+#: src/dialogs/profile/index.tsx
 #: src/dialogs/resume/sections/award.tsx
 #: src/dialogs/resume/sections/award.tsx
 #: src/dialogs/resume/sections/certification.tsx
@@ -521,13 +529,16 @@ msgstr "Bullet List"
 #: src/dialogs/resume/sections/summary-item.tsx
 #: src/dialogs/resume/sections/volunteer.tsx
 #: src/dialogs/resume/sections/volunteer.tsx
+#: src/dialogs/settings/tabs/api-keys.tsx
+#: src/dialogs/settings/tabs/danger-zone.tsx
 #: src/hooks/use-prompt.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
-#: src/routes/dashboard/settings/api-keys.tsx
-#: src/routes/dashboard/settings/danger-zone.tsx
-#: src/routes/dashboard/settings/profile.tsx
 msgid "Cancel"
 msgstr "Cancel"
+
+#: src/routes/dashboard/chat/-components/message-area.tsx
+msgid "Career Assistant"
+msgstr "Career Assistant"
 
 #: src/utils/locale.ts
 msgid "Catalan"
@@ -602,6 +613,17 @@ msgstr "Clear selection"
 msgid "Click here to select a file to import"
 msgstr "Click here to select a file to import"
 
+#: src/dialogs/application/update.tsx
+#: src/dialogs/application/update.tsx
+#: src/dialogs/application/update.tsx
+#: src/dialogs/application/update.tsx
+msgid "Click to add..."
+msgstr "Click to add..."
+
+#: src/dialogs/settings/index.tsx
+msgid "Close"
+msgstr "Close"
+
 #: src/routes/_home/-sections/pillars.tsx
 msgid "Coach"
 msgstr "Coach"
@@ -610,13 +632,16 @@ msgstr "Coach"
 msgid "Code Block"
 msgstr "Code Block"
 
+#: src/routes/dashboard/-components/sidebar.tsx
+msgid "Collapse Sidebar"
+msgstr "Collapse Sidebar"
+
 #: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-menu.tsx
 msgid "Columns"
 msgstr "Columns"
 
 #: src/dialogs/application/create.tsx
-#: src/dialogs/application/update.tsx
 #: src/dialogs/resume/sections/experience.tsx
 msgid "Company"
 msgstr "Company"
@@ -626,9 +651,9 @@ msgid "Completely free, forever, no hidden costs."
 msgstr "Completely free, forever, no hidden costs."
 
 #: src/dialogs/api-key/create.tsx
+#: src/dialogs/settings/tabs/danger-zone.tsx
 #: src/hooks/use-prompt.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
-#: src/routes/dashboard/settings/danger-zone.tsx
 msgid "Confirm"
 msgstr "Confirm"
 
@@ -645,11 +670,13 @@ msgid "Contact removed."
 msgstr "Contact removed."
 
 #: src/dialogs/application/contacts.tsx
+#: src/dialogs/application/update.tsx
 msgid "Contacts"
 msgstr "Contacts"
 
 #: src/dialogs/resume/sections/cover-letter.tsx
 #: src/dialogs/resume/sections/summary-item.tsx
+#: src/dialogs/settings/tabs/prompts.tsx
 msgid "Content"
 msgstr "Content"
 
@@ -668,6 +695,10 @@ msgstr "Continue where you left off"
 #: src/dialogs/resume/import.tsx
 msgid "Continue where you left off by importing an existing resume. Supported formats include PDF, Microsoft Word, as well as JSON files from Ascend or other resume builders."
 msgstr "Continue where you left off by importing an existing resume. Supported formats include PDF, Microsoft Word, as well as JSON files from Ascend or other resume builders."
+
+#: src/routes/dashboard/-components/sidebar.tsx
+msgid "Conversation deleted."
+msgstr "Conversation deleted."
 
 #: src/components/kanban/analytics/funnel-chart.tsx
 msgid "Conversion Funnel"
@@ -724,7 +755,7 @@ msgid "Create a new account"
 msgstr "Create a new account"
 
 #: src/dialogs/api-key/create.tsx
-#: src/routes/dashboard/settings/api-keys.tsx
+#: src/dialogs/settings/tabs/api-keys.tsx
 msgid "Create a new API key"
 msgstr "Create a new API key"
 
@@ -829,7 +860,6 @@ msgid "Creating your resume..."
 msgstr "Creating your resume..."
 
 #: src/dialogs/application/create.tsx
-#: src/dialogs/application/update.tsx
 msgid "Currency"
 msgstr "Currency"
 
@@ -858,10 +888,7 @@ msgstr "Customizable pipeline columns"
 msgid "Czech"
 msgstr "Czech"
 
-#: src/components/command-palette/pages/navigation.tsx
-#: src/components/command-palette/pages/navigation.tsx
-#: src/routes/dashboard/-components/sidebar.tsx
-#: src/routes/dashboard/settings/danger-zone.tsx
+#: src/dialogs/settings/index.tsx
 msgid "Danger Zone"
 msgstr "Danger Zone"
 
@@ -869,7 +896,6 @@ msgstr "Danger Zone"
 msgid "Danish"
 msgstr "Danish"
 
-#: src/components/user/dropdown-menu.tsx
 #: src/utils/theme.ts
 msgid "Dark"
 msgstr "Dark"
@@ -896,16 +922,17 @@ msgstr "Degree"
 
 #: src/components/kanban/card.tsx
 #: src/dialogs/application/delete.tsx
+#: src/dialogs/application/update.tsx
+#: src/dialogs/settings/tabs/api-keys.tsx
 #: src/routes/builder/$resumeId/-components/header.tsx
 #: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-item.tsx
 #: src/routes/dashboard/resumes/-components/menus/context-menu.tsx
 #: src/routes/dashboard/resumes/-components/menus/dropdown-menu.tsx
-#: src/routes/dashboard/settings/api-keys.tsx
 msgid "Delete"
 msgstr "Delete"
 
-#: src/routes/dashboard/settings/danger-zone.tsx
+#: src/dialogs/settings/tabs/danger-zone.tsx
 msgid "Delete Account"
 msgstr "Delete Account"
 
@@ -933,11 +960,11 @@ msgstr "Delete Table"
 msgid "Deleting application..."
 msgstr "Deleting application..."
 
-#: src/routes/dashboard/settings/danger-zone.tsx
+#: src/dialogs/settings/tabs/danger-zone.tsx
 msgid "Deleting your account..."
 msgstr "Deleting your account..."
 
-#: src/routes/dashboard/settings/api-keys.tsx
+#: src/dialogs/settings/tabs/api-keys.tsx
 msgid "Deleting your API key..."
 msgstr "Deleting your API key..."
 
@@ -955,6 +982,7 @@ msgstr "Deleting your resume..."
 #: src/dialogs/resume/sections/publication.tsx
 #: src/dialogs/resume/sections/reference.tsx
 #: src/dialogs/resume/sections/volunteer.tsx
+#: src/dialogs/settings/tabs/prompts.tsx
 msgid "Description"
 msgstr "Description"
 
@@ -971,7 +999,7 @@ msgstr "Disable 2FA"
 msgid "Disable Two-Factor Authentication"
 msgstr "Disable Two-Factor Authentication"
 
-#: src/routes/dashboard/settings/ai.tsx
+#: src/dialogs/settings/tabs/ai.tsx
 msgid "Disabled"
 msgstr "Disabled"
 
@@ -1087,10 +1115,10 @@ msgstr "Education"
 msgid "Email"
 msgstr "Email"
 
+#: src/dialogs/profile/index.tsx
 #: src/routes/auth/forgot-password.tsx
 #: src/routes/auth/login.tsx
 #: src/routes/auth/register.tsx
-#: src/routes/dashboard/settings/profile.tsx
 msgid "Email Address"
 msgstr "Email Address"
 
@@ -1103,7 +1131,7 @@ msgstr "Enable"
 msgid "Enable 2FA"
 msgstr "Enable 2FA"
 
-#: src/routes/dashboard/settings/ai.tsx
+#: src/dialogs/settings/tabs/ai.tsx
 msgid "Enable AI Features"
 msgstr "Enable AI Features"
 
@@ -1111,7 +1139,7 @@ msgstr "Enable AI Features"
 msgid "Enable Two-Factor Authentication"
 msgstr "Enable Two-Factor Authentication"
 
-#: src/routes/dashboard/settings/ai.tsx
+#: src/dialogs/settings/tabs/ai.tsx
 msgid "Enabled"
 msgstr "Enabled"
 
@@ -1155,7 +1183,7 @@ msgstr "Enter your password to confirm setting up two-factor authentication. Whe
 msgid "Enter your password to disable two-factor authentication. Your account will be less secure without 2FA enabled."
 msgstr "Enter your password to disable two-factor authentication. Your account will be less secure without 2FA enabled."
 
-#: src/routes/dashboard/settings/ai.tsx
+#: src/dialogs/settings/tabs/ai.tsx
 msgid "Everything entered here is stored locally on your browser. Your data is only sent to the server when making a request to the AI provider, and is never stored or logged on our servers."
 msgstr "Everything entered here is stored locally on your browser. Your data is only sent to the server when making a request to the AI provider, and is never stored or logged on our servers."
 
@@ -1181,11 +1209,11 @@ msgid "Expires in"
 msgstr "Expires in"
 
 #. placeholder {0}: key.expiresAt?.toLocaleDateString()
-#: src/routes/dashboard/settings/api-keys.tsx
+#: src/dialogs/settings/tabs/api-keys.tsx
 msgid "Expires on {0}"
 msgstr "Expires on {0}"
 
-#: src/routes/dashboard/settings/api-keys.tsx
+#: src/dialogs/settings/tabs/api-keys.tsx
 msgid "Explore the API documentation to learn how to integrate Ascend with your applications. Find detailed endpoints, request examples, and authentication methods."
 msgstr "Explore the API documentation to learn how to integrate Ascend with your applications. Find detailed endpoints, request examples, and authentication methods."
 
@@ -1308,6 +1336,10 @@ msgstr "Full Width"
 msgid "Fullscreen"
 msgstr "Fullscreen"
 
+#: src/routes/dashboard/chat/-components/conversation-list.tsx
+msgid "General"
+msgstr "General"
+
 #: src/dialogs/resume/index.tsx
 msgid "Generate a random name"
 msgstr "Generate a random name"
@@ -1387,7 +1419,7 @@ msgstr "Headline"
 msgid "Hebrew"
 msgstr "Hebrew"
 
-#: src/routes/dashboard/settings/preferences.tsx
+#: src/dialogs/settings/tabs/preferences.tsx
 msgid "Help translate the app to your language"
 msgstr "Help translate the app to your language"
 
@@ -1423,12 +1455,16 @@ msgstr "Highlight"
 msgid "Hindi"
 msgstr "Hindi"
 
+#: src/dialogs/application/update.tsx
+msgid "History"
+msgstr "History"
+
 #: src/components/command-palette/pages/navigation.tsx
 #: src/components/command-palette/pages/navigation.tsx
 msgid "Home"
 msgstr "Home"
 
-#: src/routes/dashboard/settings/api-keys.tsx
+#: src/dialogs/settings/tabs/api-keys.tsx
 msgid "How do I use the API?"
 msgstr "How do I use the API?"
 
@@ -1501,6 +1537,7 @@ msgstr "Interview preparation"
 #: src/components/kanban/filters.tsx
 #: src/dialogs/application/create.tsx
 #: src/dialogs/application/history.tsx
+#: src/dialogs/application/status-badge.tsx
 msgid "Interviewing"
 msgstr "Interviewing"
 
@@ -1525,7 +1562,6 @@ msgid "Job searching is chaotic. It doesn't have to be."
 msgstr "Job searching is chaotic. It doesn't have to be."
 
 #: src/dialogs/application/create.tsx
-#: src/dialogs/application/update.tsx
 msgid "Job Title"
 msgstr "Job Title"
 
@@ -1569,10 +1605,9 @@ msgid "Landscape"
 msgstr "Landscape"
 
 #: src/components/command-palette/pages/preferences/language.tsx
-#: src/components/user/dropdown-menu.tsx
 #: src/dialogs/resume/sections/language.tsx
+#: src/dialogs/settings/tabs/preferences.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/page.tsx
-#: src/routes/dashboard/settings/preferences.tsx
 msgid "Language"
 msgstr "Language"
 
@@ -1638,7 +1673,6 @@ msgstr "Level {level} of 5"
 msgid "Licensed under <0>MIT</0>."
 msgstr "Licensed under <0>MIT</0>."
 
-#: src/components/user/dropdown-menu.tsx
 #: src/utils/theme.ts
 msgid "Light"
 msgstr "Light"
@@ -1717,6 +1751,10 @@ msgstr "Malayalam"
 msgid "Manage contacts for this application."
 msgstr "Manage contacts for this application."
 
+#: src/dialogs/settings/index.tsx
+msgid "Manage your preferences and account settings."
+msgstr "Manage your preferences and account settings."
+
 #: src/utils/locale.ts
 msgid "Marathi"
 msgstr "Marathi"
@@ -1733,7 +1771,7 @@ msgstr "Margin (Vertical)"
 msgid "Missed deadlines"
 msgstr "Missed deadlines"
 
-#: src/routes/dashboard/settings/ai.tsx
+#: src/dialogs/settings/tabs/ai.tsx
 msgid "Model"
 msgstr "Model"
 
@@ -1752,6 +1790,7 @@ msgstr "Multilingual"
 
 #: src/dialogs/api-key/create.tsx
 #: src/dialogs/application/contacts.tsx
+#: src/dialogs/profile/index.tsx
 #: src/dialogs/resume/index.tsx
 #: src/dialogs/resume/sections/interest.tsx
 #: src/dialogs/resume/sections/project.tsx
@@ -1759,7 +1798,6 @@ msgstr "Multilingual"
 #: src/dialogs/resume/sections/skill.tsx
 #: src/routes/auth/register.tsx
 #: src/routes/builder/$resumeId/-sidebar/left/sections/basics.tsx
-#: src/routes/dashboard/settings/profile.tsx
 msgid "Name"
 msgstr "Name"
 
@@ -1775,6 +1813,17 @@ msgstr "Network"
 #: src/routes/dashboard/applications/index.tsx
 msgid "New Application"
 msgstr "New Application"
+
+#: src/routes/dashboard/-components/sidebar.tsx
+#: src/routes/dashboard/chat/-components/conversation-list.tsx
+msgid "New Chat"
+msgstr "New Chat"
+
+#: src/dialogs/search-chats/index.tsx
+#: src/routes/dashboard/-components/sidebar.tsx
+#: src/routes/dashboard/chat/-components/conversation-list.tsx
+msgid "New conversation"
+msgstr "New conversation"
 
 #: src/routes/_home/-sections/features.tsx
 msgid "New features are constantly being added and improved, so be sure to check back often."
@@ -1809,9 +1858,19 @@ msgstr "No applications"
 msgid "No contacts yet."
 msgstr "No contacts yet."
 
+#: src/dialogs/search-chats/index.tsx
+#: src/routes/dashboard/-components/sidebar.tsx
+#: src/routes/dashboard/chat/-components/conversation-list.tsx
+msgid "No conversations yet"
+msgstr "No conversations yet"
+
 #: src/dialogs/application/history.tsx
 msgid "No history available."
 msgstr "No history available."
+
+#: src/dialogs/search-chats/index.tsx
+msgid "No matching conversations"
+msgstr "No matching conversations"
 
 #: src/components/ui/combobox.tsx
 #: src/components/ui/multiple-combobox.tsx
@@ -1842,8 +1901,14 @@ msgstr "Odia"
 #: src/components/kanban/filters.tsx
 #: src/dialogs/application/create.tsx
 #: src/dialogs/application/history.tsx
+#: src/dialogs/application/status-badge.tsx
 msgid "Offer"
 msgstr "Offer"
+
+#: src/routes/dashboard/-components/sidebar.tsx
+#: src/routes/dashboard/chat/-components/conversation-list.tsx
+msgid "Older"
+msgstr "Older"
 
 #: src/routes/_home/-sections/pillars.tsx
 msgid "One-click PDF export"
@@ -1861,6 +1926,14 @@ msgstr "Open"
 #: src/routes/auth/forgot-password.tsx
 msgid "Open Email Client"
 msgstr "Open Email Client"
+
+#: src/routes/dashboard/-components/sidebar.tsx
+msgid "Open Sidebar"
+msgstr "Open Sidebar"
+
+#: src/dialogs/settings/tabs/prompts.tsx
+msgid "Optional description..."
+msgstr "Optional description..."
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 msgid "Optionally, set a password so that only people with the password can view your resume through the link."
@@ -1926,8 +1999,12 @@ msgstr "Password protection has been disabled."
 msgid "Password protection has been enabled."
 msgstr "Password protection has been enabled."
 
+#: src/routes/dashboard/chat/-components/message-area.tsx
+#: src/routes/dashboard/chat/-components/message-area.tsx
+msgid "Paste a recruiter message here..."
+msgstr "Paste a recruiter message here..."
+
 #: src/dialogs/application/create.tsx
-#: src/dialogs/application/update.tsx
 #: src/dialogs/resume/sections/education.tsx
 #: src/dialogs/resume/sections/experience.tsx
 #: src/dialogs/resume/sections/project.tsx
@@ -1995,17 +2072,19 @@ msgstr "Portuguese (Portugal)"
 msgid "Position"
 msgstr "Position"
 
-#: src/components/command-palette/pages/navigation.tsx
-#: src/components/command-palette/pages/navigation.tsx
 #: src/components/command-palette/pages/preferences/index.tsx
-#: src/routes/dashboard/-components/sidebar.tsx
-#: src/routes/dashboard/settings/preferences.tsx
+#: src/dialogs/settings/index.tsx
 msgid "Preferences"
 msgstr "Preferences"
 
 #: src/components/input/chip-input.tsx
 msgid "Press <0>{RETURN_KEY}</0> or <1>{COMMA_KEY}</1> to add or save the current keyword."
 msgstr "Press <0>{RETURN_KEY}</0> or <1>{COMMA_KEY}</1> to add or save the current keyword."
+
+#: src/routes/dashboard/-components/sidebar.tsx
+#: src/routes/dashboard/chat/-components/conversation-list.tsx
+msgid "Previous 7 Days"
+msgstr "Previous 7 Days"
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/design.tsx
 msgid "Primary Color"
@@ -2017,8 +2096,8 @@ msgstr "Proficiency"
 
 #: src/components/command-palette/pages/navigation.tsx
 #: src/components/command-palette/pages/navigation.tsx
-#: src/routes/dashboard/-components/sidebar.tsx
-#: src/routes/dashboard/settings/profile.tsx
+#: src/components/user/dropdown-menu.tsx
+#: src/dialogs/profile/index.tsx
 msgid "Profile"
 msgstr "Profile"
 
@@ -2036,6 +2115,14 @@ msgstr "Progress Bar"
 msgid "Projects"
 msgstr "Projects"
 
+#: src/dialogs/settings/tabs/prompts.tsx
+msgid "Prompt updated successfully."
+msgstr "Prompt updated successfully."
+
+#: src/dialogs/settings/index.tsx
+msgid "Prompts"
+msgstr "Prompts"
+
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 msgid "Protect your resume from unauthorized access with a password"
 msgstr "Protect your resume from unauthorized access with a password"
@@ -2044,7 +2131,7 @@ msgstr "Protect your resume from unauthorized access with a password"
 msgid "Protect your resume with a password, and let only people with the password view it."
 msgstr "Protect your resume with a password, and let only people with the password view it."
 
-#: src/routes/dashboard/settings/ai.tsx
+#: src/dialogs/settings/tabs/ai.tsx
 msgid "Provider"
 msgstr "Provider"
 
@@ -2068,6 +2155,15 @@ msgstr "Real-time preview as you type"
 #: src/dialogs/resume/sections/cover-letter.tsx
 msgid "Recipient"
 msgstr "Recipient"
+
+#: src/routes/dashboard/chat/-components/conversation-list.tsx
+msgid "Recruiter"
+msgstr "Recruiter"
+
+#: src/routes/dashboard/chat/-components/conversation-list.tsx
+#: src/routes/dashboard/chat/-components/message-area.tsx
+msgid "Recruiter Reply"
+msgstr "Recruiter Reply"
 
 #: src/components/level/combobox.tsx
 msgid "Rectangle"
@@ -2096,6 +2192,7 @@ msgstr "Refresh"
 #: src/components/kanban/filters.tsx
 #: src/dialogs/application/create.tsx
 #: src/dialogs/application/history.tsx
+#: src/dialogs/application/status-badge.tsx
 msgid "Rejected"
 msgstr "Rejected"
 
@@ -2119,11 +2216,11 @@ msgstr "Removing password protection..."
 msgid "Rename"
 msgstr "Rename"
 
-#: src/routes/dashboard/settings/profile.tsx
+#: src/dialogs/profile/index.tsx
 msgid "Resend verification email"
 msgstr "Resend verification email"
 
-#: src/routes/dashboard/settings/profile.tsx
+#: src/dialogs/profile/index.tsx
 msgid "Resending verification email..."
 msgstr "Resending verification email..."
 
@@ -2194,7 +2291,11 @@ msgstr "Salary"
 msgid "Salary negotiation tips"
 msgstr "Salary negotiation tips"
 
-#: src/dialogs/application/update.tsx
+#: src/dialogs/settings/tabs/prompts.tsx
+msgid "Save"
+msgstr "Save"
+
+#: src/dialogs/profile/index.tsx
 #: src/dialogs/resume/index.tsx
 #: src/dialogs/resume/sections/award.tsx
 #: src/dialogs/resume/sections/certification.tsx
@@ -2211,7 +2312,6 @@ msgstr "Salary negotiation tips"
 #: src/dialogs/resume/sections/skill.tsx
 #: src/dialogs/resume/sections/summary-item.tsx
 #: src/dialogs/resume/sections/volunteer.tsx
-#: src/routes/dashboard/settings/profile.tsx
 msgid "Save Changes"
 msgstr "Save Changes"
 
@@ -2232,12 +2332,22 @@ msgstr "School"
 #: src/components/kanban/filters.tsx
 #: src/dialogs/application/create.tsx
 #: src/dialogs/application/history.tsx
+#: src/dialogs/application/status-badge.tsx
 msgid "Screening"
 msgstr "Screening"
 
 #: src/components/kanban/search-bar.tsx
 msgid "Search by company or job title..."
 msgstr "Search by company or job title..."
+
+#: src/dialogs/search-chats/index.tsx
+#: src/routes/dashboard/-components/sidebar.tsx
+msgid "Search Chats"
+msgstr "Search Chats"
+
+#: src/dialogs/search-chats/index.tsx
+msgid "Search conversations..."
+msgstr "Search conversations..."
 
 #: src/components/input/icon-picker.tsx
 #: src/components/input/icon-picker.tsx
@@ -2247,6 +2357,10 @@ msgstr "Search for an icon"
 #: src/components/command-palette/pages/resumes.tsx
 msgid "Search for..."
 msgstr "Search for..."
+
+#: src/dialogs/search-chats/index.tsx
+msgid "Search through your conversations."
+msgstr "Search through your conversations."
 
 #: src/components/ui/combobox.tsx
 #: src/components/ui/multiple-combobox.tsx
@@ -2265,6 +2379,10 @@ msgstr "Section Type"
 #: src/dialogs/application/update.tsx
 msgid "Select"
 msgstr "Select"
+
+#: src/dialogs/settings/tabs/prompts.tsx
+msgid "Select a prompt to edit"
+msgstr "Select a prompt to edit"
 
 #: src/components/ui/combobox.tsx
 #: src/components/ui/multiple-combobox.tsx
@@ -2303,8 +2421,9 @@ msgstr "Set up your profile"
 
 #: src/components/command-palette/pages/navigation.tsx
 #: src/components/command-palette/pages/navigation.tsx
-#: src/components/command-palette/pages/navigation.tsx
-#: src/routes/dashboard/-components/sidebar.tsx
+#: src/components/user/dropdown-menu.tsx
+#: src/dialogs/settings/index.tsx
+#: src/dialogs/settings/index.tsx
 msgid "Settings"
 msgstr "Settings"
 
@@ -2465,6 +2584,10 @@ msgstr "Stay"
 msgid "Strike"
 msgstr "Strike"
 
+#: src/routes/dashboard/chat/-components/message-area.tsx
+msgid "Suggested"
+msgstr "Suggested"
+
 #: src/dialogs/resume/sections/custom.tsx
 #: src/utils/resume/section.tsx
 msgid "Summary"
@@ -2514,7 +2637,7 @@ msgstr "Template"
 msgid "Template Gallery"
 msgstr "Template Gallery"
 
-#: src/routes/dashboard/settings/ai.tsx
+#: src/dialogs/settings/tabs/ai.tsx
 msgid "Test Connection"
 msgstr "Test Connection"
 
@@ -2526,11 +2649,11 @@ msgstr "Text Color"
 msgid "Thai"
 msgstr "Thai"
 
-#: src/routes/dashboard/settings/api-keys.tsx
+#: src/dialogs/settings/tabs/api-keys.tsx
 msgid "The API key has been deleted successfully."
 msgstr "The API key has been deleted successfully."
 
-#: src/routes/dashboard/settings/api-keys.tsx
+#: src/dialogs/settings/tabs/api-keys.tsx
 msgid "The API key will no longer be able to access your data after deletion. This action cannot be undone."
 msgstr "The API key will no longer be able to access your data after deletion. This action cannot be undone."
 
@@ -2559,8 +2682,7 @@ msgid "The URL you entered is not valid."
 msgstr "The URL you entered is not valid."
 
 #: src/components/command-palette/pages/preferences/theme.tsx
-#: src/components/user/dropdown-menu.tsx
-#: src/routes/dashboard/settings/preferences.tsx
+#: src/dialogs/settings/tabs/preferences.tsx
 msgid "Theme"
 msgstr "Theme"
 
@@ -2583,7 +2705,7 @@ msgstr "Thinking..."
 msgid "This action cannot be undone."
 msgstr "This action cannot be undone."
 
-#: src/routes/dashboard/settings/danger-zone.tsx
+#: src/dialogs/settings/tabs/danger-zone.tsx
 msgid "This action cannot be undone. All your data will be permanently deleted."
 msgstr "This action cannot be undone. All your data will be permanently deleted."
 
@@ -2649,12 +2771,18 @@ msgstr "Tip: You can name the resume referring to the position you are applying 
 #: src/dialogs/resume/sections/certification.tsx
 #: src/dialogs/resume/sections/custom.tsx
 #: src/dialogs/resume/sections/publication.tsx
+#: src/dialogs/settings/tabs/prompts.tsx
 msgid "Title"
 msgstr "Title"
 
-#: src/routes/dashboard/settings/danger-zone.tsx
+#: src/dialogs/settings/tabs/danger-zone.tsx
 msgid "To delete your account, you need to enter the confirmation text and click the button below."
 msgstr "To delete your account, you need to enter the confirmation text and click the button below."
+
+#: src/routes/dashboard/-components/sidebar.tsx
+#: src/routes/dashboard/chat/-components/conversation-list.tsx
+msgid "Today"
+msgstr "Today"
 
 #: src/components/kanban/analytics/overview-cards.tsx
 msgid "Total Applications"
@@ -2702,7 +2830,7 @@ msgstr "Two-factor authentication has been setup successfully."
 msgid "Type"
 msgstr "Type"
 
-#: src/routes/dashboard/settings/danger-zone.tsx
+#: src/dialogs/settings/tabs/danger-zone.tsx
 msgid "Type \"{CONFIRMATION_TEXT}\" to confirm"
 msgstr "Type \"{CONFIRMATION_TEXT}\" to confirm"
 
@@ -2742,7 +2870,7 @@ msgstr "Unlinking your {providerName} account..."
 msgid "Unlock"
 msgstr "Unlock"
 
-#: src/routes/dashboard/settings/profile.tsx
+#: src/dialogs/profile/index.tsx
 msgid "Unverified"
 msgstr "Unverified"
 
@@ -2831,13 +2959,13 @@ msgstr "Update the details of this application."
 msgid "Update your password"
 msgstr "Update your password"
 
+#: src/dialogs/profile/index.tsx
+msgid "Update your personal information."
+msgstr "Update your personal information."
+
 #: src/components/ai/chat.tsx
 msgid "Updated"
 msgstr "Updated"
-
-#: src/dialogs/application/update.tsx
-msgid "Updating application..."
-msgstr "Updating application..."
 
 #: src/dialogs/auth/change-password.tsx
 msgid "Updating your password..."
@@ -2855,9 +2983,9 @@ msgstr "Uploading picture..."
 msgid "URL"
 msgstr "URL"
 
+#: src/dialogs/profile/index.tsx
 #: src/dialogs/resume/sections/profile.tsx
 #: src/routes/auth/register.tsx
-#: src/routes/dashboard/settings/profile.tsx
 msgid "Username"
 msgstr "Username"
 
@@ -2869,7 +2997,7 @@ msgstr "Uzbek"
 msgid "Valid URLs must start with http:// or https://."
 msgstr "Valid URLs must start with http:// or https://."
 
-#: src/routes/dashboard/settings/profile.tsx
+#: src/dialogs/profile/index.tsx
 msgid "Verified"
 msgstr "Verified"
 
@@ -2948,6 +3076,7 @@ msgstr "When locked, the resume cannot be updated or deleted."
 #: src/components/kanban/filters.tsx
 #: src/dialogs/application/create.tsx
 #: src/dialogs/application/history.tsx
+#: src/dialogs/application/status-badge.tsx
 msgid "Withdrawn"
 msgstr "Withdrawn"
 
@@ -2981,7 +3110,7 @@ msgstr "You lose opportunities because of <0>disorganization</0>, not lack of <1
 msgid "You've got mail!"
 msgstr "You've got mail!"
 
-#: src/routes/dashboard/settings/danger-zone.tsx
+#: src/dialogs/settings/tabs/danger-zone.tsx
 msgid "Your account has been deleted successfully."
 msgstr "Your account has been deleted successfully."
 
@@ -3005,7 +3134,7 @@ msgstr "Your changes are saved automatically."
 msgid "Your data is secure, and never shared or sold to anyone."
 msgstr "Your data is secure, and never shared or sold to anyone."
 
-#: src/routes/dashboard/settings/ai.tsx
+#: src/dialogs/settings/tabs/ai.tsx
 msgid "Your data is stored locally"
 msgstr "Your data is stored locally"
 
@@ -3017,7 +3146,7 @@ msgstr "Your password has been reset successfully. You can now sign in with your
 msgid "Your password has been updated successfully."
 msgstr "Your password has been updated successfully."
 
-#: src/routes/dashboard/settings/profile.tsx
+#: src/dialogs/profile/index.tsx
 msgid "Your profile has been updated successfully."
 msgstr "Your profile has been updated successfully."
 

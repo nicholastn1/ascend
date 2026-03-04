@@ -1,8 +1,10 @@
 dist
 docs
 .env*
+.git
 /data
 .nitro
+.claude
 .cursor
 .output
 .vercel

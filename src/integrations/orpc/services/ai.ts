@@ -17,16 +17,12 @@ import { createOllama } from "ai-sdk-ollama";
 import mammoth from "mammoth";
 import { match } from "ts-pattern";
 import z from "zod";
-import chatSystemPromptTemplate from "@/integrations/ai/prompts/chat-system.md?raw";
-import docxParserSystemPrompt from "@/integrations/ai/prompts/docx-parser-system.md?raw";
-import docxParserUserPrompt from "@/integrations/ai/prompts/docx-parser-user.md?raw";
-import pdfParserSystemPrompt from "@/integrations/ai/prompts/pdf-parser-system.md?raw";
-import pdfParserUserPrompt from "@/integrations/ai/prompts/pdf-parser-user.md?raw";
 import {
 	executePatchResume,
 	patchResumeDescription,
 	patchResumeInputSchema,
 } from "@/integrations/ai/tools/patch-resume";
+import { promptService } from "@/integrations/orpc/services/prompt";
 import type { ResumeData } from "@/schema/resume/data";
 import { defaultResumeData, resumeDataSchema } from "@/schema/resume/data";
 
@@ -139,6 +135,10 @@ type ParsePdfInput = z.infer<typeof aiCredentialsSchema> & {
 
 async function parsePdf(input: ParsePdfInput): Promise<ResumeData> {
 	const model = getModel(input);
+	const [systemPrompt, userPrompt] = await Promise.all([
+		promptService.getBySlug("pdf-parser-system"),
+		promptService.getBySlug("pdf-parser-user"),
+	]);
 
 	try {
 		const result = await generateText({
@@ -148,12 +148,12 @@ async function parsePdf(input: ParsePdfInput): Promise<ResumeData> {
 			messages: [
 				{
 					role: "system",
-					content: pdfParserSystemPrompt,
+					content: systemPrompt.content,
 				},
 				{
 					role: "user",
 					content: [
-						{ type: "text", text: pdfParserUserPrompt },
+						{ type: "text", text: userPrompt.content },
 						{
 							type: "file",
 							filename: input.file.name,
@@ -196,16 +196,21 @@ async function parseDocx(input: ParseDocxInput): Promise<ResumeData> {
 		throw new Error("Could not extract any text from the DOCX file.");
 	}
 
+	const [systemPrompt, userPrompt] = await Promise.all([
+		promptService.getBySlug("docx-parser-system"),
+		promptService.getBySlug("docx-parser-user"),
+	]);
+
 	try {
 		const result = await generateText({
 			model,
 			output: Output.object({ schema: parserOutputSchema }),
 			providerOptions: { openai: { strictJsonSchema: false } },
 			messages: [
-				{ role: "system", content: docxParserSystemPrompt },
+				{ role: "system", content: systemPrompt.content },
 				{
 					role: "user",
-					content: `${docxParserUserPrompt}\n\n---\n\n${extractedText}`,
+					content: `${userPrompt.content}\n\n---\n\n${extractedText}`,
 				},
 			],
 		});
@@ -224,8 +229,9 @@ async function parseDocx(input: ParseDocxInput): Promise<ResumeData> {
 	}
 }
 
-function buildChatSystemPrompt(resumeData: ResumeData): string {
-	return chatSystemPromptTemplate.replace("{{RESUME_DATA}}", JSON.stringify(resumeData, null, 2));
+async function buildChatSystemPrompt(resumeData: ResumeData): Promise<string> {
+	const prompt = await promptService.getBySlug("chat-system");
+	return prompt.content.replace("{{RESUME_DATA}}", JSON.stringify(resumeData, null, 2));
 }
 
 type ChatInput = z.infer<typeof aiCredentialsSchema> & {
@@ -235,7 +241,7 @@ type ChatInput = z.infer<typeof aiCredentialsSchema> & {
 
 async function chat(input: ChatInput) {
 	const model = getModel(input);
-	const systemPrompt = buildChatSystemPrompt(input.resumeData);
+	const systemPrompt = await buildChatSystemPrompt(input.resumeData);
 
 	const result = streamText({
 		model,
@@ -255,6 +261,7 @@ async function chat(input: ChatInput) {
 }
 
 export const aiService = {
+	getModel,
 	testConnection,
 	parsePdf,
 	parseDocx,

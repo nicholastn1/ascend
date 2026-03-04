@@ -1,26 +1,19 @@
 import { t } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
-import { TrashSimpleIcon, WarningIcon } from "@phosphor-icons/react";
+import { TrashSimpleIcon } from "@phosphor-icons/react";
 import { useMutation } from "@tanstack/react-query";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { motion } from "motion/react";
+import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
 import { useConfirm } from "@/hooks/use-confirm";
 import { authClient } from "@/integrations/auth/client";
 import { orpc } from "@/integrations/orpc/client";
-import { DashboardHeader } from "../-components/header";
-
-export const Route = createFileRoute("/dashboard/settings/danger-zone")({
-	component: RouteComponent,
-});
 
 const CONFIRMATION_TEXT = "delete";
 
-function RouteComponent() {
+export function DangerZoneTab() {
 	const confirm = useConfirm();
 	const navigate = useNavigate();
 	const [confirmationText, setConfirmationText] = useState("");
@@ -52,38 +45,27 @@ function RouteComponent() {
 	};
 
 	return (
-		<div className="space-y-4">
-			<DashboardHeader icon={WarningIcon} title={t`Danger Zone`} />
+		<div className="grid max-w-xl gap-6">
+			<p className="leading-relaxed">
+				<Trans>To delete your account, you need to enter the confirmation text and click the button below.</Trans>
+			</p>
 
-			<Separator />
+			<Input
+				type="text"
+				value={confirmationText}
+				onChange={(e) => setConfirmationText(e.target.value)}
+				placeholder={t`Type "${CONFIRMATION_TEXT}" to confirm`}
+			/>
 
-			<motion.div
-				initial={{ opacity: 0, y: -20 }}
-				animate={{ opacity: 1, y: 0 }}
-				transition={{ duration: 0.3 }}
-				className="grid max-w-xl gap-6"
+			<Button
+				className="justify-self-end"
+				variant="destructive"
+				onClick={handleDeleteAccount}
+				disabled={!isConfirmationValid}
 			>
-				<p className="leading-relaxed">
-					<Trans>To delete your account, you need to enter the confirmation text and click the button below.</Trans>
-				</p>
-
-				<Input
-					type="text"
-					value={confirmationText}
-					onChange={(e) => setConfirmationText(e.target.value)}
-					placeholder={t`Type "${CONFIRMATION_TEXT}" to confirm`}
-				/>
-
-				<Button
-					className="justify-self-end"
-					variant="destructive"
-					onClick={handleDeleteAccount}
-					disabled={!isConfirmationValid}
-				>
-					<TrashSimpleIcon />
-					<Trans>Delete Account</Trans>
-				</Button>
-			</motion.div>
+				<TrashSimpleIcon />
+				<Trans>Delete Account</Trans>
+			</Button>
 		</div>
 	);
 }

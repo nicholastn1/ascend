@@ -68,7 +68,7 @@ export function useAuthProviderActions() {
 		const providerName = getProviderName(provider);
 		const toastId = toast.loading(t`Linking your ${providerName} account...`);
 
-		const { error } = await authClient.linkSocial({ provider, callbackURL: "/dashboard/settings/authentication" });
+		const { error } = await authClient.linkSocial({ provider, callbackURL: "/dashboard" });
 
 		if (error) {
 			toast.error(error.message, { id: toastId });

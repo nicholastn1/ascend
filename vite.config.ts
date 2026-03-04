@@ -47,6 +47,7 @@ const config = defineConfig({
 				skipWaiting: true,
 				clientsClaim: true,
 				globPatterns: ["**/*"],
+				globIgnores: ["**/sw.js", "**/sw.js.map"],
 				maximumFileSizeToCacheInBytes: 10 * 1024 * 1024, // 10mb
 				navigateFallback: null, // Disable navigation fallback for SSR
 			},

@@ -330,6 +330,72 @@ export const applicationContact = pg.pgTable(
 	(t) => [pg.index().on(t.applicationId)],
 );
 
+export const conversation = pg.pgTable(
+	"conversation",
+	{
+		id: pg
+			.uuid("id")
+			.notNull()
+			.primaryKey()
+			.$defaultFn(() => generateId()),
+		userId: pg
+			.uuid("user_id")
+			.notNull()
+			.references(() => user.id, { onDelete: "cascade" }),
+		title: pg.text("title"),
+		agentType: pg.text("agent_type").notNull().default("general"),
+		createdAt: pg.timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+		updatedAt: pg
+			.timestamp("updated_at", { withTimezone: true })
+			.notNull()
+			.defaultNow()
+			.$onUpdate(() => /* @__PURE__ */ new Date()),
+	},
+	(t) => [pg.index().on(t.userId), pg.index().on(t.userId, t.updatedAt.desc())],
+);
+
+export const message = pg.pgTable(
+	"message",
+	{
+		id: pg
+			.uuid("id")
+			.notNull()
+			.primaryKey()
+			.$defaultFn(() => generateId()),
+		conversationId: pg
+			.uuid("conversation_id")
+			.notNull()
+			.references(() => conversation.id, { onDelete: "cascade" }),
+		role: pg.text("role").notNull(), // "user" | "assistant" | "system"
+		content: pg.text("content").notNull(),
+		metadata: pg.jsonb("metadata"),
+		createdAt: pg.timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+	},
+	(t) => [pg.index().on(t.conversationId), pg.index().on(t.conversationId, t.createdAt.asc())],
+);
+
+export const aiPrompt = pg.pgTable(
+	"ai_prompt",
+	{
+		id: pg
+			.uuid("id")
+			.notNull()
+			.primaryKey()
+			.$defaultFn(() => generateId()),
+		slug: pg.text("slug").notNull().unique(),
+		title: pg.text("title").notNull(),
+		description: pg.text("description"),
+		content: pg.text("content").notNull(),
+		createdAt: pg.timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+		updatedAt: pg
+			.timestamp("updated_at", { withTimezone: true })
+			.notNull()
+			.defaultNow()
+			.$onUpdate(() => /* @__PURE__ */ new Date()),
+	},
+	(t) => [pg.index().on(t.slug)],
+);
+
 export const applicationHistory = pg.pgTable(
 	"application_history",
 	{

@@ -9,6 +9,7 @@ import { UpdateApplicationDialog } from "./application/update";
 import { ChangePasswordDialog } from "./auth/change-password";
 import { DisableTwoFactorDialog } from "./auth/disable-two-factor";
 import { EnableTwoFactorDialog } from "./auth/enable-two-factor";
+import { ProfileDialog } from "./profile";
 import { CreateResumeDialog, DuplicateResumeDialog, UpdateResumeDialog } from "./resume";
 import { ImportResumeDialog } from "./resume/import";
 import { CreateAwardDialog, UpdateAwardDialog } from "./resume/sections/award";
@@ -27,12 +28,17 @@ import { CreateSkillDialog, UpdateSkillDialog } from "./resume/sections/skill";
 import { CreateSummaryItemDialog, UpdateSummaryItemDialog } from "./resume/sections/summary-item";
 import { CreateVolunteerDialog, UpdateVolunteerDialog } from "./resume/sections/volunteer";
 import { TemplateGalleryDialog } from "./resume/template/gallery";
+import { SearchChatsDialog } from "./search-chats";
+import { SettingsDialog } from "./settings";
 import { useDialogStore } from "./store";
 
 export function DialogManager() {
 	const { open, activeDialog, onOpenChange } = useDialogStore();
 
 	const dialogContent = match(activeDialog)
+		.with({ type: "profile" }, () => <ProfileDialog />)
+		.with({ type: "settings" }, ({ data }) => <SettingsDialog data={data} />)
+		.with({ type: "search-chats" }, () => <SearchChatsDialog />)
 		.with({ type: "auth.change-password" }, () => <ChangePasswordDialog />)
 		.with({ type: "auth.two-factor.enable" }, () => <EnableTwoFactorDialog />)
 		.with({ type: "auth.two-factor.disable" }, () => <DisableTwoFactorDialog />)

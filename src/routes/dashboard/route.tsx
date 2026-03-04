@@ -1,7 +1,7 @@
 import { createFileRoute, Outlet, redirect, useRouter } from "@tanstack/react-router";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { getDashboardSidebarServerFn, setDashboardSidebarServerFn } from "./-components/functions";
-import { DashboardSidebar } from "./-components/sidebar";
+import { DashboardSidebar, SidebarToggleButton } from "./-components/sidebar";
 
 export const Route = createFileRoute("/dashboard")({
 	component: RouteComponent,
@@ -28,8 +28,9 @@ function RouteComponent() {
 	return (
 		<SidebarProvider open={sidebarState} onOpenChange={handleSidebarOpenChange}>
 			<DashboardSidebar />
+			<SidebarToggleButton />
 
-			<main className="@container flex-1 p-4 md:ps-2">
+			<main className="@container flex-1 p-4">
 				<Outlet />
 			</main>
 		</SidebarProvider>
