@@ -1,7 +1,10 @@
 import createClient from "openapi-fetch";
 import type { paths } from "./types";
 
-const API_BASE = import.meta.env.VITE_API_URL ?? "http://localhost:3000";
+const API_BASE =
+	typeof import.meta.env !== "undefined"
+		? (import.meta.env.VITE_API_URL ?? "http://localhost:3000")
+		: (process.env.VITE_API_URL ?? "http://localhost:3000");
 
 export const api = createClient<paths>({
 	baseUrl: API_BASE,

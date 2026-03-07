@@ -1,8 +1,7 @@
 import { createIsomorphicFn } from "@tanstack/react-start";
 import { getRequestHeaders } from "@tanstack/react-start/server";
 import type { AuthSession } from "./types";
-
-const API_BASE = process.env.VITE_API_URL ?? "http://localhost:3000";
+import { API_BASE } from "@/integrations/api/client";
 
 export const getSession = createIsomorphicFn()
 	.client(async (): Promise<AuthSession | null> => {

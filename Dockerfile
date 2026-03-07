@@ -47,7 +47,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends curl \
 
 WORKDIR /app
 
+ARG VITE_API_URL
+ARG APP_URL
+
 ENV NODE_ENV=production
+ENV VITE_API_URL=${VITE_API_URL}
+ENV APP_URL=${APP_URL}
 
 COPY --from=builder /app/.output ./.output
 COPY --from=dependencies /tmp/prod/node_modules ./node_modules
