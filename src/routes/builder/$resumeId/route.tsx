@@ -1,4 +1,5 @@
-import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
+import { createFileRoute, Outlet, useNavigate } from "@tanstack/react-router";
 import type React from "react";
 import { useEffect } from "react";
 import { type Layout, usePanelRef } from "react-resizable-panels";
@@ -10,7 +11,8 @@ import { useResumeStore } from "@/components/resume/store/resume";
 import { ResizableGroup, ResizablePanel, ResizableSeparator } from "@/components/ui/resizable";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { api } from "@/integrations/api/client";
-import { type Resume, resumeQueryKeys, useResume } from "@/integrations/api/hooks/resumes";
+import { useSession } from "@/integrations/auth/client";
+import { type Resume, resumeQueryKeys } from "@/integrations/api/hooks/resumes";
 import { BuilderHeader } from "./-components/header";
 import { BuilderSidebarLeft } from "./-sidebar/left";
 import { BuilderSidebarRight } from "./-sidebar/right";
@@ -18,55 +20,70 @@ import { useBuilderSidebar, useBuilderSidebarStore } from "./-store/sidebar";
 
 export const Route = createFileRoute("/builder/$resumeId")({
 	component: RouteComponent,
-	beforeLoad: async ({ context }) => {
-		if (!context.session) throw redirect({ to: "/auth/login", replace: true });
-		return { session: context.session };
+	loader: async () => {
+		const layout = getBuilderLayout();
+		return { layout };
 	},
-	loader: async ({ params, context }) => {
-		const [layout, resume] = await Promise.all([
-			Promise.resolve(getBuilderLayout()),
-			context.queryClient.ensureQueryData<Resume>({
-				queryKey: resumeQueryKeys.detail(params.resumeId),
-				queryFn: async () => {
-					const { data, error } = await api.GET("/api/v1/resumes/{id}", {
-						params: { path: { id: params.resumeId } },
-					});
-					if (error) throw error;
-					return data as unknown as Resume;
-				},
-			}),
-		]);
-
-		return { layout, name: resume.name };
-	},
-	head: ({ loaderData }) => ({
-		meta: loaderData ? [{ title: `${loaderData.name} - Ascend` }] : undefined,
+	head: () => ({
+		meta: [{ title: "Resume Builder - Ascend" }],
 	}),
 });
 
 function RouteComponent() {
+	const navigate = useNavigate();
 	const { layout: initialLayout } = Route.useLoaderData();
-
 	const { resumeId } = Route.useParams();
-	const { data: resume } = useResume(resumeId);
+	const { data: session, isPending: isSessionPending } = useSession();
+	const {
+		data: resume,
+		isPending: isResumePending,
+		error: resumeError,
+	} = useQuery<Resume>({
+		queryKey: resumeQueryKeys.detail(resumeId),
+		queryFn: async () => {
+			const { data, error } = await api.GET("/api/v1/resumes/{id}", {
+				params: { path: { id: resumeId } },
+			});
+			if (error) throw error;
+			return data as unknown as Resume;
+		},
+		enabled: !!session,
+		retry: false,
+	});
 
-	const style = useCSSVariables(resume.data);
 	const isReady = useResumeStore((state) => state.isReady);
 	const initialize = useResumeStore((state) => state.initialize);
 
 	useEffect(() => {
-		initialize(resume);
+		if (!isSessionPending && !session) {
+			navigate({ to: "/auth/login", replace: true });
+		}
+	}, [isSessionPending, session, navigate]);
+
+	useEffect(() => {
+		if (resume) initialize(resume);
 		return () => initialize(null);
 	}, [resume, initialize]);
 
-	if (!isReady) return <LoadingScreen />;
+	useEffect(() => {
+		if (resumeError) {
+			navigate({ to: "/dashboard/resumes", replace: true });
+		}
+	}, [resumeError, navigate]);
 
-	return <BuilderLayout style={style} initialLayout={initialLayout} />;
+	if (isSessionPending || !session || isResumePending || !resume || !isReady) return <LoadingScreen />;
+
+	return <BuilderPage resume={resume} initialLayout={initialLayout} />;
 }
 
 type BuilderLayoutProps = React.ComponentProps<"div"> & {
 	initialLayout: Layout;
 };
+
+function BuilderPage({ resume, initialLayout }: { resume: Resume; initialLayout: Layout }) {
+	const style = useCSSVariables(resume.data);
+	return <BuilderLayout style={style} initialLayout={initialLayout} />;
+}
 
 function BuilderLayout({ initialLayout, ...props }: BuilderLayoutProps) {
 	const isMobile = useIsMobile();
