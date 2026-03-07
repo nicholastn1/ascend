@@ -1,6 +1,6 @@
 # ADR-003: better-auth for Authentication
 
-**Status:** Accepted
+**Status:** Superseded by ADR-008
 **Date:** 2026-01-14
 **Version:** 1.0
 

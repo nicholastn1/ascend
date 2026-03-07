@@ -18,6 +18,12 @@ Ascend is a free, open-source resume builder web application. Users create accou
 | `apikey` | API keys for programmatic access with rate limiting (default 500 req/day). |
 | `twoFactor` | TOTP secrets and backup codes for 2FA. |
 | `passkey` | WebAuthn/passkey credentials for passwordless auth. |
+| `application` | Job application tracked by a user. Status enum: applied, screening, interviewing, offer, accepted, rejected, withdrawn. |
+| `applicationContact` | Contact person associated with a job application (name, role, email, phone, LinkedIn). |
+| `applicationHistory` | Status change audit log for applications (fromStatus → toStatus with timestamp). |
+| `conversation` | AI chat conversation owned by a user, with agent type and title. |
+| `message` | Individual message in a conversation (role: user/assistant/system, content, metadata). |
+| `aiPrompt` | Reusable AI prompt template with slug, title, description, and content. |
 
 ### Resume Data Structure
 
@@ -47,7 +53,7 @@ src/
 │   ├── auth/                # better-auth config, client, types
 │   ├── drizzle/             # Database schema, client, connection pool
 │   ├── orpc/                # API layer
-│   │   ├── router/          # RPC endpoint definitions (ai, auth, resume, storage, printer, flags, statistics)
+│   │   ├── router/          # RPC endpoint definitions (ai, application, auth, chat, flags, printer, prompt, resume, statistics, storage)
 │   │   ├── services/        # Business logic (one service per domain)
 │   │   ├── context.ts       # Auth middleware (public/protected/serverOnly procedures)
 │   │   └── client.ts        # Isomorphic oRPC client
@@ -60,7 +66,7 @@ src/
 │   ├── _home/               # Landing page sections
 │   ├── auth/                # Auth pages (login, register, forgot/reset password, 2FA)
 │   ├── builder/$resumeId/   # Resume editor (left sidebar: sections, right sidebar: design/export)
-│   ├── dashboard/           # User dashboard (resumes list, settings)
+│   ├── dashboard/           # User dashboard (resumes, applications kanban, chat, settings)
 │   ├── $username/$slug      # Public resume view
 │   ├── printer/$resumeId    # Headless print route for PDF generation
 │   └── mcp/                 # Model Context Protocol integration
@@ -157,3 +163,133 @@ locales/                     # Translation files (managed via Crowdin)
 | **Slug** | URL-friendly identifier for a resume, unique per user. Used in public sharing URLs (`/$username/$slug`). |
 | **Feature Flags** | Server-side toggles (e.g., disable signups, disable email auth, debug printer). Configured via environment variables. |
 | **Browserless** | A headless Chrome-as-a-service container used for PDF rendering. Connected via WebSocket. |
+| **Application** | A job application being tracked in the kanban board. Has a status lifecycle from applied → accepted/rejected/withdrawn. |
+| **Conversation** | A persistent AI chat thread. Users can have multiple conversations with different agent types. |
+
+## Architecture
+
+### System Overview
+
+Ascend is a full-stack SSR monolith built with TanStack Start (React 19 + Nitro server). It uses a single-page-app experience with server-side rendering, backed by PostgreSQL. The app bundles with Vite 8 and deploys as a Docker container with Browserless for PDF generation and S3-compatible storage for file uploads.
+
+### Directory Structure
+
+```
+ascend/
+├── src/                        # Application source code
+│   ├── components/             # Reusable React components (ai, kanban, resume, ui, inputs, layout)
+│   ├── dialogs/                # Modal dialogs organized by domain (resume, application, auth, settings, api-key)
+│   ├── hooks/                  # Custom React hooks (confirm, controlled-state, form-blocker, mobile, prompt)
+│   ├── integrations/           # External service integrations (auth, drizzle, orpc, query, ai, email, import)
+│   ├── routes/                 # TanStack file-based routes (pages + API endpoints)
+│   ├── schema/                 # Zod validation schemas (resume data, templates, page formats)
+│   ├── styles/                 # Global CSS (Tailwind 4 + custom styles)
+│   └── utils/                  # Utility functions (string, color, env, logger, sanitize, file)
+├── plugins/                    # Nitro server plugins (database migration on startup)
+├── migrations/                 # Drizzle SQL migration files
+├── locales/                    # i18n translation files (30+ languages via Crowdin)
+├── public/                     # Static assets (icons, PWA manifest, screenshots)
+├── docs/                       # Documentation site (Mintlify)
+├── scripts/                    # Build/utility scripts
+└── .claude/                    # Claude Code configuration (skills, commands, scripts)
+```
+
+### Key Dependencies
+
+| Category | Libraries |
+|----------|-----------|
+| **Framework** | React 19, TanStack Start/Router/Query, Nitro (server) |
+| **API** | oRPC (server + client + zod + openapi + tanstack-query) |
+| **Database** | Drizzle ORM, pg (PostgreSQL driver) |
+| **Auth** | better-auth (email, OAuth, 2FA, passkeys, API keys) |
+| **AI** | Vercel AI SDK, @ai-sdk/openai, @ai-sdk/anthropic, @ai-sdk/google, ai-sdk-ollama |
+| **Styling** | Tailwind CSS 4, Radix UI, class-variance-authority, tailwind-merge |
+| **Rich Text** | TipTap (editor), Monaco Editor (CSS editor), markdown-it |
+| **Forms** | React Hook Form, @hookform/resolvers, Zod 4 |
+| **State** | Zustand, zundo (undo/redo), Immer |
+| **DnD** | @dnd-kit/core, @dnd-kit/sortable |
+| **PDF** | Puppeteer Core (via Browserless) |
+| **Storage** | @aws-sdk/client-s3, Sharp (image processing) |
+| **i18n** | Lingui (core + react + CLI + vite-plugin + babel-plugin) |
+| **Charts** | Recharts |
+| **Tooling** | Biome (lint/format), TypeScript 5.9, Vite 8, Knip |
+
+### Data Flow
+
+```
+Browser → TanStack Router (SSR) → React Components
+                                      ↓
+                              oRPC Client (isomorphic)
+                                      ↓
+                         Nitro Server (API routes: /api/rpc/*)
+                                      ↓
+                         oRPC Router → Service Layer
+                                      ↓
+                         Drizzle ORM → PostgreSQL
+```
+
+For PDF generation:
+```
+Client → oRPC printer.generatePdf → Puppeteer (WebSocket to Browserless)
+       → navigates to /printer/$resumeId → renders resume template
+       → captures PDF → uploads to S3 → returns URL
+```
+
+## Conventions
+
+### Naming Patterns
+
+- **Files:** kebab-case for all files (`color-picker.tsx`, `use-confirm.tsx`, `resume-password.tsx`)
+- **Components:** PascalCase exports matching file purpose (`ColorPicker`, `ResumeCard`)
+- **Variables/functions:** camelCase (`generateId`, `defaultResumeData`, `isPublic`)
+- **Database columns:** snake_case in SQL (`user_id`, `created_at`, `is_public`), camelCase in Drizzle schema (`userId`, `createdAt`, `isPublic`)
+- **Routes:** TanStack conventions — `$param` for dynamic segments, `-components/` for co-located private components, `_prefix` for layout routes
+- **Enums:** pgEnum with snake_case values (`"applied"`, `"screening"`, `"interviewing"`)
+- **Constants:** UPPERCASE_SNAKE_CASE (`MAX_AI_FILE_BYTES`, `APPLICATION_STATUSES`)
+
+### Error Handling
+
+- **oRPC errors:** `ORPCError` with string codes (`"NOT_FOUND"`, `"UNAUTHORIZED"`) and custom error definitions per router via `.errors({...})`
+- **Custom error classes:** `ResumePatchError` extends `Error` with structured fields (`code`, `index`, `operation`)
+- **DB constraint errors:** Checked via `get(error, "cause.constraint")` from es-toolkit, then mapped to ORPCError
+- **AI errors:** Type-checked with `instanceof AISDKError || instanceof OllamaError`, re-thrown as `ORPCError("BAD_GATEWAY")`
+- **Client-side:** TanStack Query error states, toast notifications via Sonner
+- **Migration errors:** Caught in plugin, logged, and re-thrown to prevent server start
+
+### Import Organization
+
+Biome auto-organizes imports. Typical order:
+1. External library imports (`react`, `drizzle-orm`, `@orpc/*`, `zod`)
+2. Internal absolute imports via `@/` alias (`@/integrations/*`, `@/schema/*`, `@/utils/*`)
+3. Relative imports for co-located files (`./store`, `../-components/header`)
+
+### State Management
+
+- **Server state:** oRPC + TanStack Query. Queries defined via `orpc.resume.findMany.queryOptions()`, mutations via `useMutation`
+- **Zustand stores:** Used for UI state (dialog management in `src/dialogs/store.ts`, sidebar state, command palette). Dialog store uses Zod discriminated unions for type-safe dialog data
+- **Resume editor:** Zustand store with zundo for undo/redo history. JSON Patch operations for granular updates
+- **Form state:** React Hook Form with Zod resolvers for all form inputs
+
+### API Patterns
+
+- **Procedure chain:** `protectedProcedure.route({...}).input(z.object({...})).output(z.object({...})).handler(async ({context, input}) => {...})`
+- **Route metadata:** HTTP method, RESTful path, OpenAPI tags, operationId, summary, description
+- **Service layer:** Services export namespaced objects with methods: `resumeService.tags.list()`, `resumeService.statistics.getById()`
+- **No envelope pattern:** Procedures return typed objects directly
+- **Streaming:** AI chat uses AsyncIterator/generator returns with Vercel AI SDK
+- **Three procedure types:**
+  - `publicProcedure` — optional auth (checks API key or session)
+  - `protectedProcedure` — requires authenticated session
+  - `serverOnlyProcedure` — internal only, no client access
+
+### Database Patterns
+
+- Drizzle ORM with fluent query builders: `.select().from().where().returning()`
+- `sql<type>` tagged templates for raw SQL with type annotation
+- Pattern matching via `ts-pattern`: `match(input.sort).with("lastUpdatedAt", () => ...).exhaustive()`
+- UUID primary keys with `generateId()`, cascade deletes on foreign keys
+
+### Testing
+
+- No test framework is configured. No test files exist in the codebase.
+- Code quality is enforced via Biome (linting + formatting), TypeScript strict mode, and Knip (unused code detection).

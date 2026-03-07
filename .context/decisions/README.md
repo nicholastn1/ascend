@@ -11,6 +11,10 @@ Record of significant technical decisions in this project.
 | [003](003-better-auth-authentication.md) | better-auth for Authentication | Accepted |
 | [004](004-drizzle-orm-postgresql.md) | Drizzle ORM with PostgreSQL | Accepted |
 | [005](005-biome-linting-formatting.md) | Biome for Linting and Formatting | Accepted |
+| [006](006-kanban-application-tracker.md) | Kanban Application Tracker | Accepted |
+| [007](007-openapi-fetch-api-client.md) | openapi-fetch for API Client | Accepted |
+| [008](008-session-cookies-cross-origin-auth.md) | Session Cookies for Cross-Origin Auth | Accepted |
+| [009](009-localstorage-ui-preferences.md) | localStorage for UI Preferences | Accepted |
 
 ## Template
 

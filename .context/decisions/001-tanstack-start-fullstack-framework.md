@@ -2,7 +2,7 @@
 
 **Status:** Accepted
 **Date:** 2026-01-14
-**Version:** 1.0
+**Version:** 2.0
 
 ## Context
 
@@ -28,3 +28,4 @@ Use TanStack Start with Nitro as the server framework, TanStack Router for file-
 | Version | Date | Changes |
 |---------|------|---------|
 | 1.0 | 2026-01-14 | Initial decision |
+| 2.0 | 2026-03-06 | Updated: TanStack Start remains for SSR only, Nitro no longer serves API (moved to Rails). No DB migrations plugin, no oRPC routes. |

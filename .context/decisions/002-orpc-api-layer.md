@@ -1,6 +1,6 @@
 # ADR-002: oRPC for Type-Safe API Layer
 
-**Status:** Accepted
+**Status:** Superseded by ADR-007
 **Date:** 2026-01-14
 **Version:** 1.0
 

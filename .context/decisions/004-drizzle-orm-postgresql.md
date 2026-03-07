@@ -1,6 +1,6 @@
 # ADR-004: Drizzle ORM with PostgreSQL
 
-**Status:** Accepted
+**Status:** Superseded (Rails ActiveRecord + SQLite replaces Drizzle + PostgreSQL)
 **Date:** 2026-01-14
 **Version:** 1.0
 
