@@ -49,12 +49,11 @@ WORKDIR /app
 ENV NODE_ENV=production
 
 COPY --from=builder /app/.output ./.output
-COPY --from=builder /app/migrations ./migrations
 COPY --from=dependencies /tmp/prod/node_modules ./node_modules
 
 EXPOSE 3000/tcp
 
 HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
-    CMD curl -f http://localhost:3000/api/health || exit 1
+    CMD curl -f http://localhost:${PORT:-3000}/ || exit 1
 
 ENTRYPOINT ["node", ".output/server/index.mjs"]
