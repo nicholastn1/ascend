@@ -22,19 +22,19 @@ const config = defineConfig({
 
 	server: {
 		host: true,
-		port: 3000,
+		port: 5173,
 		strictPort: true,
 		allowedHosts: true,
 		hmr: {
 			host: "localhost",
-			port: 3000,
+			port: 5173,
 		},
 	},
 
 	plugins: [
 		lingui(),
 		tailwindcss(),
-		nitro({ plugins: ["plugins/1.migrate.ts"] }),
+		nitro(),
 		tanstackStart({ router: { semicolons: true, quoteStyle: "double" } }),
 		viteReact({ babel: { plugins: ["@lingui/babel-plugin-lingui-macro"] } }),
 		VitePWA({
