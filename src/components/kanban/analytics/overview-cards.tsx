@@ -1,11 +1,10 @@
 import { Trans } from "@lingui/react/macro";
 import { BriefcaseIcon, CalendarIcon, ChartBarIcon, TrendUpIcon } from "@phosphor-icons/react";
-import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "@/components/ui/skeleton";
-import { orpc } from "@/integrations/orpc/client";
+import { useAnalyticsOverview } from "@/integrations/api/hooks/applications";
 
 export function OverviewCards() {
-	const { data: overview, isLoading } = useQuery(orpc.application.analytics.overview.queryOptions());
+	const { data: overview, isLoading } = useAnalyticsOverview();
 
 	if (isLoading) {
 		return (
@@ -22,23 +21,27 @@ export function OverviewCards() {
 
 	if (!overview) return null;
 
-	const responseRate =
-		overview.total > 0 ? Math.round(((overview.total - (overview.byStatus.applied ?? 0)) / overview.total) * 100) : 0;
+	const data = overview as Record<string, unknown>;
+	const total = (data.total as number) ?? 0;
+	const byStatus = (data.by_status as Record<string, number>) ?? {};
+	const thisWeek = (data.this_week as number) ?? 0;
+	const thisMonth = (data.this_month as number) ?? 0;
+	const responseRate = total > 0 ? Math.round(((total - (byStatus.applied ?? 0)) / total) * 100) : 0;
 
 	const cards = [
 		{
 			label: <Trans>Total Applications</Trans>,
-			value: overview.total,
+			value: total,
 			icon: BriefcaseIcon,
 		},
 		{
 			label: <Trans>This Week</Trans>,
-			value: overview.thisWeek,
+			value: thisWeek,
 			icon: CalendarIcon,
 		},
 		{
 			label: <Trans>This Month</Trans>,
-			value: overview.thisMonth,
+			value: thisMonth,
 			icon: ChartBarIcon,
 		},
 		{

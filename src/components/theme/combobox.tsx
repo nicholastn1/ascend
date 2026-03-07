@@ -1,13 +1,11 @@
 import { useLingui } from "@lingui/react";
-import { useRouter } from "@tanstack/react-router";
-import { isTheme, setThemeServerFn, themeMap } from "@/utils/theme";
+import { isTheme, themeMap } from "@/utils/theme";
 import { Combobox, type ComboboxProps } from "../ui/combobox";
 import { useTheme } from "./provider";
 
 type Props = Omit<ComboboxProps, "options" | "value" | "onValueChange">;
 
 export function ThemeCombobox(props: Props) {
-	const router = useRouter();
 	const { i18n } = useLingui();
 	const { theme, setTheme } = useTheme();
 
@@ -17,11 +15,9 @@ export function ThemeCombobox(props: Props) {
 		keywords: [i18n.t(label)],
 	}));
 
-	const onThemeChange = async (value: string | null) => {
+	const onThemeChange = (value: string | null) => {
 		if (!value || !isTheme(value)) return;
-		await setThemeServerFn({ data: value });
 		setTheme(value);
-		router.invalidate();
 	};
 
 	return <Combobox options={options} defaultValue={theme} onValueChange={onThemeChange} {...props} />;

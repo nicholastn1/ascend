@@ -1,13 +1,10 @@
 import { Trans } from "@lingui/react/macro";
-import { useQuery } from "@tanstack/react-query";
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { Skeleton } from "@/components/ui/skeleton";
-import { orpc } from "@/integrations/orpc/client";
+import { useAnalyticsTimeline } from "@/integrations/api/hooks/applications";
 
 export function TimelineChart() {
-	const { data: timeline, isLoading } = useQuery(
-		orpc.application.analytics.timeline.queryOptions({ input: { groupBy: "week", months: 3 } }),
-	);
+	const { data: timeline, isLoading } = useAnalyticsTimeline({ period: "week", months: 3 });
 
 	if (isLoading) {
 		return (

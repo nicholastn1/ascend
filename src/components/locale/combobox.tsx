@@ -1,6 +1,6 @@
 import { i18n } from "@lingui/core";
 import { useLingui } from "@lingui/react";
-import { isLocale, type Locale, loadLocale, localeMap, setLocaleServerFn } from "@/utils/locale";
+import { isLocale, type Locale, loadLocale, localeMap, setLocale } from "@/utils/locale";
 import { Combobox, type ComboboxProps } from "../ui/combobox";
 
 type Props = Omit<ComboboxProps, "options" | "value" | "onValueChange">;
@@ -18,7 +18,8 @@ export function LocaleCombobox(props: Props) {
 
 	const onLocaleChange = async (value: string | null) => {
 		if (!value || !isLocale(value)) return;
-		await Promise.all([loadLocale(value), setLocaleServerFn({ data: value })]);
+		setLocale(value);
+		await loadLocale(value);
 		window.location.reload();
 	};
 

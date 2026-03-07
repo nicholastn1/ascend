@@ -1,7 +1,7 @@
 import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
 import { CommandItem } from "@/components/ui/command";
-import { isLocale, loadLocale, localeMap, setLocaleServerFn } from "@/utils/locale";
+import { isLocale, loadLocale, localeMap, setLocale } from "@/utils/locale";
 import { BaseCommandGroup } from "../base";
 
 export function LanguageCommandPage() {
@@ -9,7 +9,8 @@ export function LanguageCommandPage() {
 
 	const handleLocaleChange = async (value: string) => {
 		if (!value || !isLocale(value)) return;
-		await Promise.all([loadLocale(value), setLocaleServerFn({ data: value })]);
+		setLocale(value);
+		await loadLocale(value);
 		window.location.reload();
 	};
 

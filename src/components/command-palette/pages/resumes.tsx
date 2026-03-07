@@ -7,7 +7,8 @@ import { CommandLoading } from "cmdk";
 import { CommandItem, CommandShortcut } from "@/components/ui/command";
 import { Kbd } from "@/components/ui/kbd";
 import { useDialogStore } from "@/dialogs/store";
-import { orpc } from "@/integrations/orpc/client";
+import { api } from "@/integrations/api/client";
+import { type ResumeListItem, resumeQueryKeys } from "@/integrations/api/hooks/resumes";
 import { useCommandPaletteStore } from "../store";
 import { BaseCommandGroup } from "./base";
 
@@ -21,11 +22,15 @@ export function ResumesCommandGroup() {
 
 	const isResumesPage = peekPage() === "resumes";
 
-	const { data: resumes, isLoading } = useQuery(
-		orpc.resume.list.queryOptions({
-			enabled: !!session && isResumesPage,
-		}),
-	);
+	const { data: resumes, isLoading } = useQuery<ResumeListItem[]>({
+		queryKey: resumeQueryKeys.list(),
+		queryFn: async () => {
+			const { data, error } = await api.GET("/api/v1/resumes");
+			if (error) throw error;
+			return data as unknown as ResumeListItem[];
+		},
+		enabled: !!session && isResumesPage,
+	});
 
 	const onCreate = () => {
 		navigate({ to: "/dashboard/resumes" });

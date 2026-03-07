@@ -1,11 +1,10 @@
 import { Trans } from "@lingui/react/macro";
-import { useQuery } from "@tanstack/react-query";
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { Skeleton } from "@/components/ui/skeleton";
-import { orpc } from "@/integrations/orpc/client";
+import { useAnalyticsFunnel } from "@/integrations/api/hooks/applications";
 
 export function FunnelChart() {
-	const { data: funnel, isLoading } = useQuery(orpc.application.analytics.funnel.queryOptions());
+	const { data: funnel, isLoading } = useAnalyticsFunnel();
 
 	if (isLoading) {
 		return (
@@ -18,11 +17,13 @@ export function FunnelChart() {
 
 	if (!funnel || funnel.length === 0) return null;
 
-	const chartData = funnel.map((entry) => ({
-		name: `${entry.fromStatus.charAt(0).toUpperCase() + entry.fromStatus.slice(1)} → ${entry.toStatus.charAt(0).toUpperCase() + entry.toStatus.slice(1)}`,
-		rate: entry.rate,
-		count: entry.count,
-	}));
+	const chartData = (funnel as { from_status: string; to_status: string; rate: number; count: number }[]).map(
+		(entry) => ({
+			name: `${entry.from_status.charAt(0).toUpperCase() + entry.from_status.slice(1)} → ${entry.to_status.charAt(0).toUpperCase() + entry.to_status.slice(1)}`,
+			rate: entry.rate,
+			count: entry.count,
+		}),
+	);
 
 	return (
 		<div className="rounded-xl border bg-card p-4">

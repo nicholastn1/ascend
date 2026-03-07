@@ -1,10 +1,9 @@
 import { msg } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
-import { useQuery } from "@tanstack/react-query";
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { Skeleton } from "@/components/ui/skeleton";
-import { orpc } from "@/integrations/orpc/client";
+import { useAnalyticsOverview } from "@/integrations/api/hooks/applications";
 import { APPLICATION_STATUSES, type ApplicationStatus } from "@/schema/application";
 
 const STATUS_LABELS = {
@@ -29,7 +28,7 @@ const STATUS_COLORS: Record<ApplicationStatus, string> = {
 
 export function StatusChart() {
 	const { i18n } = useLingui();
-	const { data: overview, isLoading } = useQuery(orpc.application.analytics.overview.queryOptions());
+	const { data: overview, isLoading } = useAnalyticsOverview();
 
 	if (isLoading) {
 		return (
@@ -42,9 +41,10 @@ export function StatusChart() {
 
 	if (!overview) return null;
 
+	const byStatus = (overview as Record<string, unknown>).by_status as Record<string, number> | undefined;
 	const chartData = APPLICATION_STATUSES.map((status) => ({
 		name: i18n._(STATUS_LABELS[status]),
-		count: overview.byStatus[status] ?? 0,
+		count: byStatus?.[status] ?? 0,
 		fill: STATUS_COLORS[status],
 	}));
 

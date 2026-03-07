@@ -1,11 +1,10 @@
 import { Trans } from "@lingui/react/macro";
-import { useQuery } from "@tanstack/react-query";
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { Skeleton } from "@/components/ui/skeleton";
-import { orpc } from "@/integrations/orpc/client";
+import { useAnalyticsAvgTime } from "@/integrations/api/hooks/applications";
 
 export function AvgTimeChart() {
-	const { data: avgTime, isLoading } = useQuery(orpc.application.analytics.avgTimeInStage.queryOptions());
+	const { data: avgTime, isLoading } = useAnalyticsAvgTime();
 
 	if (isLoading) {
 		return (
@@ -18,9 +17,9 @@ export function AvgTimeChart() {
 
 	if (!avgTime || avgTime.length === 0) return null;
 
-	const chartData = avgTime.map((entry) => ({
+	const chartData = (avgTime as { status: string; avg_days: number }[]).map((entry) => ({
 		name: entry.status.charAt(0).toUpperCase() + entry.status.slice(1),
-		days: entry.avgDays,
+		days: entry.avg_days,
 	}));
 
 	return (

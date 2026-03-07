@@ -1,6 +1,6 @@
 import { useRouter } from "@tanstack/react-router";
 import { createContext, type PropsWithChildren, use } from "react";
-import { setThemeServerFn, type Theme } from "@/utils/theme";
+import { setTheme as persistTheme, type Theme } from "@/utils/theme";
 
 type ThemeContextValue = {
 	theme: Theme;
@@ -18,8 +18,7 @@ export function ThemeProvider({ children, theme }: Props) {
 	async function setTheme(value: Theme, options: { playSound?: boolean } = {}) {
 		const { playSound = true } = options;
 
-		document.documentElement.classList.toggle("dark", value === "dark");
-		await setThemeServerFn({ data: value });
+		persistTheme(value);
 		router.invalidate();
 
 		if (!playSound) return;

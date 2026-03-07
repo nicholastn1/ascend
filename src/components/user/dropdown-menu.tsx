@@ -1,8 +1,5 @@
-import { t } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
 import { GearSixIcon, SignOutIcon, UserCircleIcon } from "@phosphor-icons/react";
-import { useRouter } from "@tanstack/react-router";
-import { toast } from "sonner";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -11,7 +8,7 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useDialogStore } from "@/dialogs/store";
-import { authClient } from "@/integrations/auth/client";
+import { useLogout, useSession } from "@/integrations/auth/client";
 import type { AuthSession } from "@/integrations/auth/types";
 
 type Props = {
@@ -19,25 +16,9 @@ type Props = {
 };
 
 export function UserDropdownMenu({ children }: Props) {
-	const router = useRouter();
-	const { data: session } = authClient.useSession();
+	const { data: session } = useSession();
 	const openDialog = useDialogStore((state) => state.openDialog);
-
-	function handleLogout() {
-		const toastId = toast.loading(t`Signing out...`);
-
-		authClient.signOut({
-			fetchOptions: {
-				onSuccess: () => {
-					toast.dismiss(toastId);
-					router.invalidate();
-				},
-				onError: ({ error }) => {
-					toast.error(error.message, { id: toastId });
-				},
-			},
-		});
-	}
+	const handleLogout = useLogout();
 
 	if (!session?.user) return null;
 

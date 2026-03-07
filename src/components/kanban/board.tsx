@@ -11,11 +11,11 @@ import {
 } from "@dnd-kit/core";
 import { sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 import { t } from "@lingui/core/macro";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { useCallback, useState } from "react";
 import { toast } from "sonner";
 import { Skeleton } from "@/components/ui/skeleton";
-import { orpc } from "@/integrations/orpc/client";
+import { applicationQueryKeys, useKanban, useMoveApplication } from "@/integrations/api/hooks/applications";
 import { APPLICATION_STATUSES, type ApplicationStatus } from "@/schema/application";
 import type { ApplicationCardData } from "./card";
 import { ApplicationCard } from "./card";
@@ -40,50 +40,52 @@ export function KanbanBoard({
 	const queryClient = useQueryClient();
 	const [activeCard, setActiveCard] = useState<ApplicationCardData | null>(null);
 
-	const { data: board, isLoading } = useQuery(orpc.application.kanban.queryOptions());
+	const { data: board, isLoading } = useKanban();
 
-	const moveMutation = useMutation(
-		orpc.application.move.mutationOptions({
-			onMutate: async (variables) => {
-				await queryClient.cancelQueries(orpc.application.kanban.queryOptions());
+	const moveMutation = useMoveApplication();
 
-				const previousBoard = queryClient.getQueryData(orpc.application.kanban.queryOptions().queryKey);
+	const handleMove = useCallback(
+		(id: string, status: ApplicationStatus) => {
+			const previousBoard = queryClient.getQueryData(applicationQueryKeys.kanban);
 
-				if (previousBoard) {
-					const newBoard = { ...previousBoard };
-					for (const status of APPLICATION_STATUSES) {
-						newBoard[status] = [...previousBoard[status]];
+			if (previousBoard) {
+				const newBoard = { ...(previousBoard as Record<string, ApplicationCardData[]>) };
+				for (const s of APPLICATION_STATUSES) {
+					newBoard[s] = [...(newBoard[s] ?? [])];
+				}
+
+				let movedApp: ApplicationCardData | undefined;
+				for (const s of APPLICATION_STATUSES) {
+					const idx = newBoard[s].findIndex((a: ApplicationCardData) => a.id === id);
+					if (idx !== -1) {
+						[movedApp] = newBoard[s].splice(idx, 1);
+						break;
 					}
+				}
 
-					// Find and move the card
-					let movedApp: ApplicationCardData | undefined;
-					for (const status of APPLICATION_STATUSES) {
-						const idx = newBoard[status].findIndex((a: ApplicationCardData) => a.id === variables.id);
-						if (idx !== -1) {
-							[movedApp] = newBoard[status].splice(idx, 1);
-							break;
+				if (movedApp) {
+					movedApp = { ...movedApp, currentStatus: status };
+					newBoard[status].unshift(movedApp);
+					queryClient.setQueryData(applicationQueryKeys.kanban, newBoard);
+				}
+			}
+
+			moveMutation.mutate(
+				{ id, status },
+				{
+					onError: () => {
+						if (previousBoard) {
+							queryClient.setQueryData(applicationQueryKeys.kanban, previousBoard);
 						}
-					}
-
-					if (movedApp) {
-						movedApp = { ...movedApp, currentStatus: variables.status };
-						newBoard[variables.status].unshift(movedApp);
-						queryClient.setQueryData(orpc.application.kanban.queryOptions().queryKey, newBoard);
-					}
-				}
-
-				return { previousBoard };
-			},
-			onError: (_error, _input, context) => {
-				if (context?.previousBoard) {
-					queryClient.setQueryData(orpc.application.kanban.queryOptions().queryKey, context.previousBoard);
-				}
-				toast.error(t`Failed to move application.`);
-			},
-			onSettled: () => {
-				queryClient.invalidateQueries(orpc.application.kanban.queryOptions());
-			},
-		}),
+						toast.error(t`Failed to move application.`);
+					},
+					onSettled: () => {
+						queryClient.invalidateQueries({ queryKey: applicationQueryKeys.kanban });
+					},
+				},
+			);
+		},
+		[queryClient, moveMutation],
 	);
 
 	const sensors = useSensors(
@@ -145,9 +147,9 @@ export function KanbanBoard({
 
 			if (!currentStatus || currentStatus === targetStatus) return;
 
-			moveMutation.mutate({ id: activeId, status: targetStatus });
+			handleMove(activeId, targetStatus);
 		},
-		[board, moveMutation],
+		[board, handleMove],
 	);
 
 	// Apply client-side filters
