@@ -1,50 +1,22 @@
-import { t } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
 import { GithubLogoIcon, GoogleLogoIcon, VaultIcon } from "@phosphor-icons/react";
 import { useQuery } from "@tanstack/react-query";
-import { useRouter } from "@tanstack/react-router";
-import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { authClient } from "@/integrations/auth/client";
-import { orpc } from "@/integrations/orpc/client";
+import { getOAuthUrl, getProviders } from "@/integrations/auth/client";
 import { cn } from "@/utils/style";
 
 export function SocialAuth() {
-	const router = useRouter();
-	const { data: authProviders = {} } = useQuery(orpc.auth.providers.list.queryOptions());
+	const { data: authProviders = {} } = useQuery<Record<string, string>>({
+		queryKey: ["auth", "providers"],
+		queryFn: getProviders,
+	});
 
-	const handleSocialLogin = async (provider: string) => {
-		const toastId = toast.loading(t`Signing in...`);
-
-		const { error } = await authClient.signIn.social({
-			provider,
-			callbackURL: "/dashboard",
-		});
-
-		if (error) {
-			toast.error(error.message, { id: toastId });
-			return;
-		}
-
-		toast.dismiss(toastId);
-		router.invalidate();
+	const handleSocialLogin = (provider: string) => {
+		window.location.href = getOAuthUrl(provider);
 	};
 
-	const handleOAuthLogin = async () => {
-		const toastId = toast.loading(t`Signing in...`);
-
-		const { error } = await authClient.signIn.oauth2({
-			providerId: "custom",
-			callbackURL: "/dashboard",
-		});
-
-		if (error) {
-			toast.error(error.message, { id: toastId });
-			return;
-		}
-
-		toast.dismiss(toastId);
-		router.invalidate();
+	const handleOAuthLogin = () => {
+		window.location.href = getOAuthUrl("custom");
 	};
 
 	return (

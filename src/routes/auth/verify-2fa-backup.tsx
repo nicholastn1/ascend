@@ -10,7 +10,7 @@ import z from "zod";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from "@/components/ui/input-otp";
-import { authClient } from "@/integrations/auth/client";
+import { validate2FA } from "@/integrations/auth/client";
 
 export const Route = createFileRoute("/auth/verify-2fa-backup")({
 	component: RouteComponent,
@@ -38,18 +38,24 @@ function RouteComponent() {
 
 	const onSubmit = async (data: FormValues) => {
 		const toastId = toast.loading(t`Verifying backup code...`);
-		const formattedCode = `${data.code.slice(0, 5)}-${data.code.slice(5)}`;
 
-		const { error } = await authClient.twoFactor.verifyBackupCode({ code: formattedCode });
+		try {
+			const tempToken = sessionStorage.getItem("2fa_temp_token");
+			if (!tempToken) {
+				toast.error(t`Session expired. Please sign in again.`, { id: toastId });
+				navigate({ to: "/auth/login", replace: true });
+				return;
+			}
 
-		if (error) {
-			toast.error(error.message, { id: toastId });
-			return;
+			const formattedCode = `${data.code.slice(0, 5)}-${data.code.slice(5)}`;
+			await validate2FA(tempToken, formattedCode);
+			sessionStorage.removeItem("2fa_temp_token");
+			toast.dismiss(toastId);
+			router.invalidate();
+			navigate({ to: "/dashboard", replace: true });
+		} catch (error) {
+			toast.error(error instanceof Error ? error.message : t`Failed to verify backup code.`, { id: toastId });
 		}
-
-		toast.dismiss(toastId);
-		router.invalidate();
-		navigate({ to: "/dashboard", replace: true });
 	};
 
 	return (

@@ -1,24 +1,21 @@
 import { t } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
 import { InfoIcon } from "@phosphor-icons/react";
-import { useQuery } from "@tanstack/react-query";
 import { useParams } from "@tanstack/react-router";
 import { Accordion, AccordionContent, AccordionItem } from "@/components/ui/accordion";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { orpc } from "@/integrations/orpc/client";
+import { useResumeStatistics } from "@/integrations/api/hooks/resumes";
 import { SectionBase } from "../shared/section-base";
 
 export function StatisticsSectionBuilder() {
 	const params = useParams({ from: "/builder/$resumeId" });
-	const { data: statistics } = useQuery(
-		orpc.resume.statistics.getById.queryOptions({ input: { id: params.resumeId } }),
-	);
+	const { data: statistics } = useResumeStatistics(params.resumeId);
 
 	if (!statistics) return null;
 
 	return (
 		<SectionBase type="statistics">
-			<Accordion collapsible type="single" value={statistics.isPublic ? "isPublic" : "isPrivate"}>
+			<Accordion collapsible type="single" value={statistics.is_public ? "isPublic" : "isPrivate"}>
 				<AccordionItem value="isPrivate">
 					<AccordionContent className="pb-0">
 						<Alert>
@@ -41,14 +38,20 @@ export function StatisticsSectionBuilder() {
 						<StatisticsItem
 							label={t`Views`}
 							value={statistics.views}
-							timestamp={statistics.lastViewedAt ? t`Last viewed on ${statistics.lastViewedAt.toDateString()}` : null}
+							timestamp={
+								statistics.last_viewed_at
+									? t`Last viewed on ${new Date(statistics.last_viewed_at).toDateString()}`
+									: null
+							}
 						/>
 
 						<StatisticsItem
 							label={t`Downloads`}
 							value={statistics.downloads}
 							timestamp={
-								statistics.lastDownloadedAt ? t`Last downloaded on ${statistics.lastDownloadedAt.toDateString()}` : null
+								statistics.last_downloaded_at
+									? t`Last downloaded on ${new Date(statistics.last_downloaded_at).toDateString()}`
+									: null
 							}
 						/>
 					</AccordionContent>

@@ -1,8 +1,6 @@
 import { t } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
-import { ORPCError } from "@orpc/client";
 import { ClipboardIcon, LockSimpleIcon, LockSimpleOpenIcon } from "@phosphor-icons/react";
-import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 import { useParams } from "@tanstack/react-router";
 import { useCallback, useMemo } from "react";
 import { toast } from "sonner";
@@ -13,21 +11,26 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { useConfirm } from "@/hooks/use-confirm";
 import { usePrompt } from "@/hooks/use-prompt";
-import { authClient } from "@/integrations/auth/client";
-import { orpc } from "@/integrations/orpc/client";
+import {
+	useRemoveResumePassword,
+	useResume,
+	useSetResumePassword,
+	useUpdateResume,
+} from "@/integrations/api/hooks/resumes";
+import { useSession } from "@/integrations/auth/client";
 import { SectionBase } from "../shared/section-base";
 
 export function SharingSectionBuilder() {
 	const prompt = usePrompt();
 	const confirm = useConfirm();
 	const [_, copyToClipboard] = useCopyToClipboard();
-	const { data: session } = authClient.useSession();
+	const { data: session } = useSession();
 	const params = useParams({ from: "/builder/$resumeId" });
 
-	const { mutateAsync: updateResume } = useMutation(orpc.resume.update.mutationOptions());
-	const { mutateAsync: setPassword } = useMutation(orpc.resume.setPassword.mutationOptions());
-	const { mutateAsync: removePassword } = useMutation(orpc.resume.removePassword.mutationOptions());
-	const { data: resume } = useSuspenseQuery(orpc.resume.getById.queryOptions({ input: { id: params.resumeId } }));
+	const { mutateAsync: updateResume } = useUpdateResume();
+	const { mutateAsync: setPassword } = useSetResumePassword();
+	const { mutateAsync: removePassword } = useRemoveResumePassword();
+	const { data: resume } = useResume(params.resumeId);
 
 	const publicUrl = useMemo(() => {
 		if (!session) return "";
@@ -42,9 +45,9 @@ export function SharingSectionBuilder() {
 	const onTogglePublic = useCallback(
 		async (checked: boolean) => {
 			try {
-				await updateResume({ id: resume.id, isPublic: checked });
+				await updateResume({ id: resume.id, is_public: checked });
 			} catch (error) {
-				const message = error instanceof ORPCError ? error.message : t`Something went wrong. Please try again.`;
+				const message = error instanceof Error ? error.message : t`Something went wrong. Please try again.`;
 				toast.error(message);
 			}
 		},
@@ -72,13 +75,13 @@ export function SharingSectionBuilder() {
 			await setPassword({ id: resume.id, password });
 			toast.success(t`Password protection has been enabled.`, { id: toastId });
 		} catch (error) {
-			const message = error instanceof ORPCError ? error.message : t`Something went wrong. Please try again.`;
+			const message = error instanceof Error ? error.message : t`Something went wrong. Please try again.`;
 			toast.error(message, { id: toastId });
 		}
 	}, [prompt, resume.id, setPassword]);
 
 	const onRemovePassword = useCallback(async () => {
-		if (!resume.hasPassword) return;
+		if (!resume.has_password) return;
 
 		const confirmation = await confirm(t`Are you sure you want to remove password protection?`, {
 			description: t`Anyone who has the resume's public URL will be able to view and download your resume without entering a password.`,
@@ -90,22 +93,22 @@ export function SharingSectionBuilder() {
 		const toastId = toast.loading(t`Removing password protection...`);
 
 		try {
-			await removePassword({ id: resume.id });
+			await removePassword(resume.id);
 			toast.success(t`Password protection has been disabled.`, { id: toastId });
 		} catch (error) {
-			const message = error instanceof ORPCError ? error.message : t`Something went wrong. Please try again.`;
+			const message = error instanceof Error ? error.message : t`Something went wrong. Please try again.`;
 			toast.error(message, { id: toastId });
 		}
-	}, [confirm, resume.id, resume.hasPassword, removePassword]);
+	}, [confirm, resume.id, resume.has_password, removePassword]);
 
-	const isPasswordProtected = resume.hasPassword;
+	const isPasswordProtected = resume.has_password;
 
 	return (
 		<SectionBase type="sharing" className="space-y-4">
 			<div className="flex items-center gap-x-4">
 				<Switch
 					id="sharing-switch"
-					checked={resume.isPublic}
+					checked={resume.is_public}
 					onCheckedChange={(checked) => void onTogglePublic(checked)}
 				/>
 
@@ -120,7 +123,7 @@ export function SharingSectionBuilder() {
 				</Label>
 			</div>
 
-			{resume.isPublic && (
+			{resume.is_public && (
 				<div className="space-y-4 rounded-md border p-4">
 					<div className="grid gap-2">
 						<Label htmlFor="sharing-url">URL</Label>

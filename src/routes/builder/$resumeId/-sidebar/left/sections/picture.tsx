@@ -14,7 +14,7 @@ import { ButtonGroup } from "@/components/ui/button-group";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText } from "@/components/ui/input-group";
-import { orpc } from "@/integrations/orpc/client";
+import { API_BASE, api } from "@/integrations/api/client";
 import { pictureSchema } from "@/schema/resume/data";
 import { SectionBase } from "../shared/section-base";
 
@@ -32,8 +32,27 @@ function PictureSectionForm() {
 	const picture = useResumeStore((state) => state.resume.data.picture);
 	const updateResumeData = useResumeStore((state) => state.updateResumeData);
 
-	const { mutate: uploadFile } = useMutation(orpc.storage.uploadFile.mutationOptions({ meta: { noInvalidate: true } }));
-	const { mutate: deleteFile } = useMutation(orpc.storage.deleteFile.mutationOptions({ meta: { noInvalidate: true } }));
+	const { mutate: uploadFile } = useMutation({
+		mutationFn: async (file: File) => {
+			const formData = new FormData();
+			formData.append("file", file);
+			const res = await fetch(`${API_BASE}/api/v1/storage/upload`, {
+				method: "POST",
+				credentials: "include",
+				body: formData,
+			});
+			if (!res.ok) throw new Error("Upload failed");
+			return (await res.json()) as { url: string };
+		},
+	});
+	const { mutate: deleteFile } = useMutation({
+		mutationFn: async (params: { filename: string }) => {
+			const { error } = await api.DELETE("/api/v1/storage/files", {
+				body: { path: params.filename },
+			});
+			if (error) throw error;
+		},
+	});
 
 	const form = useForm({
 		resolver: zodResolver(pictureSchema),
@@ -62,7 +81,7 @@ function PictureSectionForm() {
 		if (!filename) return;
 
 		// If the picture is from the same origin, attempt to delete it
-		if (pictureOrigin === appOrigin) deleteFile({ filename });
+		if (pictureOrigin === appOrigin) deleteFile({ filename: filename });
 
 		form.setValue("url", "", { shouldDirty: true });
 		form.handleSubmit(onSubmit)();

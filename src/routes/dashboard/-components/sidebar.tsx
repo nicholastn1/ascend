@@ -11,7 +11,6 @@ import {
 	SidebarSimpleIcon,
 	TrashSimpleIcon,
 } from "@phosphor-icons/react";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link, useNavigate, useSearch } from "@tanstack/react-router";
 import { useCallback } from "react";
 import { toast } from "sonner";
@@ -30,16 +29,16 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { UserDropdownMenu } from "@/components/user/dropdown-menu";
 import { useDialogStore } from "@/dialogs/store";
-import { orpc } from "@/integrations/orpc/client";
+import { useConversations, useDeleteConversation } from "@/integrations/api/hooks/chat";
 import { getInitials } from "@/utils/string";
 import { cn } from "@/utils/style";
 
 type Conversation = {
 	id: string;
 	title: string | null;
-	agentType: string;
-	createdAt: Date;
-	updatedAt: Date;
+	agent_type: string | null;
+	created_at: string;
+	updated_at: string;
 };
 
 function getDateGroup(date: Date): "today" | "week" | "older" {
@@ -57,7 +56,7 @@ const groupLabels = {
 	older: () => t`Older`,
 } as const;
 
-function AgentBadge({ agentType }: { agentType: string }) {
+function AgentBadge({ agentType }: { agentType: string | null }) {
 	if (agentType === "recruiter-reply") {
 		return (
 			<span className="inline-flex shrink-0 items-center gap-0.5 rounded-full bg-blue-500/10 px-1.5 py-0.5 text-[10px] text-blue-600 dark:text-blue-400">
@@ -92,7 +91,7 @@ function ChatList({
 
 	const grouped = conversations.reduce<Record<"today" | "week" | "older", Conversation[]>>(
 		(acc, conv) => {
-			const group = getDateGroup(new Date(conv.updatedAt));
+			const group = getDateGroup(new Date(conv.updated_at));
 			acc[group].push(conv);
 			return acc;
 		},
@@ -130,7 +129,7 @@ function ChatList({
 									)}
 								>
 									<p className="min-w-0 flex-1 truncate text-xs">{conv.title || <Trans>New conversation</Trans>}</p>
-									<AgentBadge agentType={conv.agentType} />
+									<AgentBadge agentType={conv.agent_type} />
 									<Button
 										size="icon-sm"
 										variant="ghost"
@@ -171,19 +170,15 @@ export function SidebarToggleButton() {
 
 export function DashboardSidebar() {
 	const navigate = useNavigate();
-	const queryClient = useQueryClient();
 	const { toggleSidebar } = useSidebarState();
 	const openDialog = useDialogStore((state) => state.openDialog);
 
-	// Read activeConversationId from URL search params (set by /dashboard/chat route)
 	const search = useSearch({ strict: false }) as { conversationId?: string };
 	const activeConversationId = search.conversationId ?? null;
 
-	const { data: conversations = [], isLoading: isLoadingConversations } = useQuery(
-		orpc.chat.listConversations.queryOptions(),
-	);
+	const { data: conversations = [], isLoading: isLoadingConversations } = useConversations();
 
-	const { mutate: deleteConversation } = useMutation(orpc.chat.deleteConversation.mutationOptions());
+	const { mutate: deleteConversation } = useDeleteConversation();
 
 	const handleNewChat = useCallback(() => {
 		navigate({ to: "/dashboard/chat", search: {} });
@@ -198,22 +193,17 @@ export function DashboardSidebar() {
 
 	const handleDeleteConversation = useCallback(
 		(conversationId: string) => {
-			deleteConversation(
-				{ conversationId },
-				{
-					onSuccess: () => {
-						queryClient.invalidateQueries({ queryKey: orpc.chat.listConversations.queryOptions().queryKey });
-						toast.success(t`Conversation deleted.`);
-						// Navigate to empty chat if the deleted conversation was active
-						navigate({ to: "/dashboard/chat", search: {} });
-					},
-					onError: (error) => {
-						toast.error(error.message);
-					},
+			deleteConversation(conversationId, {
+				onSuccess: () => {
+					toast.success(t`Conversation deleted.`);
+					navigate({ to: "/dashboard/chat", search: {} });
 				},
-			);
+				onError: (error) => {
+					toast.error(error.message);
+				},
+			});
 		},
-		[deleteConversation, queryClient, navigate],
+		[deleteConversation, navigate],
 	);
 
 	const handleSearchChats = useCallback(() => {

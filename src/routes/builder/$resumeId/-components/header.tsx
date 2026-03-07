@@ -10,7 +10,6 @@ import {
 	SidebarSimpleIcon,
 	TrashSimpleIcon,
 } from "@phosphor-icons/react";
-import { useMutation } from "@tanstack/react-query";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { useResumeStore } from "@/components/resume/store/resume";
@@ -24,12 +23,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useDialogStore } from "@/dialogs/store";
 import { useConfirm } from "@/hooks/use-confirm";
-import { orpc } from "@/integrations/orpc/client";
+import { useDeleteResume, useToggleLock } from "@/integrations/api/hooks/resumes";
 import { useBuilderSidebar } from "../-store/sidebar";
 
 export function BuilderHeader() {
 	const name = useResumeStore((state) => state.resume.name);
-	const isLocked = useResumeStore((state) => state.resume.isLocked);
+	const isLocked = useResumeStore((state) => state.resume.is_locked);
 	const toggleSidebar = useBuilderSidebar((state) => state.toggleSidebar);
 
 	return (
@@ -66,10 +65,10 @@ function BuilderHeaderDropdown() {
 	const name = useResumeStore((state) => state.resume.name);
 	const slug = useResumeStore((state) => state.resume.slug);
 	const tags = useResumeStore((state) => state.resume.tags);
-	const isLocked = useResumeStore((state) => state.resume.isLocked);
+	const isLocked = useResumeStore((state) => state.resume.is_locked);
 
-	const { mutate: deleteResume } = useMutation(orpc.resume.delete.mutationOptions());
-	const { mutate: setLockedResume } = useMutation(orpc.resume.setLocked.mutationOptions());
+	const { mutate: deleteResume } = useDeleteResume();
+	const { mutate: setLockedResume } = useToggleLock();
 
 	const handleUpdate = () => {
 		openDialog("resume.update", { id, name, slug, tags });
@@ -88,14 +87,11 @@ function BuilderHeaderDropdown() {
 			if (!confirmation) return;
 		}
 
-		setLockedResume(
-			{ id, isLocked: !isLocked },
-			{
-				onError: (error) => {
-					toast.error(error.message);
-				},
+		setLockedResume(id, {
+			onError: (error) => {
+				toast.error(error instanceof Error ? error.message : "Failed to toggle lock");
 			},
-		);
+		});
 	};
 
 	const handleDelete = async () => {
@@ -107,18 +103,15 @@ function BuilderHeaderDropdown() {
 
 		const toastId = toast.loading(t`Deleting your resume...`);
 
-		deleteResume(
-			{ id },
-			{
-				onSuccess: () => {
-					toast.success(t`Your resume has been deleted successfully.`, { id: toastId });
-					navigate({ to: "/dashboard/resumes", search: { sort: "lastUpdatedAt", tags: [] } });
-				},
-				onError: (error) => {
-					toast.error(error.message, { id: toastId });
-				},
+		deleteResume(id, {
+			onSuccess: () => {
+				toast.success(t`Your resume has been deleted successfully.`, { id: toastId });
+				navigate({ to: "/dashboard/resumes", search: { sort: "lastUpdatedAt", tags: [] } });
 			},
-		);
+			onError: (error) => {
+				toast.error(error instanceof Error ? error.message : "Failed to delete resume", { id: toastId });
+			},
+		});
 	};
 
 	return (

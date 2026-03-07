@@ -1,7 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { t } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
-import { ORPCError } from "@orpc/client";
 import { EyeIcon, EyeSlashIcon, LockOpenIcon } from "@phosphor-icons/react";
 import { useMutation } from "@tanstack/react-query";
 import { createFileRoute, redirect, SearchParamError, useNavigate } from "@tanstack/react-router";
@@ -14,7 +13,7 @@ import z from "zod";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { orpc } from "@/integrations/orpc/client";
+import { api } from "@/integrations/api/client";
 
 const searchSchema = z.object({
 	redirect: z
@@ -44,7 +43,19 @@ function RouteComponent() {
 	const { redirect } = Route.useSearch();
 	const [showPassword, toggleShowPassword] = useToggle(false);
 
-	const { mutate: verifyPassword } = useMutation(orpc.resume.verifyPassword.mutationOptions());
+	const { mutate: verifyPassword } = useMutation({
+		mutationFn: async (params: { username: string; slug: string; password: string }) => {
+			const { data, error } = await api.POST(
+				"/api/v1/resumes/public/{username}/{slug}/verify" as never,
+				{
+					params: { path: { username: params.username, slug: params.slug } },
+					body: { password: params.password },
+				} as never,
+			);
+			if (error) throw error;
+			return data;
+		},
+	});
 
 	const [username, slug] = useMemo(() => {
 		const [username, slug] = redirect.split("/").slice(1) as [string, string];
@@ -70,7 +81,8 @@ function RouteComponent() {
 					navigate({ to: redirect, replace: true });
 				},
 				onError: (error) => {
-					if (error instanceof ORPCError && error.code === "INVALID_PASSWORD") {
+					const status = (error as { status?: number }).status;
+					if (status === 401 || status === 403) {
 						toast.dismiss(toastId);
 						form.setError("password", { message: t`The password you entered is incorrect` });
 					} else {

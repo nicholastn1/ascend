@@ -12,7 +12,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { authClient } from "@/integrations/auth/client";
+import { register } from "@/integrations/auth/client";
 import { SocialAuth } from "./-components/social-auth";
 
 export const Route = createFileRoute("/auth/register")({
@@ -59,22 +59,21 @@ function RouteComponent() {
 	const onSubmit = async (data: FormValues) => {
 		const toastId = toast.loading(t`Signing up...`);
 
-		const { error } = await authClient.signUp.email({
-			name: data.name,
-			email: data.email,
-			password: data.password,
-			username: data.username,
-			displayUsername: data.username,
-			callbackURL: "/dashboard",
-		});
+		try {
+			await register({
+				name: data.name,
+				email: data.email,
+				password: data.password,
+				username: data.username,
+			});
 
-		if (error) {
-			toast.error(error.message, { id: toastId });
-			return;
+			setSubmitted(true);
+			toast.dismiss(toastId);
+		} catch (error) {
+			toast.error(error instanceof Error ? error.message : t`Failed to sign up. Please try again.`, {
+				id: toastId,
+			});
 		}
-
-		setSubmitted(true);
-		toast.dismiss(toastId);
 	};
 
 	if (submitted) return <PostSignupScreen />;

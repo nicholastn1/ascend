@@ -1,10 +1,7 @@
-import { useChat } from "@ai-sdk/react";
 import { t } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
-import { eventIteratorToUnproxiedDataStream } from "@orpc/client";
 import { ArrowUpIcon, ChatCircleIcon, LinkedinLogoIcon, StopIcon } from "@phosphor-icons/react";
-import { useQuery } from "@tanstack/react-query";
-import type { UIMessage } from "ai";
+import { useQueryClient } from "@tanstack/react-query";
 import MarkdownIt from "markdown-it";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
@@ -12,12 +9,21 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Textarea } from "@/components/ui/textarea";
-import { useAIStore } from "@/integrations/ai/store";
-import { client, orpc } from "@/integrations/orpc/client";
+import { sendMessageStreaming } from "@/integrations/api/chat";
+import { chatQueryKeys, type Message, useConversation, useRateLimit } from "@/integrations/api/hooks/chat";
 import { sanitizeHtml } from "@/utils/sanitize";
 import { cn } from "@/utils/style";
 
-// Singleton markdown-it instance
+type ChatMessagePart = { type: "text"; text: string };
+
+type ChatMessage = {
+	id: string;
+	role: "user" | "assistant";
+	content: string;
+	parts: ChatMessagePart[];
+	createdAt: Date;
+};
+
 const md = MarkdownIt({ html: false, linkify: true, breaks: true });
 
 type Props = {
@@ -144,7 +150,7 @@ function AssistantMessage({ text }: { text: string }) {
 
 // --- Message bubble ---
 
-function MessageBubble({ message }: { message: UIMessage }) {
+function MessageBubble({ message }: { message: ChatMessage }) {
 	const isUser = message.role === "user";
 
 	return (
@@ -266,13 +272,13 @@ function EmptyState({
 type ConversationData = {
 	id: string;
 	title: string | null;
-	agentType: string;
-	messages: { id: string; role: string; content: string; createdAt: Date }[];
+	agent_type: string | null;
+	messages: Message[];
 };
 
 type ConversationChatProps = {
 	conversation: ConversationData;
-	rateLimit?: { used: number; limit: number } | null;
+	rateLimit?: { remaining: number; limit: number } | null;
 	onConversationUpdated: () => void;
 	pendingMessage?: string | null;
 	onPendingMessageConsumed?: () => void;
@@ -285,97 +291,117 @@ function ConversationChat({
 	pendingMessage,
 	onPendingMessageConsumed,
 }: ConversationChatProps) {
+	const queryClient = useQueryClient();
 	const bottomRef = useRef<HTMLDivElement>(null);
 	const [input, setInput] = useState("");
+	const [isStreaming, setIsStreaming] = useState(false);
+	const [streamingText, setStreamingText] = useState("");
 	const conversationId = conversation.id;
 
-	const initialMessages: UIMessage[] = conversation.messages.map((msg) => ({
-		id: msg.id,
-		role: msg.role as "user" | "assistant",
-		content: msg.content,
-		parts: [{ type: "text" as const, text: msg.content }],
-		createdAt: new Date(msg.createdAt),
-	}));
+	const [messages, setMessages] = useState<ChatMessage[]>(() =>
+		conversation.messages.map((msg) => ({
+			id: msg.id,
+			role: msg.role as "user" | "assistant",
+			content: msg.content,
+			parts: [{ type: "text" as const, text: msg.content }],
+			createdAt: new Date(msg.created_at),
+		})),
+	);
 
-	const { messages, sendMessage, status, stop } = useChat({
-		messages: initialMessages,
-		transport: {
-			async sendMessages(options) {
-				const lastUserMessage = options.messages.filter((m) => m.role === "user").pop();
-				if (!lastUserMessage) throw new Error("No user message found");
+	const abortRef = useRef<AbortController | null>(null);
 
-				const content = lastUserMessage.parts
-					.filter((p): p is { type: "text"; text: string } => p.type === "text")
-					.map((p) => p.text)
-					.join("");
+	const doSend = useCallback(
+		(text: string) => {
+			const userMsg: ChatMessage = {
+				id: crypto.randomUUID(),
+				role: "user",
+				content: text,
+				parts: [{ type: "text", text }],
+				createdAt: new Date(),
+			};
+			setMessages((prev) => [...prev, userMsg]);
+			setIsStreaming(true);
+			setStreamingText("");
 
-				const { enabled, provider, model, apiKey, baseURL } = useAIStore.getState();
+			const controller = new AbortController();
+			abortRef.current = controller;
 
-				return eventIteratorToUnproxiedDataStream(
-					await client.chat.sendMessage(
+			sendMessageStreaming(
+				conversationId,
+				text,
+				(chunk) => {
+					setStreamingText((prev) => prev + chunk);
+				},
+				(doneMsg) => {
+					setIsStreaming(false);
+					setStreamingText("");
+					setMessages((prev) => [
+						...prev,
 						{
-							conversationId,
-							content,
-							...(enabled && apiKey ? { provider, model, apiKey, baseURL } : {}),
+							id: doneMsg.id,
+							role: "assistant",
+							content: doneMsg.content,
+							parts: [{ type: "text" as const, text: doneMsg.content }],
+							createdAt: new Date(doneMsg.created_at),
 						},
-						// biome-ignore lint/style/noNonNullAssertion: abortSignal is always provided by useChat
-						{ signal: options.abortSignal! },
-					),
-				);
-			},
-			reconnectToStream() {
-				throw new Error("Unsupported");
-			},
+					]);
+					queryClient.invalidateQueries({ queryKey: chatQueryKeys.conversations });
+					onConversationUpdated();
+				},
+				(error) => {
+					setIsStreaming(false);
+					setStreamingText("");
+					toast.error(t`AI chat error`, { description: error });
+				},
+			);
 		},
-		onFinish() {
-			onConversationUpdated();
-		},
-		onError(error) {
-			toast.error(t`AI chat error`, { description: error.message });
-		},
-	});
+		[conversationId, queryClient, onConversationUpdated],
+	);
+
+	const handleStop = useCallback(() => {
+		abortRef.current?.abort();
+		setIsStreaming(false);
+		setStreamingText("");
+	}, []);
 
 	// Auto-scroll
 	useEffect(() => {
 		bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-	}, [messages]);
+	}, [messages, streamingText]);
 
-	// Keep a stable ref for sendMessage to avoid re-triggering the effect
-	const sendMessageRef = useRef(sendMessage);
-	sendMessageRef.current = sendMessage;
+	const doSendRef = useRef(doSend);
+	doSendRef.current = doSend;
 
-	// Auto-send pending message (with guard to prevent double-send)
 	const pendingConsumed = useRef(false);
 	useEffect(() => {
-		if (pendingMessage && status === "ready" && !pendingConsumed.current) {
+		if (pendingMessage && !isStreaming && !pendingConsumed.current) {
 			pendingConsumed.current = true;
-			sendMessageRef.current({ text: pendingMessage });
+			doSendRef.current(pendingMessage);
 			onPendingMessageConsumed?.();
 		}
-	}, [pendingMessage, status, onPendingMessageConsumed]);
-
-	const isStreaming = status === "submitted" || status === "streaming";
+	}, [pendingMessage, isStreaming, onPendingMessageConsumed]);
 
 	const handleSubmit = useCallback(() => {
 		if (!input.trim() || isStreaming) return;
-		sendMessage({ text: input });
+		doSend(input);
 		setInput("");
-	}, [input, isStreaming, sendMessage]);
+	}, [input, isStreaming, doSend]);
 
-	// Empty conversation — show empty state with input
+	const rateLimitDisplay = rateLimit ? { used: rateLimit.limit - rateLimit.remaining, limit: rateLimit.limit } : null;
+
 	if (messages.length === 0 && !isStreaming) {
 		return (
 			<div className="flex flex-1 overflow-hidden">
 				<EmptyState
-					agentType={conversation.agentType}
+					agentType={conversation.agent_type ?? "general"}
 					input={input}
 					onInputChange={setInput}
 					onSubmit={handleSubmit}
 					onSuggestionClick={(prompt: string) => {
-						sendMessage({ text: prompt });
+						doSend(prompt);
 					}}
 					isLoading={isStreaming}
-					rateLimit={rateLimit}
+					rateLimit={rateLimitDisplay}
 				/>
 			</div>
 		);
@@ -383,30 +409,36 @@ function ConversationChat({
 
 	return (
 		<div className="flex flex-1 flex-col overflow-hidden">
-			{/* Messages */}
 			<ScrollArea className="min-h-0 flex-1 px-4">
 				<div className="mx-auto flex max-w-2xl flex-col gap-4 py-4">
 					{messages.map((message) => (
 						<MessageBubble key={message.id} message={message} />
 					))}
 
-					{status === "submitted" && <ThinkingIndicator />}
+					{isStreaming && streamingText && (
+						<div className="flex justify-start">
+							<div className="max-w-[85%]">
+								<AssistantMessage text={streamingText} />
+							</div>
+						</div>
+					)}
+
+					{isStreaming && !streamingText && <ThinkingIndicator />}
 
 					<div ref={bottomRef} aria-hidden />
 				</div>
 			</ScrollArea>
 
-			{/* Input at bottom */}
 			<div className="mx-auto w-full max-w-2xl shrink-0 px-4 pt-2 pb-4">
 				<ChatInput
 					value={input}
 					onChange={setInput}
 					onSubmit={handleSubmit}
-					onStop={stop}
+					onStop={handleStop}
 					isLoading={isStreaming}
-					rateLimit={rateLimit}
+					rateLimit={rateLimitDisplay}
 					placeholder={
-						conversation.agentType === "recruiter-reply" ? t`Paste a recruiter message here...` : t`Ask me anything...`
+						conversation.agent_type === "recruiter-reply" ? t`Paste a recruiter message here...` : t`Ask me anything...`
 					}
 				/>
 			</div>
@@ -426,16 +458,12 @@ export function MessageArea({
 }: Props) {
 	const [input, setInput] = useState("");
 
-	// Rate limit status (shared across empty state and conversation)
-	const { data: rateLimit } = useQuery(orpc.chat.getRateLimit.queryOptions());
+	const { data: rateLimit } = useRateLimit();
 
-	// Load conversation data from server
-	const { data: conversation, isLoading: isLoadingConversation } = useQuery({
-		...orpc.chat.getConversation.queryOptions({ input: { conversationId: conversationId ?? "" } }),
-		enabled: !!conversationId,
-	});
+	const { data: conversation, isLoading: isLoadingConversation } = useConversation(conversationId ?? "");
 
-	// No conversation selected — show empty state
+	const rateLimitDisplay = rateLimit ? { used: rateLimit.limit - rateLimit.remaining, limit: rateLimit.limit } : null;
+
 	if (!conversationId) {
 		return (
 			<div className="flex flex-1 overflow-hidden">
@@ -451,7 +479,7 @@ export function MessageArea({
 					}}
 					onSuggestionClick={(prompt) => onSendInitialMessage(agentType as "general" | "recruiter-reply", prompt)}
 					isLoading={false}
-					rateLimit={rateLimit}
+					rateLimit={rateLimitDisplay}
 				/>
 			</div>
 		);
@@ -469,7 +497,6 @@ export function MessageArea({
 		);
 	}
 
-	// Conversation loaded — render chat (useChat lives inside ConversationChat)
 	return (
 		<ConversationChat
 			conversation={conversation}

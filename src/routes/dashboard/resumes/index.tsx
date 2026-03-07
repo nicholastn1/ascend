@@ -2,10 +2,7 @@ import { t } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
 import { GridFourIcon, ListIcon, ReadCvLogoIcon, SortAscendingIcon, TagIcon } from "@phosphor-icons/react";
-import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, stripSearchParams, useNavigate, useRouter } from "@tanstack/react-router";
-import { createServerFn } from "@tanstack/react-start";
-import { getCookie, setCookie } from "@tanstack/react-start/server";
 import { zodValidator } from "@tanstack/zod-adapter";
 import { useMemo } from "react";
 import z from "zod";
@@ -14,7 +11,7 @@ import { Combobox } from "@/components/ui/combobox";
 import { MultipleCombobox } from "@/components/ui/multiple-combobox";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { orpc } from "@/integrations/orpc/client";
+import { useResumes, useResumeTags } from "@/integrations/api/hooks/resumes";
 import { cn } from "@/utils/style";
 import { DashboardHeader } from "../-components/header";
 import { GridView } from "./-components/grid-view";
@@ -33,8 +30,8 @@ export const Route = createFileRoute("/dashboard/resumes/")({
 	search: {
 		middlewares: [stripSearchParams({ tags: [], sort: "lastUpdatedAt" })],
 	},
-	loader: async () => {
-		const view = await getViewServerFn();
+	loader: () => {
+		const view = getResumesView();
 		return { view };
 	},
 });
@@ -46,8 +43,8 @@ function RouteComponent() {
 	const { tags, sort } = Route.useSearch();
 	const navigate = useNavigate({ from: Route.fullPath });
 
-	const { data: allTags } = useQuery(orpc.resume.tags.list.queryOptions());
-	const { data: resumes } = useQuery(orpc.resume.list.queryOptions({ input: { tags, sort } }));
+	const { data: allTags } = useResumeTags();
+	const { data: resumes } = useResumes(tags[0]);
 
 	const tagOptions = useMemo(() => {
 		if (!allTags) return [];
@@ -63,7 +60,7 @@ function RouteComponent() {
 	}, [i18n]);
 
 	const onViewChange = (value: string) => {
-		setViewServerFn({ data: value as "grid" | "list" });
+		setResumesView(value as "grid" | "list");
 		router.invalidate();
 	};
 
@@ -136,18 +133,17 @@ function RouteComponent() {
 	);
 }
 
-const RESUMES_VIEW_COOKIE_NAME = "resumes_view";
+const RESUMES_VIEW_KEY = "resumes_view";
 
 const viewSchema = z.enum(["grid", "list"]).catch("grid");
 
-const setViewServerFn = createServerFn({ method: "POST" })
-	.inputValidator(viewSchema)
-	.handler(async ({ data }) => {
-		setCookie(RESUMES_VIEW_COOKIE_NAME, JSON.stringify(data));
-	});
+function setResumesView(view: "grid" | "list") {
+	localStorage.setItem(RESUMES_VIEW_KEY, JSON.stringify(view));
+}
 
-const getViewServerFn = createServerFn({ method: "GET" }).handler(async () => {
-	const view = getCookie(RESUMES_VIEW_COOKIE_NAME);
-	if (!view) return "grid";
-	return viewSchema.parse(JSON.parse(view));
-});
+function getResumesView(): "grid" | "list" {
+	if (typeof window === "undefined") return "grid";
+	const stored = localStorage.getItem(RESUMES_VIEW_KEY);
+	if (!stored) return "grid";
+	return viewSchema.parse(JSON.parse(stored));
+}

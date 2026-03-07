@@ -8,7 +8,6 @@ import {
 	PencilSimpleLineIcon,
 	TrashSimpleIcon,
 } from "@phosphor-icons/react";
-import { useMutation } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { toast } from "sonner";
 import {
@@ -20,10 +19,10 @@ import {
 } from "@/components/ui/context-menu";
 import { useDialogStore } from "@/dialogs/store";
 import { useConfirm } from "@/hooks/use-confirm";
-import { orpc, type RouterOutput } from "@/integrations/orpc/client";
+import { type ResumeListItem, useDeleteResume, useToggleLock } from "@/integrations/api/hooks/resumes";
 
 type Props = {
-	resume: RouterOutput["resume"]["list"][number];
+	resume: ResumeListItem;
 	children: React.ReactNode;
 };
 
@@ -31,8 +30,8 @@ export function ResumeContextMenu({ resume, children }: Props) {
 	const confirm = useConfirm();
 	const { openDialog } = useDialogStore();
 
-	const { mutate: deleteResume } = useMutation(orpc.resume.delete.mutationOptions());
-	const { mutate: setLockedResume } = useMutation(orpc.resume.setLocked.mutationOptions());
+	const { mutate: deleteResume } = useDeleteResume();
+	const { mutate: setLockedResume } = useToggleLock();
 
 	const handleUpdate = () => {
 		openDialog("resume.update", resume);
@@ -43,7 +42,7 @@ export function ResumeContextMenu({ resume, children }: Props) {
 	};
 
 	const handleToggleLock = async () => {
-		if (!resume.isLocked) {
+		if (!resume.is_locked) {
 			const confirmation = await confirm(t`Are you sure you want to lock this resume?`, {
 				description: t`When locked, the resume cannot be updated or deleted.`,
 			});
@@ -51,14 +50,11 @@ export function ResumeContextMenu({ resume, children }: Props) {
 			if (!confirmation) return;
 		}
 
-		setLockedResume(
-			{ id: resume.id, isLocked: !resume.isLocked },
-			{
-				onError: (error) => {
-					toast.error(error.message);
-				},
+		setLockedResume(resume.id, {
+			onError: (error) => {
+				toast.error(error instanceof Error ? error.message : "Failed to toggle lock");
 			},
-		);
+		});
 	};
 
 	const handleDelete = async () => {
@@ -70,17 +66,14 @@ export function ResumeContextMenu({ resume, children }: Props) {
 
 		const toastId = toast.loading(t`Deleting your resume...`);
 
-		deleteResume(
-			{ id: resume.id },
-			{
-				onSuccess: () => {
-					toast.success(t`Your resume has been deleted successfully.`, { id: toastId });
-				},
-				onError: (error) => {
-					toast.error(error.message, { id: toastId });
-				},
+		deleteResume(resume.id, {
+			onSuccess: () => {
+				toast.success(t`Your resume has been deleted successfully.`, { id: toastId });
 			},
-		);
+			onError: (error) => {
+				toast.error(error instanceof Error ? error.message : "Failed to delete resume", { id: toastId });
+			},
+		});
 	};
 
 	return (
@@ -97,7 +90,7 @@ export function ResumeContextMenu({ resume, children }: Props) {
 
 				<ContextMenuSeparator />
 
-				<ContextMenuItem disabled={resume.isLocked} onSelect={handleUpdate}>
+				<ContextMenuItem disabled={resume.is_locked} onSelect={handleUpdate}>
 					<PencilSimpleLineIcon />
 					<Trans>Update</Trans>
 				</ContextMenuItem>
@@ -108,13 +101,13 @@ export function ResumeContextMenu({ resume, children }: Props) {
 				</ContextMenuItem>
 
 				<ContextMenuItem onSelect={handleToggleLock}>
-					{resume.isLocked ? <LockSimpleOpenIcon /> : <LockSimpleIcon />}
-					{resume.isLocked ? <Trans>Unlock</Trans> : <Trans>Lock</Trans>}
+					{resume.is_locked ? <LockSimpleOpenIcon /> : <LockSimpleIcon />}
+					{resume.is_locked ? <Trans>Unlock</Trans> : <Trans>Lock</Trans>}
 				</ContextMenuItem>
 
 				<ContextMenuSeparator />
 
-				<ContextMenuItem variant="destructive" disabled={resume.isLocked} onSelect={handleDelete}>
+				<ContextMenuItem variant="destructive" disabled={resume.is_locked} onSelect={handleDelete}>
 					<TrashSimpleIcon />
 					<Trans>Delete</Trans>
 				</ContextMenuItem>

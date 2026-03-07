@@ -11,7 +11,7 @@ import z from "zod";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { authClient } from "@/integrations/auth/client";
+import { resetPassword } from "@/integrations/auth/client";
 
 const searchSchema = z.object({ token: z.string().min(1) });
 
@@ -49,17 +49,15 @@ function RouteComponent() {
 	const onSubmit = async (data: FormValues) => {
 		const toastId = toast.loading(t`Resetting your password...`);
 
-		const { error } = await authClient.resetPassword({ token, newPassword: data.password });
-
-		if (error) {
-			toast.error(error.message, { id: toastId });
-			return;
+		try {
+			await resetPassword(token, data.password);
+			toast.success(t`Your password has been reset successfully. You can now sign in with your new password.`, {
+				id: toastId,
+			});
+			navigate({ to: "/auth/login" });
+		} catch (error) {
+			toast.error(error instanceof Error ? error.message : t`Failed to reset password.`, { id: toastId });
 		}
-
-		toast.success(t`Your password has been reset successfully. You can now sign in with your new password.`, {
-			id: toastId,
-		});
-		navigate({ to: "/auth/login" });
 	};
 
 	return (

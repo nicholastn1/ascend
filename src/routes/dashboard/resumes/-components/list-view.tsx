@@ -6,13 +6,11 @@ import { AnimatePresence, motion } from "motion/react";
 import { useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { useDialogStore } from "@/dialogs/store";
-import type { RouterOutput } from "@/integrations/orpc/client";
+import type { ResumeListItem } from "@/integrations/api/hooks/resumes";
 import { ResumeDropdownMenu } from "./menus/dropdown-menu";
 
-type Resume = RouterOutput["resume"]["list"][number];
-
 type Props = {
-	resumes: Resume[];
+	resumes: ResumeListItem[];
 };
 
 export function ListView({ resumes }: Props) {
@@ -82,7 +80,7 @@ export function ListView({ resumes }: Props) {
 						exit={{ opacity: 0, x: -50, filter: "blur(12px)" }}
 						transition={{ delay: (index + 2) * 0.05 }}
 					>
-						<ResumeListItem resume={resume} />
+						<ResumeListRow resume={resume} />
 					</motion.div>
 				))}
 			</AnimatePresence>
@@ -90,12 +88,14 @@ export function ListView({ resumes }: Props) {
 	);
 }
 
-function ResumeListItem({ resume }: { resume: Resume }) {
+function ResumeListRow({ resume }: { resume: ResumeListItem }) {
 	const { i18n } = useLingui();
 
 	const updatedAt = useMemo(() => {
-		return Intl.DateTimeFormat(i18n.locale, { dateStyle: "long", timeStyle: "short" }).format(resume.updatedAt);
-	}, [i18n.locale, resume.updatedAt]);
+		return Intl.DateTimeFormat(i18n.locale, { dateStyle: "long", timeStyle: "short" }).format(
+			new Date(resume.updated_at),
+		);
+	}, [i18n.locale, resume.updated_at]);
 
 	return (
 		<div className="flex items-center gap-x-2">

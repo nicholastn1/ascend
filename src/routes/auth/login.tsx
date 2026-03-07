@@ -10,7 +10,7 @@ import z from "zod";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { authClient } from "@/integrations/auth/client";
+import { login } from "@/integrations/auth/client";
 import { SocialAuth } from "./-components/social-auth";
 
 export const Route = createFileRoute("/auth/login")({
@@ -46,31 +46,15 @@ function RouteComponent() {
 		const toastId = toast.loading(t`Signing in...`);
 
 		try {
-			const isEmail = data.identifier.includes("@");
+			const result = await login(data.identifier, data.password);
 
-			const result = isEmail
-				? await authClient.signIn.email({ email: data.identifier, password: data.password })
-				: await authClient.signIn.username({ username: data.identifier, password: data.password });
-
-			if (result.error) {
-				toast.error(result.error.message, { id: toastId });
-				return;
-			}
-
-			const requiresTwoFactor =
-				result.data &&
-				typeof result.data === "object" &&
-				"twoFactorRedirect" in result.data &&
-				result.data.twoFactorRedirect;
-
-			// Credential check passed, but the account still requires a 2FA verification step.
-			if (requiresTwoFactor) {
+			if (result?.two_factor_required && result.temp_token) {
+				sessionStorage.setItem("2fa_temp_token", result.temp_token);
 				toast.dismiss(toastId);
 				navigate({ to: "/auth/verify-2fa", replace: true });
 				return;
 			}
 
-			// Refresh route context so protected routes can read the newly established session.
 			await router.invalidate();
 			toast.dismiss(toastId);
 			navigate({ to: "/dashboard", replace: true });

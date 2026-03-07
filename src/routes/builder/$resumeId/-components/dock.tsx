@@ -2,7 +2,6 @@ import { t } from "@lingui/core/macro";
 import {
 	ArrowUUpLeftIcon,
 	ArrowUUpRightIcon,
-	CircleNotchIcon,
 	CubeFocusIcon,
 	FileJsIcon,
 	FilePdfIcon,
@@ -11,7 +10,7 @@ import {
 	MagnifyingGlassMinusIcon,
 	MagnifyingGlassPlusIcon,
 } from "@phosphor-icons/react";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useParams } from "@tanstack/react-router";
 import { motion } from "motion/react";
 import { useCallback, useMemo } from "react";
@@ -23,22 +22,29 @@ import { AIChat } from "@/components/ai/chat";
 import { useTemporalStore } from "@/components/resume/store/resume";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { authClient } from "@/integrations/auth/client";
-import { orpc } from "@/integrations/orpc/client";
+import { api } from "@/integrations/api/client";
+import { getResumePdfUrl, type Resume, resumeQueryKeys } from "@/integrations/api/hooks/resumes";
+import { useSession } from "@/integrations/auth/client";
 import { downloadFromUrl, downloadWithAnchor, generateFilename } from "@/utils/file";
 import { cn } from "@/utils/style";
 
 export function BuilderDock() {
-	const { data: session } = authClient.useSession();
+	const { data: session } = useSession();
 	const params = useParams({ from: "/builder/$resumeId" });
 
 	const [_, copyToClipboard] = useCopyToClipboard();
 	const { zoomIn, zoomOut, centerView } = useControls();
 
-	const { data: resume } = useQuery(orpc.resume.getById.queryOptions({ input: { id: params.resumeId } }));
-	const { mutateAsync: printResumeAsPDF, isPending: isPrinting } = useMutation(
-		orpc.printer.printResumeAsPDF.mutationOptions(),
-	);
+	const { data: resume } = useQuery<Resume>({
+		queryKey: resumeQueryKeys.detail(params.resumeId),
+		queryFn: async () => {
+			const { data, error } = await api.GET("/api/v1/resumes/{id}", {
+				params: { path: { id: params.resumeId } },
+			});
+			if (error) throw error;
+			return data as unknown as Resume;
+		},
+	});
 
 	const { undo, redo, pastStates, futureStates } = useTemporalStore((state) => ({
 		undo: state.undo,
@@ -72,23 +78,13 @@ export function BuilderDock() {
 		downloadWithAnchor(blob, filename);
 	}, [resume?.data]);
 
-	const onDownloadPDF = useCallback(async () => {
+	const onDownloadPDF = useCallback(() => {
 		if (!resume?.id) return;
 
 		const filename = generateFilename(resume.data.basics.name, "pdf");
-		const toastId = toast.loading(t`Please wait while your PDF is being generated...`, {
-			description: t`This may take a while depending on the server capacity. Please do not close the window or refresh the page.`,
-		});
-
-		try {
-			const { url } = await printResumeAsPDF({ id: resume.id });
-			downloadFromUrl(url, filename);
-		} catch {
-			toast.error(t`There was a problem while generating the PDF, please try again in some time.`);
-		} finally {
-			toast.dismiss(toastId);
-		}
-	}, [resume?.id, resume?.data.basics.name, printResumeAsPDF]);
+		const url = getResumePdfUrl(resume.id);
+		downloadFromUrl(url, filename);
+	}, [resume?.id, resume?.data.basics.name]);
 
 	return (
 		<div className="fixed inset-x-0 bottom-4 flex items-center justify-center">
@@ -125,13 +121,7 @@ export function BuilderDock() {
 				<AIChat />
 				<DockIcon icon={LinkSimpleIcon} title={t`Copy URL`} onClick={() => onCopyUrl()} />
 				<DockIcon icon={FileJsIcon} title={t`Download JSON`} onClick={() => onDownloadJSON()} />
-				<DockIcon
-					title={t`Download PDF`}
-					disabled={isPrinting}
-					onClick={() => onDownloadPDF()}
-					icon={isPrinting ? CircleNotchIcon : FilePdfIcon}
-					iconClassName={cn(isPrinting && "animate-spin")}
-				/>
+				<DockIcon title={t`Download PDF`} onClick={() => onDownloadPDF()} icon={FilePdfIcon} />
 			</motion.div>
 		</div>
 	);

@@ -1,21 +1,14 @@
-import { t } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
-import { CircleNotchIcon, FileJsIcon, FilePdfIcon } from "@phosphor-icons/react";
-import { useMutation } from "@tanstack/react-query";
+import { FileJsIcon, FilePdfIcon } from "@phosphor-icons/react";
 import { useCallback } from "react";
-import { toast } from "sonner";
 import { useResumeStore } from "@/components/resume/store/resume";
 import { Button } from "@/components/ui/button";
-import { orpc } from "@/integrations/orpc/client";
+import { getResumePdfUrl } from "@/integrations/api/hooks/resumes";
 import { downloadFromUrl, downloadWithAnchor, generateFilename } from "@/utils/file";
 import { SectionBase } from "../shared/section-base";
 
 export function ExportSectionBuilder() {
 	const resume = useResumeStore((state) => state.resume);
-
-	const { mutateAsync: printResumeAsPDF, isPending: isPrinting } = useMutation(
-		orpc.printer.printResumeAsPDF.mutationOptions(),
-	);
 
 	const onDownloadJSON = useCallback(() => {
 		const filename = generateFilename(resume.data.basics.name, "json");
@@ -25,21 +18,11 @@ export function ExportSectionBuilder() {
 		downloadWithAnchor(blob, filename);
 	}, [resume]);
 
-	const onDownloadPDF = useCallback(async () => {
+	const onDownloadPDF = useCallback(() => {
 		const filename = generateFilename(resume.data.basics.name, "pdf");
-		const toastId = toast.loading(t`Please wait while your PDF is being generated...`, {
-			description: t`This may take a while depending on the server capacity. Please do not close the window or refresh the page.`,
-		});
-
-		try {
-			const { url } = await printResumeAsPDF({ id: resume.id });
-			downloadFromUrl(url, filename);
-		} catch {
-			toast.error(t`There was a problem while generating the PDF, please try again in some time.`);
-		} finally {
-			toast.dismiss(toastId);
-		}
-	}, [resume, printResumeAsPDF]);
+		const url = getResumePdfUrl(resume.id);
+		downloadFromUrl(url, filename);
+	}, [resume]);
 
 	return (
 		<SectionBase type="export" className="space-y-4">
@@ -62,15 +45,10 @@ export function ExportSectionBuilder() {
 
 			<Button
 				variant="outline"
-				disabled={isPrinting}
 				onClick={onDownloadPDF}
 				className="h-auto gap-x-4 whitespace-normal p-4! text-start font-normal active:scale-98"
 			>
-				{isPrinting ? (
-					<CircleNotchIcon className="size-6 shrink-0 animate-spin" />
-				) : (
-					<FilePdfIcon className="size-6 shrink-0" />
-				)}
+				<FilePdfIcon className="size-6 shrink-0" />
 
 				<div className="flex flex-1 flex-col gap-y-1">
 					<h6 className="font-medium">PDF</h6>

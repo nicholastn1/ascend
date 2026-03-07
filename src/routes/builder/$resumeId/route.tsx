@@ -1,7 +1,4 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
-import { createServerFn } from "@tanstack/react-start";
-import { getCookie, setCookie } from "@tanstack/react-start/server";
 import type React from "react";
 import { useEffect } from "react";
 import { type Layout, usePanelRef } from "react-resizable-panels";
@@ -12,7 +9,8 @@ import { useCSSVariables } from "@/components/resume/hooks/use-css-variables";
 import { useResumeStore } from "@/components/resume/store/resume";
 import { ResizableGroup, ResizablePanel, ResizableSeparator } from "@/components/ui/resizable";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { orpc } from "@/integrations/orpc/client";
+import { api } from "@/integrations/api/client";
+import { type Resume, resumeQueryKeys, useResume } from "@/integrations/api/hooks/resumes";
 import { BuilderHeader } from "./-components/header";
 import { BuilderSidebarLeft } from "./-sidebar/left";
 import { BuilderSidebarRight } from "./-sidebar/right";
@@ -26,8 +24,17 @@ export const Route = createFileRoute("/builder/$resumeId")({
 	},
 	loader: async ({ params, context }) => {
 		const [layout, resume] = await Promise.all([
-			getBuilderLayoutServerFn(),
-			context.queryClient.ensureQueryData(orpc.resume.getById.queryOptions({ input: { id: params.resumeId } })),
+			Promise.resolve(getBuilderLayout()),
+			context.queryClient.ensureQueryData<Resume>({
+				queryKey: resumeQueryKeys.detail(params.resumeId),
+				queryFn: async () => {
+					const { data, error } = await api.GET("/api/v1/resumes/{id}", {
+						params: { path: { id: params.resumeId } },
+					});
+					if (error) throw error;
+					return data as unknown as Resume;
+				},
+			}),
 		]);
 
 		return { layout, name: resume.name };
@@ -41,7 +48,7 @@ function RouteComponent() {
 	const { layout: initialLayout } = Route.useLoaderData();
 
 	const { resumeId } = Route.useParams();
-	const { data: resume } = useSuspenseQuery(orpc.resume.getById.queryOptions({ input: { id: resumeId } }));
+	const { data: resume } = useResume(resumeId);
 
 	const style = useCSSVariables(resume.data);
 	const isReady = useResumeStore((state) => state.isReady);
@@ -76,7 +83,7 @@ function BuilderLayout({ initialLayout, ...props }: BuilderLayoutProps) {
 	}));
 
 	const onLayoutChange = useDebounceCallback((layout: Layout) => {
-		setBuilderLayoutServerFn({ data: layout });
+		setBuilderLayout(layout);
 	}, 200);
 
 	useEffect(() => {
@@ -130,18 +137,17 @@ function BuilderLayout({ initialLayout, ...props }: BuilderLayoutProps) {
 }
 
 const defaultLayout = { left: 30, artboard: 40, right: 30 };
-const BUILDER_LAYOUT_COOKIE_NAME = "builder_layout";
+const BUILDER_LAYOUT_KEY = "builder_layout";
 
 const layoutSchema = z.record(z.string(), z.number()).catch(defaultLayout);
 
-const setBuilderLayoutServerFn = createServerFn({ method: "POST" })
-	.inputValidator(layoutSchema)
-	.handler(async ({ data }) => {
-		setCookie(BUILDER_LAYOUT_COOKIE_NAME, JSON.stringify(data));
-	});
+function setBuilderLayout(layout: Layout) {
+	localStorage.setItem(BUILDER_LAYOUT_KEY, JSON.stringify(layout));
+}
 
-const getBuilderLayoutServerFn = createServerFn({ method: "GET" }).handler(async () => {
-	const layout = getCookie(BUILDER_LAYOUT_COOKIE_NAME);
-	if (!layout) return defaultLayout;
-	return layoutSchema.parse(JSON.parse(layout));
-});
+function getBuilderLayout(): Layout {
+	if (typeof window === "undefined") return defaultLayout;
+	const stored = localStorage.getItem(BUILDER_LAYOUT_KEY);
+	if (!stored) return defaultLayout;
+	return layoutSchema.parse(JSON.parse(stored));
+}

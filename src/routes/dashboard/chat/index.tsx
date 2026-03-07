@@ -1,8 +1,7 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useCallback, useState } from "react";
 import { toast } from "sonner";
-import { orpc } from "@/integrations/orpc/client";
+import { useConversations, useCreateConversation } from "@/integrations/api/hooks/chat";
 import { MessageArea } from "./-components/message-area";
 
 type ChatSearchParams = {
@@ -17,20 +16,19 @@ export const Route = createFileRoute("/dashboard/chat/")({
 });
 
 function RouteComponent() {
-	const queryClient = useQueryClient();
 	const navigate = useNavigate();
 	const { conversationId: activeConversationId } = Route.useSearch();
 	const [pendingMessage, setPendingMessage] = useState<string | null>(null);
 
-	const { data: conversations = [] } = useQuery(orpc.chat.listConversations.queryOptions());
+	const { data: conversations = [] } = useConversations();
 
-	const { mutate: createConversation } = useMutation(orpc.chat.createConversation.mutationOptions());
+	const { mutate: createConversation } = useCreateConversation();
 
 	const handleSendInitialMessage = useCallback(
 		(agentType: "general" | "recruiter-reply", message: string) => {
 			setPendingMessage(message);
 			createConversation(
-				{ agentType },
+				{ agent_type: agentType },
 				{
 					onSuccess: (conversation) => {
 						navigate({
@@ -38,7 +36,6 @@ function RouteComponent() {
 							search: { conversationId: conversation.id },
 							replace: true,
 						});
-						queryClient.invalidateQueries({ queryKey: orpc.chat.listConversations.queryOptions().queryKey });
 					},
 					onError: (error) => {
 						setPendingMessage(null);
@@ -47,11 +44,11 @@ function RouteComponent() {
 				},
 			);
 		},
-		[createConversation, queryClient, navigate],
+		[createConversation, navigate],
 	);
 
 	const activeConversation = conversations.find((c) => c.id === activeConversationId);
-	const currentAgentType = activeConversation?.agentType ?? "general";
+	const currentAgentType = activeConversation?.agent_type ?? "general";
 
 	return (
 		<div className="flex h-[calc(100vh-2rem)] flex-col">
@@ -59,9 +56,7 @@ function RouteComponent() {
 				key={activeConversationId ?? "empty"}
 				conversationId={activeConversationId ?? null}
 				agentType={currentAgentType}
-				onConversationUpdated={() => {
-					queryClient.invalidateQueries({ queryKey: orpc.chat.listConversations.queryOptions().queryKey });
-				}}
+				onConversationUpdated={() => {}}
 				onSendInitialMessage={handleSendInitialMessage}
 				pendingMessage={pendingMessage}
 				onPendingMessageConsumed={() => setPendingMessage(null)}

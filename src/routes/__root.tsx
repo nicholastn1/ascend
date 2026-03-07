@@ -15,18 +15,21 @@ import { Toaster } from "@/components/ui/sonner";
 import { DialogManager } from "@/dialogs/manager";
 import { ConfirmDialogProvider } from "@/hooks/use-confirm";
 import { PromptDialogProvider } from "@/hooks/use-prompt";
+import { api } from "@/integrations/api/client";
 import { getSession } from "@/integrations/auth/functions";
 import type { AuthSession } from "@/integrations/auth/types";
-import { client, type orpc } from "@/integrations/orpc/client";
-import type { FeatureFlags } from "@/integrations/orpc/services/flags";
 import { getLocale, isRTL, type Locale, loadLocale } from "@/utils/locale";
 import { getTheme, type Theme } from "@/utils/theme";
 import appCss from "../styles/globals.css?url";
 
+export type FeatureFlags = {
+	disableSignups: boolean;
+	disableEmailAuth: boolean;
+};
+
 type RouterContext = {
 	theme: Theme;
 	locale: Locale;
-	orpc: typeof orpc;
 	queryClient: QueryClient;
 	session: AuthSession | null;
 	flags: FeatureFlags;
@@ -42,7 +45,7 @@ await loadLocale(await getLocale());
 export const Route = createRootRouteWithContext<RouterContext>()({
 	shellComponent: RootDocument,
 	head: () => {
-		const appUrl = process.env.APP_URL ?? "http://localhost:3000/";
+		const appUrl = process.env.APP_URL ?? "http://localhost:5173/";
 
 		return {
 			links: [
@@ -86,12 +89,20 @@ export const Route = createRootRouteWithContext<RouterContext>()({
 		};
 	},
 	beforeLoad: async () => {
-		const [theme, locale, session, flags] = await Promise.all([
+		const [theme, locale, session, flagsResult] = await Promise.all([
 			getTheme(),
 			getLocale(),
 			getSession(),
-			client.flags.get(),
+			api
+				.GET("/api/v1/flags")
+				.then((r) => r.data)
+				.catch(() => null),
 		]);
+
+		const flags: FeatureFlags = {
+			disableSignups: (flagsResult as Record<string, boolean> | null)?.disable_signups ?? false,
+			disableEmailAuth: (flagsResult as Record<string, boolean> | null)?.disable_email_auth ?? false,
+		};
 
 		return { theme, locale, session, flags };
 	},
