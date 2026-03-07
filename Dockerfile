@@ -1,5 +1,3 @@
-# syntax=docker/dockerfile:1
-
 # ---------- Dependencies Layer ----------
 FROM node:24-slim AS dependencies
 
