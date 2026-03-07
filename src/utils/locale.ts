@@ -1,8 +1,5 @@
 import { i18n, type MessageDescriptor, type Messages } from "@lingui/core";
 import { msg } from "@lingui/core/macro";
-import { createIsomorphicFn, createServerFn } from "@tanstack/react-start";
-import { getCookie, setCookie } from "@tanstack/react-start/server";
-import Cookies from "js-cookie";
 import z from "zod";
 
 const localeSchema = z.union([
@@ -63,7 +60,7 @@ const localeSchema = z.union([
 
 export type Locale = z.infer<typeof localeSchema>;
 
-const storageKey = "locale";
+const STORAGE_KEY = "ascend:locale";
 const defaultLocale: Locale = "en-US";
 
 export const localeMap = {
@@ -144,23 +141,16 @@ export function isRTL(locale: string): boolean {
 	return RTL_LANGUAGES.has(language);
 }
 
-export const getLocale = createIsomorphicFn()
-	.client(() => {
-		const locale = Cookies.get(storageKey);
-		if (!locale || !isLocale(locale)) return defaultLocale;
-		return locale;
-	})
-	.server(async () => {
-		const cookieLocale = getCookie(storageKey);
-		if (!cookieLocale || !isLocale(cookieLocale)) return defaultLocale;
-		return cookieLocale;
-	});
+export function getLocale(): Locale {
+	if (typeof window === "undefined") return defaultLocale;
+	const stored = localStorage.getItem(STORAGE_KEY);
+	if (!stored || !isLocale(stored)) return defaultLocale;
+	return stored;
+}
 
-export const setLocaleServerFn = createServerFn({ method: "POST" })
-	.inputValidator(localeSchema)
-	.handler(async ({ data }) => {
-		setCookie(storageKey, data);
-	});
+export function setLocale(locale: Locale) {
+	localStorage.setItem(STORAGE_KEY, locale);
+}
 
 export const loadLocale = async (locale: string) => {
 	if (!isLocale(locale)) locale = defaultLocale;

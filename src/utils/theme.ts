@@ -1,15 +1,12 @@
 import type { MessageDescriptor } from "@lingui/core";
 import { msg } from "@lingui/core/macro";
-import { createIsomorphicFn, createServerFn } from "@tanstack/react-start";
-import { getCookie, setCookie } from "@tanstack/react-start/server";
-import Cookies from "js-cookie";
 import z from "zod";
 
 const themeSchema = z.union([z.literal("light"), z.literal("dark")]);
 
 export type Theme = z.infer<typeof themeSchema>;
 
-const storageKey = "theme";
+const STORAGE_KEY = "ascend:theme";
 const defaultTheme: Theme = "dark";
 
 export const themeMap = {
@@ -21,20 +18,14 @@ export function isTheme(theme: string): theme is Theme {
 	return themeSchema.safeParse(theme).success;
 }
 
-export const getTheme = createIsomorphicFn()
-	.client(() => {
-		const theme = Cookies.get(storageKey);
-		if (!theme || !isTheme(theme)) return defaultTheme;
-		return theme;
-	})
-	.server(async () => {
-		const cookieTheme = getCookie(storageKey);
-		if (!cookieTheme || !isTheme(cookieTheme)) return defaultTheme;
-		return cookieTheme;
-	});
+export function getTheme(): Theme {
+	if (typeof window === "undefined") return defaultTheme;
+	const stored = localStorage.getItem(STORAGE_KEY);
+	if (!stored || !isTheme(stored)) return defaultTheme;
+	return stored;
+}
 
-export const setThemeServerFn = createServerFn({ method: "POST" })
-	.inputValidator(themeSchema)
-	.handler(async ({ data }) => {
-		setCookie(storageKey, data);
-	});
+export function setTheme(theme: Theme) {
+	localStorage.setItem(STORAGE_KEY, theme);
+	document.documentElement.classList.toggle("dark", theme === "dark");
+}
