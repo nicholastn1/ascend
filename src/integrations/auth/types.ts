@@ -1,11 +1,20 @@
 import z from "zod";
-import type { auth } from "./config";
+
+export type AuthUser = {
+	id: string;
+	name: string;
+	email: string;
+	username: string;
+	display_username: string;
+	image: string | null;
+	email_verified: boolean;
+	two_factor_enabled: boolean;
+	created_at: string;
+	updated_at: string;
+};
 
 export type AuthSession = {
-	session: typeof auth.$Infer.Session.session;
-	user: typeof auth.$Infer.Session.user & {
-		name: string;
-	};
+	user: AuthUser;
 };
 
 const authProviderSchema = z.enum(["credential", "google", "github", "custom"]);
