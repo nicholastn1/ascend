@@ -77,18 +77,10 @@ msgstr "3 個月"
 msgid "6 months"
 msgstr "6 個月"
 
-#: src/dialogs/profile/index.tsx
-msgid "A confirmation link has been sent to your current email address. Please check your inbox to confirm the change."
-msgstr "確認連結已傳送至您目前的電子郵件地址。請檢查收件匣以完成變更確認。"
-
 #: src/routes/builder/$resumeId/-components/dock.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 msgid "A link to your resume has been copied to clipboard."
 msgstr "履歷連結已複製到剪貼簿。"
-
-#: src/dialogs/profile/index.tsx
-msgid "A new verification link has been sent to your email address. Please check your inbox to verify your account."
-msgstr "新的驗證連結已傳送至您的電子郵件地址。請檢查收件匣以驗證您的帳戶。"
 
 #: src/dialogs/resume/index.tsx
 #: src/dialogs/resume/index.tsx
@@ -205,10 +197,6 @@ msgstr "在後方新增列"
 msgid "Add Row Before"
 msgstr "在前方新增列"
 
-#: src/components/ai/chat.tsx
-msgid "Added"
-msgstr ""
-
 #: src/utils/locale.ts
 msgid "Afrikaans"
 msgstr "南非荷蘭語"
@@ -226,12 +214,17 @@ msgstr ""
 msgid "AI Chat"
 msgstr ""
 
+#: src/components/ai/chat.tsx
 #: src/routes/dashboard/chat/-components/message-area.tsx
 msgid "AI chat error"
 msgstr ""
 
 #: src/dialogs/settings/tabs/prompts.tsx
 msgid "AI Prompts"
+msgstr ""
+
+#: src/dialogs/settings/tabs/ai.tsx
+msgid "AI settings saved."
 msgstr ""
 
 #: src/utils/locale.ts
@@ -290,6 +283,10 @@ msgstr "API 存取"
 #: src/dialogs/settings/tabs/ai.tsx
 msgid "API Key"
 msgstr "API Key"
+
+#: src/dialogs/settings/tabs/ai.tsx
+msgid "API key is configured. Leave blank to keep current key."
+msgstr ""
 
 #: src/dialogs/settings/index.tsx
 msgid "API Keys"
@@ -401,6 +398,10 @@ msgstr "顯示比例"
 #: src/dialogs/settings/index.tsx
 msgid "Authentication"
 msgstr "驗證"
+
+#: src/dialogs/auth/disable-two-factor.tsx
+msgid "Authenticator Code"
+msgstr ""
 
 #: src/routes/_home/-sections/features.tsx
 msgid "Available in multiple languages for a localized experience."
@@ -655,6 +656,14 @@ msgstr "公司"
 msgid "Completely free, forever, no hidden costs."
 msgstr "完全免費，永遠如此，沒有任何隱藏費用。"
 
+#: src/dialogs/settings/tabs/ai.tsx
+msgid "Configure the AI provider and model used for all chat conversations. The API key is stored encrypted on the server. Changes apply to all users."
+msgstr ""
+
+#: src/dialogs/settings/tabs/ai.tsx
+msgid "Configured"
+msgstr ""
+
 #: src/dialogs/api-key/create.tsx
 #: src/dialogs/settings/tabs/danger-zone.tsx
 #: src/hooks/use-prompt.tsx
@@ -685,7 +694,6 @@ msgstr ""
 msgid "Content"
 msgstr ""
 
-#: src/dialogs/auth/enable-two-factor.tsx
 #: src/dialogs/auth/enable-two-factor.tsx
 #: src/dialogs/auth/enable-two-factor.tsx
 #: src/routes/auth/register.tsx
@@ -1004,10 +1012,6 @@ msgstr "停用雙因子驗證（2FA）"
 msgid "Disable Two-Factor Authentication"
 msgstr "停用雙因子驗證"
 
-#: src/dialogs/settings/tabs/ai.tsx
-msgid "Disabled"
-msgstr "已停用"
-
 #: src/dialogs/auth/disable-two-factor.tsx
 msgid "Disabling two-factor authentication..."
 msgstr "正在停用雙因子驗證…"
@@ -1040,10 +1044,6 @@ msgstr "下載 JSON"
 #: src/routes/builder/$resumeId/-components/dock.tsx
 msgid "Download PDF"
 msgstr "下載 PDF"
-
-#: src/routes/$username/$slug.tsx
-msgid "Downloading..."
-msgstr "正在下載…"
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/statistics.tsx
 msgid "Downloads"
@@ -1120,7 +1120,6 @@ msgstr "學歷"
 msgid "Email"
 msgstr "電子郵件"
 
-#: src/dialogs/profile/index.tsx
 #: src/routes/auth/forgot-password.tsx
 #: src/routes/auth/login.tsx
 #: src/routes/auth/register.tsx
@@ -1136,25 +1135,13 @@ msgstr "啟用"
 msgid "Enable 2FA"
 msgstr "啟用雙因子驗證"
 
-#: src/dialogs/settings/tabs/ai.tsx
-msgid "Enable AI Features"
-msgstr "啟用 AI 功能"
-
 #: src/dialogs/auth/enable-two-factor.tsx
 msgid "Enable Two-Factor Authentication"
 msgstr "啟用雙因子驗證"
 
-#: src/dialogs/settings/tabs/ai.tsx
-msgid "Enabled"
-msgstr "已啟用"
-
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 msgid "Enabling password protection..."
 msgstr "正在啟用密碼保護…"
-
-#: src/dialogs/auth/enable-two-factor.tsx
-msgid "Enabling two-factor authentication..."
-msgstr "正在啟用雙因子驗證…"
 
 #: src/utils/locale.ts
 msgid "English"
@@ -1163,6 +1150,10 @@ msgstr "英文"
 #: src/routes/_home/-sections/features.tsx
 msgid "Enhance the security of your account with additional layers of protection."
 msgstr "透過額外的保護層級強化您的帳戶安全。"
+
+#: src/dialogs/auth/disable-two-factor.tsx
+msgid "Enter a code from your authenticator app to disable two-factor authentication. Your account will be less secure without 2FA enabled."
+msgstr ""
 
 #: src/routes/auth/verify-2fa-backup.tsx
 msgid "Enter one of your saved backup codes to access your account"
@@ -1176,21 +1167,13 @@ msgstr "輸入要連結到的 URL"
 msgid "Enter the verification code from your authenticator app"
 msgstr "請輸入您驗證器應用程式中的驗證碼"
 
+#: src/dialogs/settings/tabs/ai.tsx
+msgid "Enter your API key"
+msgstr ""
+
 #: src/dialogs/auth/change-password.tsx
 msgid "Enter your current password and a new password to update your account."
 msgstr "請輸入目前密碼與新密碼以更新您的帳戶。"
-
-#: src/dialogs/auth/enable-two-factor.tsx
-msgid "Enter your password to confirm setting up two-factor authentication. When enabled, you'll need to enter a code from your authenticator app every time you log in."
-msgstr "請輸入您的密碼以確認設定雙因子驗證。啟用後，每次登入都需要輸入驗證器應用程式中的驗證碼。"
-
-#: src/dialogs/auth/disable-two-factor.tsx
-msgid "Enter your password to disable two-factor authentication. Your account will be less secure without 2FA enabled."
-msgstr "請輸入您的密碼以停用雙因子驗證。停用後，您的帳戶將會比較不安全。"
-
-#: src/dialogs/settings/tabs/ai.tsx
-msgid "Everything entered here is stored locally on your browser. Your data is only sent to the server when making a request to the AI provider, and is never stored or logged on our servers."
-msgstr "您在這裡輸入的所有內容都會儲存在瀏覽器本機。只有在向 AI 服務提供者發出請求時，您的資料才會被傳送到伺服器，而且絕不會在我們的伺服器上儲存或記錄。"
 
 #: src/routes/_home/-sections/pillars.tsx
 msgid "Everything in one place. With AI to help."
@@ -1213,7 +1196,7 @@ msgstr "經歷"
 msgid "Expires in"
 msgstr "到期時間"
 
-#. placeholder {0}: key.expiresAt?.toLocaleDateString()
+#. placeholder {0}: key.expires_at ? new Date(key.expires_at).toLocaleDateString() : ""
 #: src/dialogs/settings/tabs/api-keys.tsx
 msgid "Expires on {0}"
 msgstr "將於 {0} 到期"
@@ -1230,12 +1213,33 @@ msgstr "導出"
 msgid "Failed to move application."
 msgstr ""
 
+#: src/routes/auth/reset-password.tsx
+msgid "Failed to reset password."
+msgstr ""
+
+#: src/routes/auth/forgot-password.tsx
+msgid "Failed to send password reset email."
+msgstr ""
+
+#: src/dialogs/auth/enable-two-factor.tsx
 #: src/dialogs/auth/enable-two-factor.tsx
 msgid "Failed to setup two-factor authentication."
 msgstr "設定雙因子驗證失敗。"
 
 #: src/routes/auth/login.tsx
 msgid "Failed to sign in. Please try again."
+msgstr ""
+
+#: src/routes/auth/register.tsx
+msgid "Failed to sign up. Please try again."
+msgstr ""
+
+#: src/routes/auth/verify-2fa-backup.tsx
+msgid "Failed to verify backup code."
+msgstr ""
+
+#: src/routes/auth/verify-2fa.tsx
+msgid "Failed to verify code."
 msgstr ""
 
 #: src/routes/_home/-sections/features.tsx
@@ -1621,7 +1625,7 @@ msgstr "語言"
 msgid "Languages"
 msgstr "語言"
 
-#. placeholder {0}: statistics.lastDownloadedAt.toDateString()
+#. placeholder {0}: new Date(statistics.last_downloaded_at).toDateString()
 #: src/routes/builder/$resumeId/-sidebar/right/sections/statistics.tsx
 msgid "Last downloaded on {0}"
 msgstr "上次下載日期：{0}"
@@ -1631,7 +1635,7 @@ msgstr "上次下載日期：{0}"
 msgid "Last updated on {updatedAt}"
 msgstr "最後更新日期 {updatedAt}"
 
-#. placeholder {0}: statistics.lastViewedAt.toDateString()
+#. placeholder {0}: new Date(statistics.last_viewed_at).toDateString()
 #: src/routes/builder/$resumeId/-sidebar/right/sections/statistics.tsx
 msgid "Last viewed on {0}"
 msgstr "上次檢視日期：{0}"
@@ -1712,6 +1716,7 @@ msgid "Loading resumes..."
 msgstr "正在載入履歷…"
 
 #: src/components/layout/loading-screen.tsx
+#: src/dialogs/auth/enable-two-factor.tsx
 msgid "Loading..."
 msgstr "載入中…"
 
@@ -1886,6 +1891,10 @@ msgstr "找不到相符的結果。"
 msgid "Norwegian"
 msgstr "挪威語"
 
+#: src/dialogs/settings/tabs/ai.tsx
+msgid "Not configured"
+msgstr ""
+
 #: src/components/kanban/card.tsx
 #: src/dialogs/application/create.tsx
 #: src/dialogs/application/update.tsx
@@ -1979,8 +1988,6 @@ msgstr "段落"
 msgid "Passkeys & 2FA"
 msgstr "通行金鑰與 2FA"
 
-#: src/dialogs/auth/disable-two-factor.tsx
-#: src/dialogs/auth/enable-two-factor.tsx
 #: src/routes/auth/login.tsx
 #: src/routes/auth/register.tsx
 #: src/routes/auth/resume-password.tsx
@@ -2050,11 +2057,6 @@ msgstr "請輸入履歷擁有者提供給您的密碼以繼續。"
 #: src/components/input/rich-input.tsx
 msgid "Please enter the URL you want to link to:"
 msgstr "請輸入您要連結的 URL："
-
-#: src/routes/builder/$resumeId/-components/dock.tsx
-#: src/routes/builder/$resumeId/-sidebar/right/sections/export.tsx
-msgid "Please wait while your PDF is being generated..."
-msgstr "正在產生您的 PDF，請稍候…"
 
 #: src/utils/locale.ts
 msgid "Polish"
@@ -2209,10 +2211,6 @@ msgstr "想起密碼了嗎？<0><1>立即登入 <2/></1></0>"
 msgid "Remove Password"
 msgstr "移除密碼"
 
-#: src/components/ai/chat.tsx
-msgid "Removed"
-msgstr ""
-
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 msgid "Removing password protection..."
 msgstr "正在移除密碼保護…"
@@ -2220,14 +2218,6 @@ msgstr "正在移除密碼保護…"
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-menu.tsx
 msgid "Rename"
 msgstr "重新命名"
-
-#: src/dialogs/profile/index.tsx
-msgid "Resend verification email"
-msgstr "重新傳送驗證電子郵件"
-
-#: src/dialogs/profile/index.tsx
-msgid "Resending verification email..."
-msgstr "正在重新傳送驗證電子郵件…"
 
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-menu.tsx
 msgid "Reset"
@@ -2317,6 +2307,7 @@ msgstr ""
 #: src/dialogs/resume/sections/skill.tsx
 #: src/dialogs/resume/sections/summary-item.tsx
 #: src/dialogs/resume/sections/volunteer.tsx
+#: src/dialogs/settings/tabs/ai.tsx
 msgid "Save Changes"
 msgstr "儲存變更"
 
@@ -2414,6 +2405,15 @@ msgstr "分隔線"
 msgid "Serbian"
 msgstr "塞爾維亞語"
 
+#: src/dialogs/settings/tabs/ai.tsx
+msgid "Server AI Configuration"
+msgstr ""
+
+#: src/routes/auth/verify-2fa-backup.tsx
+#: src/routes/auth/verify-2fa.tsx
+msgid "Session expired. Please sign in again."
+msgstr ""
+
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 #: src/routes/dashboard/settings/authentication/-components/password.tsx
@@ -2422,6 +2422,14 @@ msgstr "設定密碼"
 
 #: src/routes/_home/-sections/how-it-works.tsx
 msgid "Set up your profile"
+msgstr ""
+
+#: src/dialogs/auth/enable-two-factor.tsx
+msgid "Setting up two-factor authentication. When enabled, you'll need to enter a code from your authenticator app every time you log in."
+msgstr ""
+
+#: src/dialogs/auth/enable-two-factor.tsx
+msgid "Setting up two-factor authentication..."
 msgstr ""
 
 #: src/components/command-palette/pages/navigation.tsx
@@ -2494,15 +2502,9 @@ msgstr "使用 GitHub、Google 或自訂 OAuth 服務登入。"
 msgid "Sign up"
 msgstr "註冊"
 
-#: src/routes/auth/-components/social-auth.tsx
-#: src/routes/auth/-components/social-auth.tsx
 #: src/routes/auth/login.tsx
 msgid "Signing in..."
 msgstr "正在登入…"
-
-#: src/components/user/dropdown-menu.tsx
-msgid "Signing out..."
-msgstr "正在登出…"
 
 #: src/routes/auth/register.tsx
 msgid "Signing up..."
@@ -2532,6 +2534,16 @@ msgstr "斯洛伐克語"
 #: src/dialogs/resume/index.tsx
 msgid "Slug"
 msgstr "標示碼"
+
+#: src/dialogs/api-key/create.tsx
+#: src/dialogs/auth/change-password.tsx
+#: src/dialogs/auth/disable-two-factor.tsx
+#: src/dialogs/profile/index.tsx
+#: src/dialogs/settings/tabs/api-keys.tsx
+#: src/dialogs/settings/tabs/danger-zone.tsx
+#: src/routes/dashboard/settings/authentication/-components/hooks.tsx
+msgid "Something went wrong."
+msgstr ""
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
@@ -2574,6 +2586,7 @@ msgid "Statistics"
 msgstr "統計資料"
 
 #: src/dialogs/application/create.tsx
+#: src/dialogs/settings/tabs/ai.tsx
 msgid "Status"
 msgstr ""
 
@@ -2695,11 +2708,6 @@ msgstr "佈景主題"
 msgid "Then, enter the 6 digit code that the app provides to continue."
 msgstr "接著，請輸入應用程式提供的 6 位數驗證碼以繼續。"
 
-#: src/routes/builder/$resumeId/-components/dock.tsx
-#: src/routes/builder/$resumeId/-sidebar/right/sections/export.tsx
-msgid "There was a problem while generating the PDF, please try again in some time."
-msgstr "產生 PDF 時發生問題，請稍後再試一次。"
-
 #: src/components/ai/chat.tsx
 msgid "Thinking..."
 msgstr ""
@@ -2714,11 +2722,6 @@ msgstr "此動作無法復原。"
 msgid "This action cannot be undone. All your data will be permanently deleted."
 msgstr "此動作無法復原。您的所有資料都將被永久刪除。"
 
-#: src/dialogs/resume/import.tsx
-#: src/dialogs/resume/import.tsx
-msgid "This feature requires AI Integration to be enabled. Please enable it in the settings."
-msgstr "此功能需要啟用 AI 整合。請先在設定中啟用。"
-
 #: src/dialogs/resume/index.tsx
 msgid "This is a URL-friendly name for your resume."
 msgstr "這是用於履歷的 URL 友善名稱。"
@@ -2726,11 +2729,6 @@ msgstr "這是用於履歷的 URL 友善名稱。"
 #: src/dialogs/resume/import.tsx
 msgid "This may take a few minutes, depending on the response of the AI provider. Please do not close the window or refresh the page."
 msgstr "這可能需要幾分鐘，取決於 AI 服務提供者的回應時間。請勿關閉視窗或重新整理頁面。"
-
-#: src/routes/builder/$resumeId/-components/dock.tsx
-#: src/routes/builder/$resumeId/-sidebar/right/sections/export.tsx
-msgid "This may take a while depending on the server capacity. Please do not close the window or refresh the page."
-msgstr "這可能需要一點時間，取決於伺服器資源。請勿關閉視窗或重新整理頁面。"
 
 #: src/components/kanban/analytics/overview-cards.tsx
 msgid "This Month"
@@ -2865,8 +2863,8 @@ msgid "Unlimited Resumes"
 msgstr "無限履歷"
 
 #: src/routes/dashboard/settings/authentication/-components/hooks.tsx
-msgid "Unlinking your {providerName} account..."
-msgstr "正在取消連結您的 {providerName} 帳戶…"
+msgid "Unlinking accounts is not yet supported."
+msgstr ""
 
 #: src/routes/auth/resume-password.tsx
 #: src/routes/builder/$resumeId/-components/header.tsx
@@ -2968,10 +2966,6 @@ msgstr "更新您的密碼"
 msgid "Update your personal information."
 msgstr ""
 
-#: src/components/ai/chat.tsx
-msgid "Updated"
-msgstr ""
-
 #: src/dialogs/auth/change-password.tsx
 msgid "Updating your password..."
 msgstr "正在更新您的密碼…"
@@ -3001,6 +2995,10 @@ msgstr "烏茲別克語"
 #: src/components/input/rich-input.tsx
 msgid "Valid URLs must start with http:// or https://."
 msgstr "有效的 URL 必須以 http:// 或 https:// 開頭。"
+
+#: src/dialogs/auth/enable-two-factor.tsx
+msgid "Verification failed."
+msgstr ""
 
 #: src/dialogs/profile/index.tsx
 msgid "Verified"
@@ -3102,6 +3100,10 @@ msgstr "您也可以使用 Docker 映像檔在自己的伺服器上部署。"
 msgid "You can also use your username to login."
 msgstr "您也可以使用使用者名稱登入。"
 
+#: src/dialogs/settings/tabs/ai.tsx
+msgid "You don't have permission to manage AI settings. Only administrators can access this page."
+msgstr ""
+
 #: src/hooks/use-form-blocker.tsx
 msgid "You have unsaved changes that will be lost."
 msgstr ""
@@ -3138,10 +3140,6 @@ msgstr "您的變更會自動儲存。"
 #: src/routes/_home/-sections/features.tsx
 msgid "Your data is secure, and never shared or sold to anyone."
 msgstr "您的資料是安全的，絕不會與任何人分享或出售。"
-
-#: src/dialogs/settings/tabs/ai.tsx
-msgid "Your data is stored locally"
-msgstr "您的資料將儲存在本機裝置中"
 
 #: src/routes/auth/reset-password.tsx
 msgid "Your password has been reset successfully. You can now sign in with your new password."

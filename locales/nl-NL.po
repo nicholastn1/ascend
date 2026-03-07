@@ -77,18 +77,10 @@ msgstr "3 maanden"
 msgid "6 months"
 msgstr "6 maanden"
 
-#: src/dialogs/profile/index.tsx
-msgid "A confirmation link has been sent to your current email address. Please check your inbox to confirm the change."
-msgstr "Er is een bevestigingslink naar uw huidige e-mailadres gestuurd. Controleer uw inbox om de wijziging te bevestigen."
-
 #: src/routes/builder/$resumeId/-components/dock.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 msgid "A link to your resume has been copied to clipboard."
 msgstr "Er is een link naar uw cv naar het klembord gekopieerd."
-
-#: src/dialogs/profile/index.tsx
-msgid "A new verification link has been sent to your email address. Please check your inbox to verify your account."
-msgstr "Er is een nieuwe verificatielink naar uw e-mailadres gestuurd. Controleer uw inbox om uw account te verifiëren."
 
 #: src/dialogs/resume/index.tsx
 #: src/dialogs/resume/index.tsx
@@ -205,10 +197,6 @@ msgstr "Rij erna toevoegen"
 msgid "Add Row Before"
 msgstr "Rij ervoor toevoegen"
 
-#: src/components/ai/chat.tsx
-msgid "Added"
-msgstr "Toegevoegd"
-
 #: src/utils/locale.ts
 msgid "Afrikaans"
 msgstr "Afrikaans"
@@ -226,12 +214,17 @@ msgstr ""
 msgid "AI Chat"
 msgstr "AI Chatten"
 
+#: src/components/ai/chat.tsx
 #: src/routes/dashboard/chat/-components/message-area.tsx
 msgid "AI chat error"
 msgstr ""
 
 #: src/dialogs/settings/tabs/prompts.tsx
 msgid "AI Prompts"
+msgstr ""
+
+#: src/dialogs/settings/tabs/ai.tsx
+msgid "AI settings saved."
 msgstr ""
 
 #: src/utils/locale.ts
@@ -290,6 +283,10 @@ msgstr "API-toegang"
 #: src/dialogs/settings/tabs/ai.tsx
 msgid "API Key"
 msgstr "API-sleutel"
+
+#: src/dialogs/settings/tabs/ai.tsx
+msgid "API key is configured. Leave blank to keep current key."
+msgstr ""
 
 #: src/dialogs/settings/index.tsx
 msgid "API Keys"
@@ -401,6 +398,10 @@ msgstr "Beeldverhouding"
 #: src/dialogs/settings/index.tsx
 msgid "Authentication"
 msgstr "Authenticatie"
+
+#: src/dialogs/auth/disable-two-factor.tsx
+msgid "Authenticator Code"
+msgstr ""
 
 #: src/routes/_home/-sections/features.tsx
 msgid "Available in multiple languages for a localized experience."
@@ -655,6 +656,14 @@ msgstr "Bedrijf"
 msgid "Completely free, forever, no hidden costs."
 msgstr "Volledig gratis, voor altijd, zonder verborgen kosten."
 
+#: src/dialogs/settings/tabs/ai.tsx
+msgid "Configure the AI provider and model used for all chat conversations. The API key is stored encrypted on the server. Changes apply to all users."
+msgstr ""
+
+#: src/dialogs/settings/tabs/ai.tsx
+msgid "Configured"
+msgstr ""
+
 #: src/dialogs/api-key/create.tsx
 #: src/dialogs/settings/tabs/danger-zone.tsx
 #: src/hooks/use-prompt.tsx
@@ -685,7 +694,6 @@ msgstr ""
 msgid "Content"
 msgstr "Inhoud"
 
-#: src/dialogs/auth/enable-two-factor.tsx
 #: src/dialogs/auth/enable-two-factor.tsx
 #: src/dialogs/auth/enable-two-factor.tsx
 #: src/routes/auth/register.tsx
@@ -1004,10 +1012,6 @@ msgstr "2FA deactiveren"
 msgid "Disable Two-Factor Authentication"
 msgstr "Tweestapsverificatie deactiveren"
 
-#: src/dialogs/settings/tabs/ai.tsx
-msgid "Disabled"
-msgstr "Uitgeschakeld"
-
 #: src/dialogs/auth/disable-two-factor.tsx
 msgid "Disabling two-factor authentication..."
 msgstr "Tweestapsverificatie wordt gedeactiveerd..."
@@ -1040,10 +1044,6 @@ msgstr "JSON downloaden"
 #: src/routes/builder/$resumeId/-components/dock.tsx
 msgid "Download PDF"
 msgstr "PDF downloaden"
-
-#: src/routes/$username/$slug.tsx
-msgid "Downloading..."
-msgstr "Downloaden..."
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/statistics.tsx
 msgid "Downloads"
@@ -1120,7 +1120,6 @@ msgstr "Opleiding"
 msgid "Email"
 msgstr "E-mail"
 
-#: src/dialogs/profile/index.tsx
 #: src/routes/auth/forgot-password.tsx
 #: src/routes/auth/login.tsx
 #: src/routes/auth/register.tsx
@@ -1136,25 +1135,13 @@ msgstr "Inschakelen"
 msgid "Enable 2FA"
 msgstr "2FA inschakelen"
 
-#: src/dialogs/settings/tabs/ai.tsx
-msgid "Enable AI Features"
-msgstr "AI-functies inschakelen"
-
 #: src/dialogs/auth/enable-two-factor.tsx
 msgid "Enable Two-Factor Authentication"
 msgstr "Tweestapsverificatie inschakelen"
 
-#: src/dialogs/settings/tabs/ai.tsx
-msgid "Enabled"
-msgstr "Ingeschakeld"
-
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 msgid "Enabling password protection..."
 msgstr "Wachtwoordbeveiliging wordt ingeschakeld..."
-
-#: src/dialogs/auth/enable-two-factor.tsx
-msgid "Enabling two-factor authentication..."
-msgstr "Tweestapsverificatie wordt ingeschakeld..."
 
 #: src/utils/locale.ts
 msgid "English"
@@ -1163,6 +1150,10 @@ msgstr "Engels"
 #: src/routes/_home/-sections/features.tsx
 msgid "Enhance the security of your account with additional layers of protection."
 msgstr "Verhoog de beveiliging van uw account met extra beschermingslagen."
+
+#: src/dialogs/auth/disable-two-factor.tsx
+msgid "Enter a code from your authenticator app to disable two-factor authentication. Your account will be less secure without 2FA enabled."
+msgstr ""
 
 #: src/routes/auth/verify-2fa-backup.tsx
 msgid "Enter one of your saved backup codes to access your account"
@@ -1176,21 +1167,13 @@ msgstr "Voer de URL in waarnaar gelinkt moet worden"
 msgid "Enter the verification code from your authenticator app"
 msgstr "Voer de verificatiecode uit uw authenticator-app in"
 
+#: src/dialogs/settings/tabs/ai.tsx
+msgid "Enter your API key"
+msgstr ""
+
 #: src/dialogs/auth/change-password.tsx
 msgid "Enter your current password and a new password to update your account."
 msgstr "Voer uw huidige wachtwoord en een nieuw wachtwoord in om uw account bij te werken."
-
-#: src/dialogs/auth/enable-two-factor.tsx
-msgid "Enter your password to confirm setting up two-factor authentication. When enabled, you'll need to enter a code from your authenticator app every time you log in."
-msgstr "Voer uw wachtwoord in om het instellen van tweestapsverificatie te bevestigen. Wanneer dit is ingeschakeld, moet u elke keer dat u inlogt een code uit uw authenticator-app invoeren."
-
-#: src/dialogs/auth/disable-two-factor.tsx
-msgid "Enter your password to disable two-factor authentication. Your account will be less secure without 2FA enabled."
-msgstr "Voer uw wachtwoord in om tweestapsverificatie uit te schakelen. Uw account is minder goed beveiligd zonder 2FA."
-
-#: src/dialogs/settings/tabs/ai.tsx
-msgid "Everything entered here is stored locally on your browser. Your data is only sent to the server when making a request to the AI provider, and is never stored or logged on our servers."
-msgstr "Alles wat u hier invoert, wordt lokaal in uw browser opgeslagen. Uw gegevens worden alleen naar de server verzonden wanneer u een verzoek naar de AI-provider stuurt en worden nooit op onze servers opgeslagen of gelogd."
 
 #: src/routes/_home/-sections/pillars.tsx
 msgid "Everything in one place. With AI to help."
@@ -1213,7 +1196,7 @@ msgstr "Ervaring"
 msgid "Expires in"
 msgstr "Verloopt over"
 
-#. placeholder {0}: key.expiresAt?.toLocaleDateString()
+#. placeholder {0}: key.expires_at ? new Date(key.expires_at).toLocaleDateString() : ""
 #: src/dialogs/settings/tabs/api-keys.tsx
 msgid "Expires on {0}"
 msgstr "Verloopt op {0}"
@@ -1230,12 +1213,33 @@ msgstr "Exporteren"
 msgid "Failed to move application."
 msgstr ""
 
+#: src/routes/auth/reset-password.tsx
+msgid "Failed to reset password."
+msgstr ""
+
+#: src/routes/auth/forgot-password.tsx
+msgid "Failed to send password reset email."
+msgstr ""
+
+#: src/dialogs/auth/enable-two-factor.tsx
 #: src/dialogs/auth/enable-two-factor.tsx
 msgid "Failed to setup two-factor authentication."
 msgstr "Het instellen van tweestapsverificatie is mislukt."
 
 #: src/routes/auth/login.tsx
 msgid "Failed to sign in. Please try again."
+msgstr ""
+
+#: src/routes/auth/register.tsx
+msgid "Failed to sign up. Please try again."
+msgstr ""
+
+#: src/routes/auth/verify-2fa-backup.tsx
+msgid "Failed to verify backup code."
+msgstr ""
+
+#: src/routes/auth/verify-2fa.tsx
+msgid "Failed to verify code."
 msgstr ""
 
 #: src/routes/_home/-sections/features.tsx
@@ -1621,7 +1625,7 @@ msgstr "Taal"
 msgid "Languages"
 msgstr "Talen"
 
-#. placeholder {0}: statistics.lastDownloadedAt.toDateString()
+#. placeholder {0}: new Date(statistics.last_downloaded_at).toDateString()
 #: src/routes/builder/$resumeId/-sidebar/right/sections/statistics.tsx
 msgid "Last downloaded on {0}"
 msgstr "Laatst gedownload op {0}"
@@ -1631,7 +1635,7 @@ msgstr "Laatst gedownload op {0}"
 msgid "Last updated on {updatedAt}"
 msgstr "Laatst bijgewerkt op {updatedAt}"
 
-#. placeholder {0}: statistics.lastViewedAt.toDateString()
+#. placeholder {0}: new Date(statistics.last_viewed_at).toDateString()
 #: src/routes/builder/$resumeId/-sidebar/right/sections/statistics.tsx
 msgid "Last viewed on {0}"
 msgstr "Laatst bekeken op {0}"
@@ -1712,6 +1716,7 @@ msgid "Loading resumes..."
 msgstr "Cv's worden geladen..."
 
 #: src/components/layout/loading-screen.tsx
+#: src/dialogs/auth/enable-two-factor.tsx
 msgid "Loading..."
 msgstr "Laden..."
 
@@ -1886,6 +1891,10 @@ msgstr "Geen resultaten gevonden."
 msgid "Norwegian"
 msgstr "Noors"
 
+#: src/dialogs/settings/tabs/ai.tsx
+msgid "Not configured"
+msgstr ""
+
 #: src/components/kanban/card.tsx
 #: src/dialogs/application/create.tsx
 #: src/dialogs/application/update.tsx
@@ -1979,8 +1988,6 @@ msgstr "Paragraaf"
 msgid "Passkeys & 2FA"
 msgstr "Passkeys & 2FA"
 
-#: src/dialogs/auth/disable-two-factor.tsx
-#: src/dialogs/auth/enable-two-factor.tsx
 #: src/routes/auth/login.tsx
 #: src/routes/auth/register.tsx
 #: src/routes/auth/resume-password.tsx
@@ -2050,11 +2057,6 @@ msgstr "Voer het wachtwoord in dat met u is gedeeld door de eigenaar van het cv 
 #: src/components/input/rich-input.tsx
 msgid "Please enter the URL you want to link to:"
 msgstr "Voer de URL in waarnaar u wilt linken:"
-
-#: src/routes/builder/$resumeId/-components/dock.tsx
-#: src/routes/builder/$resumeId/-sidebar/right/sections/export.tsx
-msgid "Please wait while your PDF is being generated..."
-msgstr "Wacht alstublieft terwijl uw PDF wordt gegenereerd..."
 
 #: src/utils/locale.ts
 msgid "Polish"
@@ -2209,10 +2211,6 @@ msgstr "Herinnert u zich uw wachtwoord? <0><1>Meld u nu aan <2/></1></0>"
 msgid "Remove Password"
 msgstr "Wachtwoord verwijderen"
 
-#: src/components/ai/chat.tsx
-msgid "Removed"
-msgstr "Verwijderd"
-
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 msgid "Removing password protection..."
 msgstr "Wachtwoordbeveiliging wordt verwijderd..."
@@ -2220,14 +2218,6 @@ msgstr "Wachtwoordbeveiliging wordt verwijderd..."
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-menu.tsx
 msgid "Rename"
 msgstr "Hernoemen"
-
-#: src/dialogs/profile/index.tsx
-msgid "Resend verification email"
-msgstr "Verificatie-e-mail opnieuw verzenden"
-
-#: src/dialogs/profile/index.tsx
-msgid "Resending verification email..."
-msgstr "Verificatie-e-mail wordt opnieuw verzonden..."
 
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-menu.tsx
 msgid "Reset"
@@ -2317,6 +2307,7 @@ msgstr ""
 #: src/dialogs/resume/sections/skill.tsx
 #: src/dialogs/resume/sections/summary-item.tsx
 #: src/dialogs/resume/sections/volunteer.tsx
+#: src/dialogs/settings/tabs/ai.tsx
 msgid "Save Changes"
 msgstr "Wijzigingen opslaan"
 
@@ -2414,6 +2405,15 @@ msgstr "Scheidingsteken"
 msgid "Serbian"
 msgstr "Servisch"
 
+#: src/dialogs/settings/tabs/ai.tsx
+msgid "Server AI Configuration"
+msgstr ""
+
+#: src/routes/auth/verify-2fa-backup.tsx
+#: src/routes/auth/verify-2fa.tsx
+msgid "Session expired. Please sign in again."
+msgstr ""
+
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 #: src/routes/dashboard/settings/authentication/-components/password.tsx
@@ -2422,6 +2422,14 @@ msgstr "Wachtwoord instellen"
 
 #: src/routes/_home/-sections/how-it-works.tsx
 msgid "Set up your profile"
+msgstr ""
+
+#: src/dialogs/auth/enable-two-factor.tsx
+msgid "Setting up two-factor authentication. When enabled, you'll need to enter a code from your authenticator app every time you log in."
+msgstr ""
+
+#: src/dialogs/auth/enable-two-factor.tsx
+msgid "Setting up two-factor authentication..."
 msgstr ""
 
 #: src/components/command-palette/pages/navigation.tsx
@@ -2494,15 +2502,9 @@ msgstr "Log in met GitHub, Google of een aangepaste OAuth-provider."
 msgid "Sign up"
 msgstr "Registreren"
 
-#: src/routes/auth/-components/social-auth.tsx
-#: src/routes/auth/-components/social-auth.tsx
 #: src/routes/auth/login.tsx
 msgid "Signing in..."
 msgstr "Bezig met inloggen..."
-
-#: src/components/user/dropdown-menu.tsx
-msgid "Signing out..."
-msgstr "Bezig met uitloggen..."
 
 #: src/routes/auth/register.tsx
 msgid "Signing up..."
@@ -2532,6 +2534,16 @@ msgstr "Slowaaks"
 #: src/dialogs/resume/index.tsx
 msgid "Slug"
 msgstr "Korte naam"
+
+#: src/dialogs/api-key/create.tsx
+#: src/dialogs/auth/change-password.tsx
+#: src/dialogs/auth/disable-two-factor.tsx
+#: src/dialogs/profile/index.tsx
+#: src/dialogs/settings/tabs/api-keys.tsx
+#: src/dialogs/settings/tabs/danger-zone.tsx
+#: src/routes/dashboard/settings/authentication/-components/hooks.tsx
+msgid "Something went wrong."
+msgstr ""
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
@@ -2574,6 +2586,7 @@ msgid "Statistics"
 msgstr "Statistieken"
 
 #: src/dialogs/application/create.tsx
+#: src/dialogs/settings/tabs/ai.tsx
 msgid "Status"
 msgstr ""
 
@@ -2695,11 +2708,6 @@ msgstr "Thema"
 msgid "Then, enter the 6 digit code that the app provides to continue."
 msgstr "Voer vervolgens de 6-cijferige code in die de app geeft om door te gaan."
 
-#: src/routes/builder/$resumeId/-components/dock.tsx
-#: src/routes/builder/$resumeId/-sidebar/right/sections/export.tsx
-msgid "There was a problem while generating the PDF, please try again in some time."
-msgstr "Er is een probleem opgetreden bij het genereren van de PDF, probeer het over enige tijd opnieuw."
-
 #: src/components/ai/chat.tsx
 msgid "Thinking..."
 msgstr "Even nadenken..."
@@ -2714,11 +2722,6 @@ msgstr "Deze actie kan niet ongedaan worden gemaakt."
 msgid "This action cannot be undone. All your data will be permanently deleted."
 msgstr "Deze actie kan niet ongedaan worden gemaakt. Al uw gegevens worden permanent verwijderd."
 
-#: src/dialogs/resume/import.tsx
-#: src/dialogs/resume/import.tsx
-msgid "This feature requires AI Integration to be enabled. Please enable it in the settings."
-msgstr "Deze functie vereist dat AI-integratie is ingeschakeld. Schakel dit in de instellingen in."
-
 #: src/dialogs/resume/index.tsx
 msgid "This is a URL-friendly name for your resume."
 msgstr "Dit is een URL-vriendelijke naam voor uw cv."
@@ -2726,11 +2729,6 @@ msgstr "Dit is een URL-vriendelijke naam voor uw cv."
 #: src/dialogs/resume/import.tsx
 msgid "This may take a few minutes, depending on the response of the AI provider. Please do not close the window or refresh the page."
 msgstr "Dit kan enkele minuten duren, afhankelijk van de reactie van de AI-provider. Sluit het venster niet en ververs de pagina niet."
-
-#: src/routes/builder/$resumeId/-components/dock.tsx
-#: src/routes/builder/$resumeId/-sidebar/right/sections/export.tsx
-msgid "This may take a while depending on the server capacity. Please do not close the window or refresh the page."
-msgstr "Dit kan even duren, afhankelijk van de servercapaciteit. Sluit het venster niet en ververs de pagina niet."
 
 #: src/components/kanban/analytics/overview-cards.tsx
 msgid "This Month"
@@ -2865,8 +2863,8 @@ msgid "Unlimited Resumes"
 msgstr "Onbeperkte cv's"
 
 #: src/routes/dashboard/settings/authentication/-components/hooks.tsx
-msgid "Unlinking your {providerName} account..."
-msgstr "Uw {providerName}-account wordt ontkoppeld..."
+msgid "Unlinking accounts is not yet supported."
+msgstr ""
 
 #: src/routes/auth/resume-password.tsx
 #: src/routes/builder/$resumeId/-components/header.tsx
@@ -2968,10 +2966,6 @@ msgstr "Werk uw wachtwoord bij"
 msgid "Update your personal information."
 msgstr ""
 
-#: src/components/ai/chat.tsx
-msgid "Updated"
-msgstr "Bijgewerkt"
-
 #: src/dialogs/auth/change-password.tsx
 msgid "Updating your password..."
 msgstr "Uw wachtwoord wordt bijgewerkt..."
@@ -3001,6 +2995,10 @@ msgstr "Oezbeeks"
 #: src/components/input/rich-input.tsx
 msgid "Valid URLs must start with http:// or https://."
 msgstr "Geldige URL's moeten beginnen met http:// of https://."
+
+#: src/dialogs/auth/enable-two-factor.tsx
+msgid "Verification failed."
+msgstr ""
 
 #: src/dialogs/profile/index.tsx
 msgid "Verified"
@@ -3102,6 +3100,10 @@ msgstr "U heeft ook de mogelijkheid om het op uw eigen servers te implementeren 
 msgid "You can also use your username to login."
 msgstr "U kunt ook uw gebruikersnaam gebruiken om in te loggen."
 
+#: src/dialogs/settings/tabs/ai.tsx
+msgid "You don't have permission to manage AI settings. Only administrators can access this page."
+msgstr ""
+
 #: src/hooks/use-form-blocker.tsx
 msgid "You have unsaved changes that will be lost."
 msgstr "U hebt niet-opgeslagen wijzigingen die verloren zullen gaan."
@@ -3138,10 +3140,6 @@ msgstr "Uw wijzigingen worden automatisch opgeslagen."
 #: src/routes/_home/-sections/features.tsx
 msgid "Your data is secure, and never shared or sold to anyone."
 msgstr "Uw gegevens zijn veilig en worden nooit met iemand gedeeld of verkocht."
-
-#: src/dialogs/settings/tabs/ai.tsx
-msgid "Your data is stored locally"
-msgstr "Uw gegevens worden lokaal opgeslagen"
 
 #: src/routes/auth/reset-password.tsx
 msgid "Your password has been reset successfully. You can now sign in with your new password."

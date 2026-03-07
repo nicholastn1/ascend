@@ -77,18 +77,10 @@ msgstr "3 måneder"
 msgid "6 months"
 msgstr "6 måneder"
 
-#: src/dialogs/profile/index.tsx
-msgid "A confirmation link has been sent to your current email address. Please check your inbox to confirm the change."
-msgstr "En bekreftelseslenke er sendt til din nåværende e-postadresse. Sjekk innboksen din for å bekrefte endringen."
-
 #: src/routes/builder/$resumeId/-components/dock.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 msgid "A link to your resume has been copied to clipboard."
 msgstr "En lenke til CV-en din er kopiert til utklippstavlen."
-
-#: src/dialogs/profile/index.tsx
-msgid "A new verification link has been sent to your email address. Please check your inbox to verify your account."
-msgstr "En ny bekreftelseslenke er sendt til e-postadressen din. Sjekk innboksen din for å bekrefte kontoen."
 
 #: src/dialogs/resume/index.tsx
 #: src/dialogs/resume/index.tsx
@@ -205,10 +197,6 @@ msgstr "Legg til rad etter"
 msgid "Add Row Before"
 msgstr "Legg til rad før"
 
-#: src/components/ai/chat.tsx
-msgid "Added"
-msgstr ""
-
 #: src/utils/locale.ts
 msgid "Afrikaans"
 msgstr "Afrikaans"
@@ -226,12 +214,17 @@ msgstr ""
 msgid "AI Chat"
 msgstr ""
 
+#: src/components/ai/chat.tsx
 #: src/routes/dashboard/chat/-components/message-area.tsx
 msgid "AI chat error"
 msgstr ""
 
 #: src/dialogs/settings/tabs/prompts.tsx
 msgid "AI Prompts"
+msgstr ""
+
+#: src/dialogs/settings/tabs/ai.tsx
+msgid "AI settings saved."
 msgstr ""
 
 #: src/utils/locale.ts
@@ -290,6 +283,10 @@ msgstr "API-tilgang"
 #: src/dialogs/settings/tabs/ai.tsx
 msgid "API Key"
 msgstr "API-nøkkel"
+
+#: src/dialogs/settings/tabs/ai.tsx
+msgid "API key is configured. Leave blank to keep current key."
+msgstr ""
 
 #: src/dialogs/settings/index.tsx
 msgid "API Keys"
@@ -401,6 +398,10 @@ msgstr "Størrelsesforhold"
 #: src/dialogs/settings/index.tsx
 msgid "Authentication"
 msgstr "Autentisering"
+
+#: src/dialogs/auth/disable-two-factor.tsx
+msgid "Authenticator Code"
+msgstr ""
 
 #: src/routes/_home/-sections/features.tsx
 msgid "Available in multiple languages for a localized experience."
@@ -655,6 +656,14 @@ msgstr "Firma"
 msgid "Completely free, forever, no hidden costs."
 msgstr "Helt gratis, for alltid, uten skjulte kostnader."
 
+#: src/dialogs/settings/tabs/ai.tsx
+msgid "Configure the AI provider and model used for all chat conversations. The API key is stored encrypted on the server. Changes apply to all users."
+msgstr ""
+
+#: src/dialogs/settings/tabs/ai.tsx
+msgid "Configured"
+msgstr ""
+
 #: src/dialogs/api-key/create.tsx
 #: src/dialogs/settings/tabs/danger-zone.tsx
 #: src/hooks/use-prompt.tsx
@@ -685,7 +694,6 @@ msgstr ""
 msgid "Content"
 msgstr ""
 
-#: src/dialogs/auth/enable-two-factor.tsx
 #: src/dialogs/auth/enable-two-factor.tsx
 #: src/dialogs/auth/enable-two-factor.tsx
 #: src/routes/auth/register.tsx
@@ -1004,10 +1012,6 @@ msgstr "Deaktiver 2FA"
 msgid "Disable Two-Factor Authentication"
 msgstr "Deaktiver tofaktorautentisering"
 
-#: src/dialogs/settings/tabs/ai.tsx
-msgid "Disabled"
-msgstr "Deaktivert"
-
 #: src/dialogs/auth/disable-two-factor.tsx
 msgid "Disabling two-factor authentication..."
 msgstr "Deaktiverer tofaktorautentisering..."
@@ -1040,10 +1044,6 @@ msgstr "Last ned JSON"
 #: src/routes/builder/$resumeId/-components/dock.tsx
 msgid "Download PDF"
 msgstr "Last ned PDF"
-
-#: src/routes/$username/$slug.tsx
-msgid "Downloading..."
-msgstr "Laster ned..."
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/statistics.tsx
 msgid "Downloads"
@@ -1120,7 +1120,6 @@ msgstr "Utdanning"
 msgid "Email"
 msgstr "E-post"
 
-#: src/dialogs/profile/index.tsx
 #: src/routes/auth/forgot-password.tsx
 #: src/routes/auth/login.tsx
 #: src/routes/auth/register.tsx
@@ -1136,25 +1135,13 @@ msgstr "Aktiver"
 msgid "Enable 2FA"
 msgstr "Aktiver 2FA"
 
-#: src/dialogs/settings/tabs/ai.tsx
-msgid "Enable AI Features"
-msgstr "Aktiver KI-funksjoner"
-
 #: src/dialogs/auth/enable-two-factor.tsx
 msgid "Enable Two-Factor Authentication"
 msgstr "Aktiver tofaktorautentisering"
 
-#: src/dialogs/settings/tabs/ai.tsx
-msgid "Enabled"
-msgstr "Aktivert"
-
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 msgid "Enabling password protection..."
 msgstr "Aktiverer passordbeskyttelse..."
-
-#: src/dialogs/auth/enable-two-factor.tsx
-msgid "Enabling two-factor authentication..."
-msgstr "Aktiverer tofaktorautentisering..."
 
 #: src/utils/locale.ts
 msgid "English"
@@ -1163,6 +1150,10 @@ msgstr "Engelsk"
 #: src/routes/_home/-sections/features.tsx
 msgid "Enhance the security of your account with additional layers of protection."
 msgstr "Styrk sikkerheten til kontoen din med ekstra lag med beskyttelse."
+
+#: src/dialogs/auth/disable-two-factor.tsx
+msgid "Enter a code from your authenticator app to disable two-factor authentication. Your account will be less secure without 2FA enabled."
+msgstr ""
 
 #: src/routes/auth/verify-2fa-backup.tsx
 msgid "Enter one of your saved backup codes to access your account"
@@ -1176,21 +1167,13 @@ msgstr "Skriv inn URL-en det skal lenkes til"
 msgid "Enter the verification code from your authenticator app"
 msgstr "Skriv inn verifiseringskoden fra autentiseringsappen din"
 
+#: src/dialogs/settings/tabs/ai.tsx
+msgid "Enter your API key"
+msgstr ""
+
 #: src/dialogs/auth/change-password.tsx
 msgid "Enter your current password and a new password to update your account."
 msgstr "Skriv inn nåværende passord og et nytt passord for å oppdatere kontoen din."
-
-#: src/dialogs/auth/enable-two-factor.tsx
-msgid "Enter your password to confirm setting up two-factor authentication. When enabled, you'll need to enter a code from your authenticator app every time you log in."
-msgstr "Skriv inn passordet ditt for å bekrefte at du vil sette opp tofaktorautentisering. Når det er aktivert, må du skrive inn en kode fra autentiseringsappen hver gang du logger inn."
-
-#: src/dialogs/auth/disable-two-factor.tsx
-msgid "Enter your password to disable two-factor authentication. Your account will be less secure without 2FA enabled."
-msgstr "Skriv inn passordet ditt for å deaktivere tofaktorautentisering. Kontoen din vil være mindre sikker uten aktivert 2FA."
-
-#: src/dialogs/settings/tabs/ai.tsx
-msgid "Everything entered here is stored locally on your browser. Your data is only sent to the server when making a request to the AI provider, and is never stored or logged on our servers."
-msgstr "Alt du skriver inn her lagres lokalt i nettleseren din. Dataene dine sendes bare til serveren når du gjør en forespørsel til KI-leverandøren, og lagres eller logges aldri på våre servere."
 
 #: src/routes/_home/-sections/pillars.tsx
 msgid "Everything in one place. With AI to help."
@@ -1213,7 +1196,7 @@ msgstr "Erfaring"
 msgid "Expires in"
 msgstr "Utløper om"
 
-#. placeholder {0}: key.expiresAt?.toLocaleDateString()
+#. placeholder {0}: key.expires_at ? new Date(key.expires_at).toLocaleDateString() : ""
 #: src/dialogs/settings/tabs/api-keys.tsx
 msgid "Expires on {0}"
 msgstr "Utløper {0}"
@@ -1230,12 +1213,33 @@ msgstr "Eksporter"
 msgid "Failed to move application."
 msgstr ""
 
+#: src/routes/auth/reset-password.tsx
+msgid "Failed to reset password."
+msgstr ""
+
+#: src/routes/auth/forgot-password.tsx
+msgid "Failed to send password reset email."
+msgstr ""
+
+#: src/dialogs/auth/enable-two-factor.tsx
 #: src/dialogs/auth/enable-two-factor.tsx
 msgid "Failed to setup two-factor authentication."
 msgstr "Kunne ikke sette opp tofaktorautentisering."
 
 #: src/routes/auth/login.tsx
 msgid "Failed to sign in. Please try again."
+msgstr ""
+
+#: src/routes/auth/register.tsx
+msgid "Failed to sign up. Please try again."
+msgstr ""
+
+#: src/routes/auth/verify-2fa-backup.tsx
+msgid "Failed to verify backup code."
+msgstr ""
+
+#: src/routes/auth/verify-2fa.tsx
+msgid "Failed to verify code."
 msgstr ""
 
 #: src/routes/_home/-sections/features.tsx
@@ -1621,7 +1625,7 @@ msgstr "Språk"
 msgid "Languages"
 msgstr "Språk"
 
-#. placeholder {0}: statistics.lastDownloadedAt.toDateString()
+#. placeholder {0}: new Date(statistics.last_downloaded_at).toDateString()
 #: src/routes/builder/$resumeId/-sidebar/right/sections/statistics.tsx
 msgid "Last downloaded on {0}"
 msgstr "Sist lastet ned {0}"
@@ -1631,7 +1635,7 @@ msgstr "Sist lastet ned {0}"
 msgid "Last updated on {updatedAt}"
 msgstr "Sist oppdatert {updatedAt}"
 
-#. placeholder {0}: statistics.lastViewedAt.toDateString()
+#. placeholder {0}: new Date(statistics.last_viewed_at).toDateString()
 #: src/routes/builder/$resumeId/-sidebar/right/sections/statistics.tsx
 msgid "Last viewed on {0}"
 msgstr "Sist vist {0}"
@@ -1712,6 +1716,7 @@ msgid "Loading resumes..."
 msgstr "Laster inn CV-er..."
 
 #: src/components/layout/loading-screen.tsx
+#: src/dialogs/auth/enable-two-factor.tsx
 msgid "Loading..."
 msgstr "Laster..."
 
@@ -1886,6 +1891,10 @@ msgstr "Ingen resultater funnet."
 msgid "Norwegian"
 msgstr "Norsk"
 
+#: src/dialogs/settings/tabs/ai.tsx
+msgid "Not configured"
+msgstr ""
+
 #: src/components/kanban/card.tsx
 #: src/dialogs/application/create.tsx
 #: src/dialogs/application/update.tsx
@@ -1979,8 +1988,6 @@ msgstr "Avsnitt"
 msgid "Passkeys & 2FA"
 msgstr "Passnøkler og 2FA"
 
-#: src/dialogs/auth/disable-two-factor.tsx
-#: src/dialogs/auth/enable-two-factor.tsx
 #: src/routes/auth/login.tsx
 #: src/routes/auth/register.tsx
 #: src/routes/auth/resume-password.tsx
@@ -2050,11 +2057,6 @@ msgstr "Skriv inn passordet som er delt med deg av eieren av CV-en for å fortse
 #: src/components/input/rich-input.tsx
 msgid "Please enter the URL you want to link to:"
 msgstr "Skriv inn URL-en du vil lenke til:"
-
-#: src/routes/builder/$resumeId/-components/dock.tsx
-#: src/routes/builder/$resumeId/-sidebar/right/sections/export.tsx
-msgid "Please wait while your PDF is being generated..."
-msgstr "Vent mens PDF-en din genereres..."
 
 #: src/utils/locale.ts
 msgid "Polish"
@@ -2209,10 +2211,6 @@ msgstr "Husker du passordet ditt? <0><1>Logg inn nå <2/></1></0>"
 msgid "Remove Password"
 msgstr "Fjern passord"
 
-#: src/components/ai/chat.tsx
-msgid "Removed"
-msgstr ""
-
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 msgid "Removing password protection..."
 msgstr "Fjerner passordbeskyttelse..."
@@ -2220,14 +2218,6 @@ msgstr "Fjerner passordbeskyttelse..."
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-menu.tsx
 msgid "Rename"
 msgstr "Endre navn"
-
-#: src/dialogs/profile/index.tsx
-msgid "Resend verification email"
-msgstr "Send verifiserings-e-post på nytt"
-
-#: src/dialogs/profile/index.tsx
-msgid "Resending verification email..."
-msgstr "Sender verifiserings-e-post på nytt..."
 
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-menu.tsx
 msgid "Reset"
@@ -2317,6 +2307,7 @@ msgstr ""
 #: src/dialogs/resume/sections/skill.tsx
 #: src/dialogs/resume/sections/summary-item.tsx
 #: src/dialogs/resume/sections/volunteer.tsx
+#: src/dialogs/settings/tabs/ai.tsx
 msgid "Save Changes"
 msgstr "Lagre endringer"
 
@@ -2414,6 +2405,15 @@ msgstr "Skillelinje"
 msgid "Serbian"
 msgstr "Serbisk"
 
+#: src/dialogs/settings/tabs/ai.tsx
+msgid "Server AI Configuration"
+msgstr ""
+
+#: src/routes/auth/verify-2fa-backup.tsx
+#: src/routes/auth/verify-2fa.tsx
+msgid "Session expired. Please sign in again."
+msgstr ""
+
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 #: src/routes/dashboard/settings/authentication/-components/password.tsx
@@ -2422,6 +2422,14 @@ msgstr "Angi passord"
 
 #: src/routes/_home/-sections/how-it-works.tsx
 msgid "Set up your profile"
+msgstr ""
+
+#: src/dialogs/auth/enable-two-factor.tsx
+msgid "Setting up two-factor authentication. When enabled, you'll need to enter a code from your authenticator app every time you log in."
+msgstr ""
+
+#: src/dialogs/auth/enable-two-factor.tsx
+msgid "Setting up two-factor authentication..."
 msgstr ""
 
 #: src/components/command-palette/pages/navigation.tsx
@@ -2494,15 +2502,9 @@ msgstr "Logg inn med GitHub, Google eller en egendefinert OAuth-leverandør."
 msgid "Sign up"
 msgstr "Registrer deg"
 
-#: src/routes/auth/-components/social-auth.tsx
-#: src/routes/auth/-components/social-auth.tsx
 #: src/routes/auth/login.tsx
 msgid "Signing in..."
 msgstr "Logger inn..."
-
-#: src/components/user/dropdown-menu.tsx
-msgid "Signing out..."
-msgstr "Logger ut..."
 
 #: src/routes/auth/register.tsx
 msgid "Signing up..."
@@ -2532,6 +2534,16 @@ msgstr "Slovakisk"
 #: src/dialogs/resume/index.tsx
 msgid "Slug"
 msgstr "Forkortelse"
+
+#: src/dialogs/api-key/create.tsx
+#: src/dialogs/auth/change-password.tsx
+#: src/dialogs/auth/disable-two-factor.tsx
+#: src/dialogs/profile/index.tsx
+#: src/dialogs/settings/tabs/api-keys.tsx
+#: src/dialogs/settings/tabs/danger-zone.tsx
+#: src/routes/dashboard/settings/authentication/-components/hooks.tsx
+msgid "Something went wrong."
+msgstr ""
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
@@ -2574,6 +2586,7 @@ msgid "Statistics"
 msgstr "Statistikk"
 
 #: src/dialogs/application/create.tsx
+#: src/dialogs/settings/tabs/ai.tsx
 msgid "Status"
 msgstr ""
 
@@ -2695,11 +2708,6 @@ msgstr "Tema"
 msgid "Then, enter the 6 digit code that the app provides to continue."
 msgstr "Skriv deretter inn den 6-sifrede koden som appen gir deg for å fortsette."
 
-#: src/routes/builder/$resumeId/-components/dock.tsx
-#: src/routes/builder/$resumeId/-sidebar/right/sections/export.tsx
-msgid "There was a problem while generating the PDF, please try again in some time."
-msgstr "Det oppstod et problem under generering av PDF-en, prøv igjen om en stund."
-
 #: src/components/ai/chat.tsx
 msgid "Thinking..."
 msgstr ""
@@ -2714,11 +2722,6 @@ msgstr "Denne handlingen kan ikke angres."
 msgid "This action cannot be undone. All your data will be permanently deleted."
 msgstr "Denne handlingen kan ikke angres. Alle dataene dine vil bli slettet permanent."
 
-#: src/dialogs/resume/import.tsx
-#: src/dialogs/resume/import.tsx
-msgid "This feature requires AI Integration to be enabled. Please enable it in the settings."
-msgstr "Denne funksjonen krever at KI-integrasjon er aktivert. Aktiver det i innstillingene."
-
 #: src/dialogs/resume/index.tsx
 msgid "This is a URL-friendly name for your resume."
 msgstr "Dette er et URL-vennlig navn på CV-en din."
@@ -2726,11 +2729,6 @@ msgstr "Dette er et URL-vennlig navn på CV-en din."
 #: src/dialogs/resume/import.tsx
 msgid "This may take a few minutes, depending on the response of the AI provider. Please do not close the window or refresh the page."
 msgstr "Dette kan ta noen minutter, avhengig av responsen fra KI-leverandøren. Ikke lukk vinduet eller oppdater siden."
-
-#: src/routes/builder/$resumeId/-components/dock.tsx
-#: src/routes/builder/$resumeId/-sidebar/right/sections/export.tsx
-msgid "This may take a while depending on the server capacity. Please do not close the window or refresh the page."
-msgstr "Dette kan ta en stund, avhengig av serverkapasitet. Ikke lukk vinduet eller oppdater siden."
 
 #: src/components/kanban/analytics/overview-cards.tsx
 msgid "This Month"
@@ -2865,8 +2863,8 @@ msgid "Unlimited Resumes"
 msgstr "Ubegrenset antall CV-er"
 
 #: src/routes/dashboard/settings/authentication/-components/hooks.tsx
-msgid "Unlinking your {providerName} account..."
-msgstr "Fjerner koblingen til {providerName}-kontoen din..."
+msgid "Unlinking accounts is not yet supported."
+msgstr ""
 
 #: src/routes/auth/resume-password.tsx
 #: src/routes/builder/$resumeId/-components/header.tsx
@@ -2968,10 +2966,6 @@ msgstr "Oppdater passordet ditt"
 msgid "Update your personal information."
 msgstr ""
 
-#: src/components/ai/chat.tsx
-msgid "Updated"
-msgstr ""
-
 #: src/dialogs/auth/change-password.tsx
 msgid "Updating your password..."
 msgstr "Oppdaterer passordet ditt..."
@@ -3001,6 +2995,10 @@ msgstr "Usbekisk"
 #: src/components/input/rich-input.tsx
 msgid "Valid URLs must start with http:// or https://."
 msgstr "Gyldige URL-er må starte med http:// eller https://."
+
+#: src/dialogs/auth/enable-two-factor.tsx
+msgid "Verification failed."
+msgstr ""
 
 #: src/dialogs/profile/index.tsx
 msgid "Verified"
@@ -3102,6 +3100,10 @@ msgstr "Du kan også velge å distribuere på egne servere ved å bruke Docker-i
 msgid "You can also use your username to login."
 msgstr "Du kan også bruke brukernavnet ditt til å logge inn."
 
+#: src/dialogs/settings/tabs/ai.tsx
+msgid "You don't have permission to manage AI settings. Only administrators can access this page."
+msgstr ""
+
 #: src/hooks/use-form-blocker.tsx
 msgid "You have unsaved changes that will be lost."
 msgstr ""
@@ -3138,10 +3140,6 @@ msgstr "Endringene dine lagres automatisk."
 #: src/routes/_home/-sections/features.tsx
 msgid "Your data is secure, and never shared or sold to anyone."
 msgstr "Dataene dine er sikre, og blir aldri delt eller solgt til noen."
-
-#: src/dialogs/settings/tabs/ai.tsx
-msgid "Your data is stored locally"
-msgstr "Dataene dine lagres lokalt"
 
 #: src/routes/auth/reset-password.tsx
 msgid "Your password has been reset successfully. You can now sign in with your new password."

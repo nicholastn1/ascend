@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { API_BASE, api } from "@/integrations/api/client";
+import { API_BASE } from "@/integrations/api/client";
 
 export type AiConfig = {
 	provider: string;

@@ -14,7 +14,6 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
 import { useFormBlocker } from "@/hooks/use-form-blocker";
-import { useAIStore } from "@/integrations/ai/store";
 import { API_BASE } from "@/integrations/api/client";
 import { useImportResume } from "@/integrations/api/hooks/resumes";
 import { AscendJSONImporter } from "@/integrations/import/ascend-json";
@@ -64,7 +63,6 @@ const formSchema = z.discriminatedUnion("type", [
 type FormValues = z.infer<typeof formSchema>;
 
 export function ImportResumeDialog(_: DialogProps<"resume.import">) {
-	const { enabled: isAIEnabled, provider, model, apiKey, baseURL } = useAIStore();
 	const closeDialog = useDialogStore((state) => state.closeDialog);
 
 	const prevTypeRef = useRef<string>("");
@@ -132,43 +130,31 @@ export function ImportResumeDialog(_: DialogProps<"resume.import">) {
 			}
 
 			if (values.type === "pdf") {
-				if (!isAIEnabled)
-					throw new Error(t`This feature requires AI Integration to be enabled. Please enable it in the settings.`);
-
 				const formData = new FormData();
 				formData.append("file", values.file);
-				formData.append("provider", provider);
-				formData.append("model", model);
-				if (apiKey) formData.append("api_key", apiKey);
-				if (baseURL) formData.append("base_url", baseURL);
 
 				const res = await fetch(`${API_BASE}/api/v1/ai/parse-pdf`, {
 					method: "POST",
 					credentials: "include",
 					body: formData,
 				});
-				if (!res.ok) throw new Error("Failed to parse PDF");
-				data = await res.json();
+				const payload = await res.json().catch(() => null);
+				if (!res.ok) throw new Error(payload?.error ?? "Failed to parse PDF");
+				data = payload?.data;
 			}
 
 			if (values.type === "docx") {
-				if (!isAIEnabled)
-					throw new Error(t`This feature requires AI Integration to be enabled. Please enable it in the settings.`);
-
 				const formData = new FormData();
 				formData.append("file", values.file);
-				formData.append("provider", provider);
-				formData.append("model", model);
-				if (apiKey) formData.append("api_key", apiKey);
-				if (baseURL) formData.append("base_url", baseURL);
 
 				const res = await fetch(`${API_BASE}/api/v1/ai/parse-docx`, {
 					method: "POST",
 					credentials: "include",
 					body: formData,
 				});
-				if (!res.ok) throw new Error("Failed to parse document");
-				data = await res.json();
+				const payload = await res.json().catch(() => null);
+				if (!res.ok) throw new Error(payload?.error ?? "Failed to parse document");
+				data = payload?.data;
 			}
 
 			if (!data) throw new Error("No data was returned from the AI provider.");

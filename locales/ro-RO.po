@@ -77,18 +77,10 @@ msgstr "3 luni"
 msgid "6 months"
 msgstr "6 luni"
 
-#: src/dialogs/profile/index.tsx
-msgid "A confirmation link has been sent to your current email address. Please check your inbox to confirm the change."
-msgstr "Un link de confirmare a fost trimis la adresa dvs. de e-mail actuală. Vă rugăm să vă verificați inboxul pentru a confirma modificarea."
-
 #: src/routes/builder/$resumeId/-components/dock.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 msgid "A link to your resume has been copied to clipboard."
 msgstr "Un link către CV-ul dvs. a fost copiat în clipboard."
-
-#: src/dialogs/profile/index.tsx
-msgid "A new verification link has been sent to your email address. Please check your inbox to verify your account."
-msgstr "Un nou link de verificare a fost trimis la adresa dvs. de e-mail. Vă rugăm să vă verificați inboxul pentru a vă verifica contul."
 
 #: src/dialogs/resume/index.tsx
 #: src/dialogs/resume/index.tsx
@@ -205,10 +197,6 @@ msgstr "Adăugați rând după"
 msgid "Add Row Before"
 msgstr "Adăugați rând înainte"
 
-#: src/components/ai/chat.tsx
-msgid "Added"
-msgstr ""
-
 #: src/utils/locale.ts
 msgid "Afrikaans"
 msgstr "Afrikaans"
@@ -226,12 +214,17 @@ msgstr ""
 msgid "AI Chat"
 msgstr ""
 
+#: src/components/ai/chat.tsx
 #: src/routes/dashboard/chat/-components/message-area.tsx
 msgid "AI chat error"
 msgstr ""
 
 #: src/dialogs/settings/tabs/prompts.tsx
 msgid "AI Prompts"
+msgstr ""
+
+#: src/dialogs/settings/tabs/ai.tsx
+msgid "AI settings saved."
 msgstr ""
 
 #: src/utils/locale.ts
@@ -290,6 +283,10 @@ msgstr "Acces API"
 #: src/dialogs/settings/tabs/ai.tsx
 msgid "API Key"
 msgstr "Cheie API"
+
+#: src/dialogs/settings/tabs/ai.tsx
+msgid "API key is configured. Leave blank to keep current key."
+msgstr ""
 
 #: src/dialogs/settings/index.tsx
 msgid "API Keys"
@@ -401,6 +398,10 @@ msgstr "Raport de aspect"
 #: src/dialogs/settings/index.tsx
 msgid "Authentication"
 msgstr "Autentificare"
+
+#: src/dialogs/auth/disable-two-factor.tsx
+msgid "Authenticator Code"
+msgstr ""
 
 #: src/routes/_home/-sections/features.tsx
 msgid "Available in multiple languages for a localized experience."
@@ -655,6 +656,14 @@ msgstr "Companie"
 msgid "Completely free, forever, no hidden costs."
 msgstr "Complet gratuit, pentru totdeauna, fără costuri ascunse."
 
+#: src/dialogs/settings/tabs/ai.tsx
+msgid "Configure the AI provider and model used for all chat conversations. The API key is stored encrypted on the server. Changes apply to all users."
+msgstr ""
+
+#: src/dialogs/settings/tabs/ai.tsx
+msgid "Configured"
+msgstr ""
+
 #: src/dialogs/api-key/create.tsx
 #: src/dialogs/settings/tabs/danger-zone.tsx
 #: src/hooks/use-prompt.tsx
@@ -685,7 +694,6 @@ msgstr ""
 msgid "Content"
 msgstr ""
 
-#: src/dialogs/auth/enable-two-factor.tsx
 #: src/dialogs/auth/enable-two-factor.tsx
 #: src/dialogs/auth/enable-two-factor.tsx
 #: src/routes/auth/register.tsx
@@ -1004,10 +1012,6 @@ msgstr "Dezactivează 2FA"
 msgid "Disable Two-Factor Authentication"
 msgstr "Dezactivează autentificarea cu doi factori"
 
-#: src/dialogs/settings/tabs/ai.tsx
-msgid "Disabled"
-msgstr "Dezactivat"
-
 #: src/dialogs/auth/disable-two-factor.tsx
 msgid "Disabling two-factor authentication..."
 msgstr "Se dezactivează autentificarea cu doi factori..."
@@ -1040,10 +1044,6 @@ msgstr "Descarcă JSON"
 #: src/routes/builder/$resumeId/-components/dock.tsx
 msgid "Download PDF"
 msgstr "Descarcă PDF-ul"
-
-#: src/routes/$username/$slug.tsx
-msgid "Downloading..."
-msgstr "Se descarcă..."
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/statistics.tsx
 msgid "Downloads"
@@ -1120,7 +1120,6 @@ msgstr "Educație"
 msgid "Email"
 msgstr "E-mail"
 
-#: src/dialogs/profile/index.tsx
 #: src/routes/auth/forgot-password.tsx
 #: src/routes/auth/login.tsx
 #: src/routes/auth/register.tsx
@@ -1136,25 +1135,13 @@ msgstr "Activează"
 msgid "Enable 2FA"
 msgstr "Activează 2FA"
 
-#: src/dialogs/settings/tabs/ai.tsx
-msgid "Enable AI Features"
-msgstr "Activează funcționalitățile AI"
-
 #: src/dialogs/auth/enable-two-factor.tsx
 msgid "Enable Two-Factor Authentication"
 msgstr "Activează autentificarea cu doi factori"
 
-#: src/dialogs/settings/tabs/ai.tsx
-msgid "Enabled"
-msgstr "Activat"
-
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 msgid "Enabling password protection..."
 msgstr "Se activează protecția prin parolă..."
-
-#: src/dialogs/auth/enable-two-factor.tsx
-msgid "Enabling two-factor authentication..."
-msgstr "Se activează autentificarea cu doi factori..."
 
 #: src/utils/locale.ts
 msgid "English"
@@ -1163,6 +1150,10 @@ msgstr "Engleză"
 #: src/routes/_home/-sections/features.tsx
 msgid "Enhance the security of your account with additional layers of protection."
 msgstr "Sporiți securitatea contului prin straturi suplimentare de protecție."
+
+#: src/dialogs/auth/disable-two-factor.tsx
+msgid "Enter a code from your authenticator app to disable two-factor authentication. Your account will be less secure without 2FA enabled."
+msgstr ""
 
 #: src/routes/auth/verify-2fa-backup.tsx
 msgid "Enter one of your saved backup codes to access your account"
@@ -1176,21 +1167,13 @@ msgstr "Introduceți URL-ul la care să se facă link"
 msgid "Enter the verification code from your authenticator app"
 msgstr "Introduceți codul de verificare din aplicația de autentificare"
 
+#: src/dialogs/settings/tabs/ai.tsx
+msgid "Enter your API key"
+msgstr ""
+
 #: src/dialogs/auth/change-password.tsx
 msgid "Enter your current password and a new password to update your account."
 msgstr "Introduceți parola curentă și o parolă nouă pentru a vă actualiza contul."
-
-#: src/dialogs/auth/enable-two-factor.tsx
-msgid "Enter your password to confirm setting up two-factor authentication. When enabled, you'll need to enter a code from your authenticator app every time you log in."
-msgstr "Introduceți parola pentru a confirma configurarea autentificării cu doi factori. Când este activată, va trebui să introduceți un cod din aplicația de autentificare de fiecare dată când vă conectați."
-
-#: src/dialogs/auth/disable-two-factor.tsx
-msgid "Enter your password to disable two-factor authentication. Your account will be less secure without 2FA enabled."
-msgstr "Introduceți parola pentru a dezactiva autentificarea cu doi factori. Contul va fi mai puțin sigur fără 2FA activat."
-
-#: src/dialogs/settings/tabs/ai.tsx
-msgid "Everything entered here is stored locally on your browser. Your data is only sent to the server when making a request to the AI provider, and is never stored or logged on our servers."
-msgstr "Tot ce introduceți aici este stocat local în browserul dvs. Datele sunt trimise către server doar atunci când faceți o cerere către furnizorul AI și nu sunt niciodată stocate sau jurnalizate pe serverele noastre."
 
 #: src/routes/_home/-sections/pillars.tsx
 msgid "Everything in one place. With AI to help."
@@ -1213,7 +1196,7 @@ msgstr "Experiență"
 msgid "Expires in"
 msgstr "Expiră în"
 
-#. placeholder {0}: key.expiresAt?.toLocaleDateString()
+#. placeholder {0}: key.expires_at ? new Date(key.expires_at).toLocaleDateString() : ""
 #: src/dialogs/settings/tabs/api-keys.tsx
 msgid "Expires on {0}"
 msgstr "Expiră la {0}"
@@ -1230,12 +1213,33 @@ msgstr "Exportă"
 msgid "Failed to move application."
 msgstr ""
 
+#: src/routes/auth/reset-password.tsx
+msgid "Failed to reset password."
+msgstr ""
+
+#: src/routes/auth/forgot-password.tsx
+msgid "Failed to send password reset email."
+msgstr ""
+
+#: src/dialogs/auth/enable-two-factor.tsx
 #: src/dialogs/auth/enable-two-factor.tsx
 msgid "Failed to setup two-factor authentication."
 msgstr "Configurarea autentificării cu doi factori a eșuat."
 
 #: src/routes/auth/login.tsx
 msgid "Failed to sign in. Please try again."
+msgstr ""
+
+#: src/routes/auth/register.tsx
+msgid "Failed to sign up. Please try again."
+msgstr ""
+
+#: src/routes/auth/verify-2fa-backup.tsx
+msgid "Failed to verify backup code."
+msgstr ""
+
+#: src/routes/auth/verify-2fa.tsx
+msgid "Failed to verify code."
 msgstr ""
 
 #: src/routes/_home/-sections/features.tsx
@@ -1621,7 +1625,7 @@ msgstr "Limbă"
 msgid "Languages"
 msgstr "Limbi"
 
-#. placeholder {0}: statistics.lastDownloadedAt.toDateString()
+#. placeholder {0}: new Date(statistics.last_downloaded_at).toDateString()
 #: src/routes/builder/$resumeId/-sidebar/right/sections/statistics.tsx
 msgid "Last downloaded on {0}"
 msgstr "Ultima descărcare la {0}"
@@ -1631,7 +1635,7 @@ msgstr "Ultima descărcare la {0}"
 msgid "Last updated on {updatedAt}"
 msgstr "Ultima actualizare la {updatedAt}"
 
-#. placeholder {0}: statistics.lastViewedAt.toDateString()
+#. placeholder {0}: new Date(statistics.last_viewed_at).toDateString()
 #: src/routes/builder/$resumeId/-sidebar/right/sections/statistics.tsx
 msgid "Last viewed on {0}"
 msgstr "Ultima vizualizare la {0}"
@@ -1712,6 +1716,7 @@ msgid "Loading resumes..."
 msgstr "Se încarcă CV-urile..."
 
 #: src/components/layout/loading-screen.tsx
+#: src/dialogs/auth/enable-two-factor.tsx
 msgid "Loading..."
 msgstr "Se încarcă..."
 
@@ -1886,6 +1891,10 @@ msgstr "Nu s-a găsit niciun rezultat."
 msgid "Norwegian"
 msgstr "Norvegiană"
 
+#: src/dialogs/settings/tabs/ai.tsx
+msgid "Not configured"
+msgstr ""
+
 #: src/components/kanban/card.tsx
 #: src/dialogs/application/create.tsx
 #: src/dialogs/application/update.tsx
@@ -1979,8 +1988,6 @@ msgstr "Paragraf"
 msgid "Passkeys & 2FA"
 msgstr "Chei de acces & 2FA"
 
-#: src/dialogs/auth/disable-two-factor.tsx
-#: src/dialogs/auth/enable-two-factor.tsx
 #: src/routes/auth/login.tsx
 #: src/routes/auth/register.tsx
 #: src/routes/auth/resume-password.tsx
@@ -2050,11 +2057,6 @@ msgstr "Introduceți parola primită de la proprietarul CV-ului pentru a continu
 #: src/components/input/rich-input.tsx
 msgid "Please enter the URL you want to link to:"
 msgstr "Introduceți URL-ul la care doriți să faceți link:"
-
-#: src/routes/builder/$resumeId/-components/dock.tsx
-#: src/routes/builder/$resumeId/-sidebar/right/sections/export.tsx
-msgid "Please wait while your PDF is being generated..."
-msgstr "Vă rugăm să așteptați în timp ce se generează PDF-ul..."
 
 #: src/utils/locale.ts
 msgid "Polish"
@@ -2209,10 +2211,6 @@ msgstr "Vă amintiți parola? <0><1>Autentificați-vă acum <2/></1></0>"
 msgid "Remove Password"
 msgstr "Elimină parola"
 
-#: src/components/ai/chat.tsx
-msgid "Removed"
-msgstr ""
-
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 msgid "Removing password protection..."
 msgstr "Se elimină protecția prin parolă..."
@@ -2220,14 +2218,6 @@ msgstr "Se elimină protecția prin parolă..."
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-menu.tsx
 msgid "Rename"
 msgstr "Redenumește"
-
-#: src/dialogs/profile/index.tsx
-msgid "Resend verification email"
-msgstr "Retrimite e-mailul de verificare"
-
-#: src/dialogs/profile/index.tsx
-msgid "Resending verification email..."
-msgstr "Se retrimite e-mailul de verificare..."
 
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-menu.tsx
 msgid "Reset"
@@ -2317,6 +2307,7 @@ msgstr ""
 #: src/dialogs/resume/sections/skill.tsx
 #: src/dialogs/resume/sections/summary-item.tsx
 #: src/dialogs/resume/sections/volunteer.tsx
+#: src/dialogs/settings/tabs/ai.tsx
 msgid "Save Changes"
 msgstr "Salvează modificările"
 
@@ -2414,6 +2405,15 @@ msgstr "Separator"
 msgid "Serbian"
 msgstr "Sârbă"
 
+#: src/dialogs/settings/tabs/ai.tsx
+msgid "Server AI Configuration"
+msgstr ""
+
+#: src/routes/auth/verify-2fa-backup.tsx
+#: src/routes/auth/verify-2fa.tsx
+msgid "Session expired. Please sign in again."
+msgstr ""
+
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 #: src/routes/dashboard/settings/authentication/-components/password.tsx
@@ -2422,6 +2422,14 @@ msgstr "Setează parolă"
 
 #: src/routes/_home/-sections/how-it-works.tsx
 msgid "Set up your profile"
+msgstr ""
+
+#: src/dialogs/auth/enable-two-factor.tsx
+msgid "Setting up two-factor authentication. When enabled, you'll need to enter a code from your authenticator app every time you log in."
+msgstr ""
+
+#: src/dialogs/auth/enable-two-factor.tsx
+msgid "Setting up two-factor authentication..."
 msgstr ""
 
 #: src/components/command-palette/pages/navigation.tsx
@@ -2494,15 +2502,9 @@ msgstr "Autentificați-vă cu GitHub, Google sau un furnizor OAuth personalizat.
 msgid "Sign up"
 msgstr "Înregistrare"
 
-#: src/routes/auth/-components/social-auth.tsx
-#: src/routes/auth/-components/social-auth.tsx
 #: src/routes/auth/login.tsx
 msgid "Signing in..."
 msgstr "Autentificare..."
-
-#: src/components/user/dropdown-menu.tsx
-msgid "Signing out..."
-msgstr "Se deconectează..."
 
 #: src/routes/auth/register.tsx
 msgid "Signing up..."
@@ -2532,6 +2534,16 @@ msgstr "Slovacă"
 #: src/dialogs/resume/index.tsx
 msgid "Slug"
 msgstr "Slug"
+
+#: src/dialogs/api-key/create.tsx
+#: src/dialogs/auth/change-password.tsx
+#: src/dialogs/auth/disable-two-factor.tsx
+#: src/dialogs/profile/index.tsx
+#: src/dialogs/settings/tabs/api-keys.tsx
+#: src/dialogs/settings/tabs/danger-zone.tsx
+#: src/routes/dashboard/settings/authentication/-components/hooks.tsx
+msgid "Something went wrong."
+msgstr ""
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
@@ -2574,6 +2586,7 @@ msgid "Statistics"
 msgstr "Statistici"
 
 #: src/dialogs/application/create.tsx
+#: src/dialogs/settings/tabs/ai.tsx
 msgid "Status"
 msgstr ""
 
@@ -2695,11 +2708,6 @@ msgstr "Temă"
 msgid "Then, enter the 6 digit code that the app provides to continue."
 msgstr "Apoi introduceți codul din 6 cifre oferit de aplicație pentru a continua."
 
-#: src/routes/builder/$resumeId/-components/dock.tsx
-#: src/routes/builder/$resumeId/-sidebar/right/sections/export.tsx
-msgid "There was a problem while generating the PDF, please try again in some time."
-msgstr "A apărut o problemă la generarea PDF-ului, vă rugăm să încercați din nou peste câteva momente."
-
 #: src/components/ai/chat.tsx
 msgid "Thinking..."
 msgstr ""
@@ -2714,11 +2722,6 @@ msgstr "Această acțiune nu poate fi anulată."
 msgid "This action cannot be undone. All your data will be permanently deleted."
 msgstr "Această acțiune nu poate fi anulată. Toate datele dvs. vor fi șterse definitiv."
 
-#: src/dialogs/resume/import.tsx
-#: src/dialogs/resume/import.tsx
-msgid "This feature requires AI Integration to be enabled. Please enable it in the settings."
-msgstr "Această funcționalitate necesită ca integrarea AI să fie activată. Vă rugăm să o activați în setări."
-
 #: src/dialogs/resume/index.tsx
 msgid "This is a URL-friendly name for your resume."
 msgstr "Acesta este un nume prietenos cu URL-ul pentru CV."
@@ -2726,11 +2729,6 @@ msgstr "Acesta este un nume prietenos cu URL-ul pentru CV."
 #: src/dialogs/resume/import.tsx
 msgid "This may take a few minutes, depending on the response of the AI provider. Please do not close the window or refresh the page."
 msgstr "Acest lucru poate dura câteva minute, în funcție de răspunsul furnizorului AI. Vă rugăm să nu închideți fereastra și să nu reîncărcați pagina."
-
-#: src/routes/builder/$resumeId/-components/dock.tsx
-#: src/routes/builder/$resumeId/-sidebar/right/sections/export.tsx
-msgid "This may take a while depending on the server capacity. Please do not close the window or refresh the page."
-msgstr "Acest lucru poate dura ceva timp, în funcție de capacitatea serverului. Vă rugăm să nu închideți fereastra și să nu reîncărcați pagina."
 
 #: src/components/kanban/analytics/overview-cards.tsx
 msgid "This Month"
@@ -2865,8 +2863,8 @@ msgid "Unlimited Resumes"
 msgstr "CV-uri nelimitate"
 
 #: src/routes/dashboard/settings/authentication/-components/hooks.tsx
-msgid "Unlinking your {providerName} account..."
-msgstr "Se deconectează contul {providerName}..."
+msgid "Unlinking accounts is not yet supported."
+msgstr ""
 
 #: src/routes/auth/resume-password.tsx
 #: src/routes/builder/$resumeId/-components/header.tsx
@@ -2968,10 +2966,6 @@ msgstr "Actualizați-vă parola"
 msgid "Update your personal information."
 msgstr ""
 
-#: src/components/ai/chat.tsx
-msgid "Updated"
-msgstr ""
-
 #: src/dialogs/auth/change-password.tsx
 msgid "Updating your password..."
 msgstr "Se actualizează parola..."
@@ -3001,6 +2995,10 @@ msgstr "Uzbecă"
 #: src/components/input/rich-input.tsx
 msgid "Valid URLs must start with http:// or https://."
 msgstr "URL-urile valide trebuie să înceapă cu http:// sau https://."
+
+#: src/dialogs/auth/enable-two-factor.tsx
+msgid "Verification failed."
+msgstr ""
 
 #: src/dialogs/profile/index.tsx
 msgid "Verified"
@@ -3102,6 +3100,10 @@ msgstr "Aveți și opțiunea de a implementa pe propriile servere folosind imagi
 msgid "You can also use your username to login."
 msgstr "Puteți folosi și numele de utilizator pentru a vă autentifica."
 
+#: src/dialogs/settings/tabs/ai.tsx
+msgid "You don't have permission to manage AI settings. Only administrators can access this page."
+msgstr ""
+
 #: src/hooks/use-form-blocker.tsx
 msgid "You have unsaved changes that will be lost."
 msgstr ""
@@ -3138,10 +3140,6 @@ msgstr "Modificările sunt salvate automat."
 #: src/routes/_home/-sections/features.tsx
 msgid "Your data is secure, and never shared or sold to anyone."
 msgstr "Datele dvs. sunt în siguranță și nu sunt niciodată partajate sau vândute nimănui."
-
-#: src/dialogs/settings/tabs/ai.tsx
-msgid "Your data is stored locally"
-msgstr "Datele dvs. sunt stocate local"
 
 #: src/routes/auth/reset-password.tsx
 msgid "Your password has been reset successfully. You can now sign in with your new password."

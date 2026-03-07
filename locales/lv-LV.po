@@ -77,18 +77,10 @@ msgstr "3 mēneši"
 msgid "6 months"
 msgstr "6 mēneši"
 
-#: src/dialogs/profile/index.tsx
-msgid "A confirmation link has been sent to your current email address. Please check your inbox to confirm the change."
-msgstr "Uz jūsu pašreizējo e-pasta adresi ir nosūtīta apstiprinājuma saite. Lūdzu, pārbaudiet savu iesūtni, lai apstiprinātu izmaiņas."
-
 #: src/routes/builder/$resumeId/-components/dock.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 msgid "A link to your resume has been copied to clipboard."
 msgstr "Saite uz jūsu CV ir nokopēta starpliktuvē."
-
-#: src/dialogs/profile/index.tsx
-msgid "A new verification link has been sent to your email address. Please check your inbox to verify your account."
-msgstr "Uz jūsu e-pasta adresi ir nosūtīta jauna verifikācijas saite. Lūdzu, pārbaudiet savu iesūtni, lai verificētu kontu."
 
 #: src/dialogs/resume/index.tsx
 #: src/dialogs/resume/index.tsx
@@ -205,10 +197,6 @@ msgstr "Pievienot rindu pēc"
 msgid "Add Row Before"
 msgstr "Pievienot rindu pirms"
 
-#: src/components/ai/chat.tsx
-msgid "Added"
-msgstr ""
-
 #: src/utils/locale.ts
 msgid "Afrikaans"
 msgstr "Afrikandu"
@@ -226,12 +214,17 @@ msgstr ""
 msgid "AI Chat"
 msgstr ""
 
+#: src/components/ai/chat.tsx
 #: src/routes/dashboard/chat/-components/message-area.tsx
 msgid "AI chat error"
 msgstr ""
 
 #: src/dialogs/settings/tabs/prompts.tsx
 msgid "AI Prompts"
+msgstr ""
+
+#: src/dialogs/settings/tabs/ai.tsx
+msgid "AI settings saved."
 msgstr ""
 
 #: src/utils/locale.ts
@@ -290,6 +283,10 @@ msgstr "API piekļuve"
 #: src/dialogs/settings/tabs/ai.tsx
 msgid "API Key"
 msgstr "API atslēga"
+
+#: src/dialogs/settings/tabs/ai.tsx
+msgid "API key is configured. Leave blank to keep current key."
+msgstr ""
 
 #: src/dialogs/settings/index.tsx
 msgid "API Keys"
@@ -401,6 +398,10 @@ msgstr "Proporcijas"
 #: src/dialogs/settings/index.tsx
 msgid "Authentication"
 msgstr "Autentifikācija"
+
+#: src/dialogs/auth/disable-two-factor.tsx
+msgid "Authenticator Code"
+msgstr ""
 
 #: src/routes/_home/-sections/features.tsx
 msgid "Available in multiple languages for a localized experience."
@@ -655,6 +656,14 @@ msgstr "Uzņēmums"
 msgid "Completely free, forever, no hidden costs."
 msgstr "Pilnībā bez maksas, uz visiem laikiem, bez slēptām izmaksām."
 
+#: src/dialogs/settings/tabs/ai.tsx
+msgid "Configure the AI provider and model used for all chat conversations. The API key is stored encrypted on the server. Changes apply to all users."
+msgstr ""
+
+#: src/dialogs/settings/tabs/ai.tsx
+msgid "Configured"
+msgstr ""
+
 #: src/dialogs/api-key/create.tsx
 #: src/dialogs/settings/tabs/danger-zone.tsx
 #: src/hooks/use-prompt.tsx
@@ -685,7 +694,6 @@ msgstr ""
 msgid "Content"
 msgstr ""
 
-#: src/dialogs/auth/enable-two-factor.tsx
 #: src/dialogs/auth/enable-two-factor.tsx
 #: src/dialogs/auth/enable-two-factor.tsx
 #: src/routes/auth/register.tsx
@@ -1004,10 +1012,6 @@ msgstr "Deaktivēt 2FA"
 msgid "Disable Two-Factor Authentication"
 msgstr "Deaktivēt divu faktoru autentifikāciju"
 
-#: src/dialogs/settings/tabs/ai.tsx
-msgid "Disabled"
-msgstr "Deaktivēts"
-
 #: src/dialogs/auth/disable-two-factor.tsx
 msgid "Disabling two-factor authentication..."
 msgstr "Tiek deaktivēta divu faktoru autentifikācija..."
@@ -1040,10 +1044,6 @@ msgstr "Lejupielādēt JSON"
 #: src/routes/builder/$resumeId/-components/dock.tsx
 msgid "Download PDF"
 msgstr "Lejupielādēt PDF"
-
-#: src/routes/$username/$slug.tsx
-msgid "Downloading..."
-msgstr "Lejupielādē..."
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/statistics.tsx
 msgid "Downloads"
@@ -1120,7 +1120,6 @@ msgstr "Izglītība"
 msgid "Email"
 msgstr "E-pasts"
 
-#: src/dialogs/profile/index.tsx
 #: src/routes/auth/forgot-password.tsx
 #: src/routes/auth/login.tsx
 #: src/routes/auth/register.tsx
@@ -1136,25 +1135,13 @@ msgstr "Iespējot"
 msgid "Enable 2FA"
 msgstr "Iespējot 2FA"
 
-#: src/dialogs/settings/tabs/ai.tsx
-msgid "Enable AI Features"
-msgstr "Iespējot MI funkcijas"
-
 #: src/dialogs/auth/enable-two-factor.tsx
 msgid "Enable Two-Factor Authentication"
 msgstr "Iespējot divu faktoru autentifikāciju"
 
-#: src/dialogs/settings/tabs/ai.tsx
-msgid "Enabled"
-msgstr "Iespējots"
-
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 msgid "Enabling password protection..."
 msgstr "Tiek ieslēgta paroles aizsardzība..."
-
-#: src/dialogs/auth/enable-two-factor.tsx
-msgid "Enabling two-factor authentication..."
-msgstr "Tiek ieslēgta divu faktoru autentifikācija..."
 
 #: src/utils/locale.ts
 msgid "English"
@@ -1163,6 +1150,10 @@ msgstr "Angļu"
 #: src/routes/_home/-sections/features.tsx
 msgid "Enhance the security of your account with additional layers of protection."
 msgstr "Pastipriniet sava konta drošību ar papildu aizsardzības līmeņiem."
+
+#: src/dialogs/auth/disable-two-factor.tsx
+msgid "Enter a code from your authenticator app to disable two-factor authentication. Your account will be less secure without 2FA enabled."
+msgstr ""
 
 #: src/routes/auth/verify-2fa-backup.tsx
 msgid "Enter one of your saved backup codes to access your account"
@@ -1176,21 +1167,13 @@ msgstr "Ievadiet URL, uz kuru izveidot saiti"
 msgid "Enter the verification code from your authenticator app"
 msgstr "Ievadiet verifikācijas kodu no savas autentifikatora lietotnes"
 
+#: src/dialogs/settings/tabs/ai.tsx
+msgid "Enter your API key"
+msgstr ""
+
 #: src/dialogs/auth/change-password.tsx
 msgid "Enter your current password and a new password to update your account."
 msgstr "Ievadiet savu pašreizējo paroli un jaunu paroli, lai atjauninātu kontu."
-
-#: src/dialogs/auth/enable-two-factor.tsx
-msgid "Enter your password to confirm setting up two-factor authentication. When enabled, you'll need to enter a code from your authenticator app every time you log in."
-msgstr "Ievadiet savu paroli, lai apstiprinātu divu faktoru autentifikācijas iestatīšanu. Kad tā ir ieslēgta, jums katru reizi, piesakoties, būs jāievada kods no autentifikatora lietotnes."
-
-#: src/dialogs/auth/disable-two-factor.tsx
-msgid "Enter your password to disable two-factor authentication. Your account will be less secure without 2FA enabled."
-msgstr "Ievadiet savu paroli, lai deaktivētu divu faktoru autentifikāciju. Bez ieslēgtas 2FA jūsu konts būs mazāk drošs."
-
-#: src/dialogs/settings/tabs/ai.tsx
-msgid "Everything entered here is stored locally on your browser. Your data is only sent to the server when making a request to the AI provider, and is never stored or logged on our servers."
-msgstr "Viss, ko ievadāt šeit, tiek glabāts lokāli jūsu pārlūkprogrammā. Jūsu dati tiek nosūtīti uz serveri tikai tad, kad veidojat pieprasījumu MI pakalpojumu sniedzējam, un tie nekad netiek glabāti vai žurnalēti mūsu serveros."
 
 #: src/routes/_home/-sections/pillars.tsx
 msgid "Everything in one place. With AI to help."
@@ -1213,7 +1196,7 @@ msgstr "Pieredze"
 msgid "Expires in"
 msgstr "Beidzas pēc"
 
-#. placeholder {0}: key.expiresAt?.toLocaleDateString()
+#. placeholder {0}: key.expires_at ? new Date(key.expires_at).toLocaleDateString() : ""
 #: src/dialogs/settings/tabs/api-keys.tsx
 msgid "Expires on {0}"
 msgstr "Beidzas {0}"
@@ -1230,12 +1213,33 @@ msgstr "Eksports"
 msgid "Failed to move application."
 msgstr ""
 
+#: src/routes/auth/reset-password.tsx
+msgid "Failed to reset password."
+msgstr ""
+
+#: src/routes/auth/forgot-password.tsx
+msgid "Failed to send password reset email."
+msgstr ""
+
+#: src/dialogs/auth/enable-two-factor.tsx
 #: src/dialogs/auth/enable-two-factor.tsx
 msgid "Failed to setup two-factor authentication."
 msgstr "Neizdevās iestatīt divu faktoru autentifikāciju."
 
 #: src/routes/auth/login.tsx
 msgid "Failed to sign in. Please try again."
+msgstr ""
+
+#: src/routes/auth/register.tsx
+msgid "Failed to sign up. Please try again."
+msgstr ""
+
+#: src/routes/auth/verify-2fa-backup.tsx
+msgid "Failed to verify backup code."
+msgstr ""
+
+#: src/routes/auth/verify-2fa.tsx
+msgid "Failed to verify code."
 msgstr ""
 
 #: src/routes/_home/-sections/features.tsx
@@ -1621,7 +1625,7 @@ msgstr "Valoda"
 msgid "Languages"
 msgstr "Valodas"
 
-#. placeholder {0}: statistics.lastDownloadedAt.toDateString()
+#. placeholder {0}: new Date(statistics.last_downloaded_at).toDateString()
 #: src/routes/builder/$resumeId/-sidebar/right/sections/statistics.tsx
 msgid "Last downloaded on {0}"
 msgstr "Pēdējo reizi lejupielādēts {0}"
@@ -1631,7 +1635,7 @@ msgstr "Pēdējo reizi lejupielādēts {0}"
 msgid "Last updated on {updatedAt}"
 msgstr "Pēdējo reizi atjaunots {updatedAt}"
 
-#. placeholder {0}: statistics.lastViewedAt.toDateString()
+#. placeholder {0}: new Date(statistics.last_viewed_at).toDateString()
 #: src/routes/builder/$resumeId/-sidebar/right/sections/statistics.tsx
 msgid "Last viewed on {0}"
 msgstr "Pēdējo reizi skatīts {0}"
@@ -1712,6 +1716,7 @@ msgid "Loading resumes..."
 msgstr "Ielādē CV..."
 
 #: src/components/layout/loading-screen.tsx
+#: src/dialogs/auth/enable-two-factor.tsx
 msgid "Loading..."
 msgstr "Ielādē..."
 
@@ -1886,6 +1891,10 @@ msgstr "Rezultāti nav atrasti."
 msgid "Norwegian"
 msgstr "Norvēģu"
 
+#: src/dialogs/settings/tabs/ai.tsx
+msgid "Not configured"
+msgstr ""
+
 #: src/components/kanban/card.tsx
 #: src/dialogs/application/create.tsx
 #: src/dialogs/application/update.tsx
@@ -1979,8 +1988,6 @@ msgstr "Rindkopa"
 msgid "Passkeys & 2FA"
 msgstr "Piekļuves atslēgas un 2FA"
 
-#: src/dialogs/auth/disable-two-factor.tsx
-#: src/dialogs/auth/enable-two-factor.tsx
 #: src/routes/auth/login.tsx
 #: src/routes/auth/register.tsx
 #: src/routes/auth/resume-password.tsx
@@ -2050,11 +2057,6 @@ msgstr "Lūdzu, ievadiet paroli, ko ar jums kopīgoja CV īpašnieks, lai turpin
 #: src/components/input/rich-input.tsx
 msgid "Please enter the URL you want to link to:"
 msgstr "Lūdzu, ievadiet URL, uz kuru vēlaties izveidot saiti:"
-
-#: src/routes/builder/$resumeId/-components/dock.tsx
-#: src/routes/builder/$resumeId/-sidebar/right/sections/export.tsx
-msgid "Please wait while your PDF is being generated..."
-msgstr "Lūdzu, uzgaidiet, kamēr tiek ģenerēts jūsu PDF..."
 
 #: src/utils/locale.ts
 msgid "Polish"
@@ -2209,10 +2211,6 @@ msgstr "Atceraties savu paroli? <0><1>Piesakieties tagad <2/></1></0>"
 msgid "Remove Password"
 msgstr "Noņemt paroli"
 
-#: src/components/ai/chat.tsx
-msgid "Removed"
-msgstr ""
-
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 msgid "Removing password protection..."
 msgstr "Tiek noņemta paroles aizsardzība..."
@@ -2220,14 +2218,6 @@ msgstr "Tiek noņemta paroles aizsardzība..."
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-menu.tsx
 msgid "Rename"
 msgstr "Pārdēvēt"
-
-#: src/dialogs/profile/index.tsx
-msgid "Resend verification email"
-msgstr "Nosūtīt verifikācijas e-pastu vēlreiz"
-
-#: src/dialogs/profile/index.tsx
-msgid "Resending verification email..."
-msgstr "Atkārtoti nosūta verifikācijas e-pastu..."
 
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-menu.tsx
 msgid "Reset"
@@ -2317,6 +2307,7 @@ msgstr ""
 #: src/dialogs/resume/sections/skill.tsx
 #: src/dialogs/resume/sections/summary-item.tsx
 #: src/dialogs/resume/sections/volunteer.tsx
+#: src/dialogs/settings/tabs/ai.tsx
 msgid "Save Changes"
 msgstr "Saglabāt izmaiņas"
 
@@ -2414,6 +2405,15 @@ msgstr "Atdalītājs"
 msgid "Serbian"
 msgstr "Serbu"
 
+#: src/dialogs/settings/tabs/ai.tsx
+msgid "Server AI Configuration"
+msgstr ""
+
+#: src/routes/auth/verify-2fa-backup.tsx
+#: src/routes/auth/verify-2fa.tsx
+msgid "Session expired. Please sign in again."
+msgstr ""
+
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 #: src/routes/dashboard/settings/authentication/-components/password.tsx
@@ -2422,6 +2422,14 @@ msgstr "Iestatīt paroli"
 
 #: src/routes/_home/-sections/how-it-works.tsx
 msgid "Set up your profile"
+msgstr ""
+
+#: src/dialogs/auth/enable-two-factor.tsx
+msgid "Setting up two-factor authentication. When enabled, you'll need to enter a code from your authenticator app every time you log in."
+msgstr ""
+
+#: src/dialogs/auth/enable-two-factor.tsx
+msgid "Setting up two-factor authentication..."
 msgstr ""
 
 #: src/components/command-palette/pages/navigation.tsx
@@ -2494,15 +2502,9 @@ msgstr "Piesakieties ar GitHub, Google vai pielāgotu OAuth pakalpojumu sniedzē
 msgid "Sign up"
 msgstr "Reģistrēties"
 
-#: src/routes/auth/-components/social-auth.tsx
-#: src/routes/auth/-components/social-auth.tsx
 #: src/routes/auth/login.tsx
 msgid "Signing in..."
 msgstr "Notiek pieteikšanās..."
-
-#: src/components/user/dropdown-menu.tsx
-msgid "Signing out..."
-msgstr "Notiek atteikšanās..."
 
 #: src/routes/auth/register.tsx
 msgid "Signing up..."
@@ -2532,6 +2534,16 @@ msgstr "Slovāku"
 #: src/dialogs/resume/index.tsx
 msgid "Slug"
 msgstr "Tīmekļa adrese (slug)"
+
+#: src/dialogs/api-key/create.tsx
+#: src/dialogs/auth/change-password.tsx
+#: src/dialogs/auth/disable-two-factor.tsx
+#: src/dialogs/profile/index.tsx
+#: src/dialogs/settings/tabs/api-keys.tsx
+#: src/dialogs/settings/tabs/danger-zone.tsx
+#: src/routes/dashboard/settings/authentication/-components/hooks.tsx
+msgid "Something went wrong."
+msgstr ""
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
@@ -2574,6 +2586,7 @@ msgid "Statistics"
 msgstr "Statistika"
 
 #: src/dialogs/application/create.tsx
+#: src/dialogs/settings/tabs/ai.tsx
 msgid "Status"
 msgstr ""
 
@@ -2695,11 +2708,6 @@ msgstr "Tēma"
 msgid "Then, enter the 6 digit code that the app provides to continue."
 msgstr "Pēc tam ievadiet 6 ciparu kodu, ko nodrošina lietotne, lai turpinātu."
 
-#: src/routes/builder/$resumeId/-components/dock.tsx
-#: src/routes/builder/$resumeId/-sidebar/right/sections/export.tsx
-msgid "There was a problem while generating the PDF, please try again in some time."
-msgstr "Radās problēma, ģenerējot PDF, lūdzu, mēģiniet vēlreiz pēc kāda laika."
-
 #: src/components/ai/chat.tsx
 msgid "Thinking..."
 msgstr ""
@@ -2714,11 +2722,6 @@ msgstr "Šo darbību nevar atsaukt."
 msgid "This action cannot be undone. All your data will be permanently deleted."
 msgstr "Šo darbību nevar atsaukt. Visi jūsu dati tiks neatgriezeniski dzēsti."
 
-#: src/dialogs/resume/import.tsx
-#: src/dialogs/resume/import.tsx
-msgid "This feature requires AI Integration to be enabled. Please enable it in the settings."
-msgstr "Šai funkcijai nepieciešama ieslēgta MI integrācija. Lūdzu, ieslēdziet to iestatījumos."
-
 #: src/dialogs/resume/index.tsx
 msgid "This is a URL-friendly name for your resume."
 msgstr "Tas ir URL-draudzīgs nosaukums jūsu CV."
@@ -2726,11 +2729,6 @@ msgstr "Tas ir URL-draudzīgs nosaukums jūsu CV."
 #: src/dialogs/resume/import.tsx
 msgid "This may take a few minutes, depending on the response of the AI provider. Please do not close the window or refresh the page."
 msgstr "Tas var aizņemt dažas minūtes atkarībā no MI pakalpojumu sniedzēja atbildes. Lūdzu, neaizveriet logu un neatjaunojiet lapu."
-
-#: src/routes/builder/$resumeId/-components/dock.tsx
-#: src/routes/builder/$resumeId/-sidebar/right/sections/export.tsx
-msgid "This may take a while depending on the server capacity. Please do not close the window or refresh the page."
-msgstr "Tas var aizņemt kādu laiku atkarībā no servera jaudas. Lūdzu, neaizveriet logu un neatjaunojiet lapu."
 
 #: src/components/kanban/analytics/overview-cards.tsx
 msgid "This Month"
@@ -2865,8 +2863,8 @@ msgid "Unlimited Resumes"
 msgstr "Neierobežoti CV"
 
 #: src/routes/dashboard/settings/authentication/-components/hooks.tsx
-msgid "Unlinking your {providerName} account..."
-msgstr "Tiek atvienots jūsu {providerName} konts..."
+msgid "Unlinking accounts is not yet supported."
+msgstr ""
 
 #: src/routes/auth/resume-password.tsx
 #: src/routes/builder/$resumeId/-components/header.tsx
@@ -2968,10 +2966,6 @@ msgstr "Atjauniniet savu paroli"
 msgid "Update your personal information."
 msgstr ""
 
-#: src/components/ai/chat.tsx
-msgid "Updated"
-msgstr ""
-
 #: src/dialogs/auth/change-password.tsx
 msgid "Updating your password..."
 msgstr "Tiek atjaunināta jūsu parole..."
@@ -3001,6 +2995,10 @@ msgstr "Uzbeku"
 #: src/components/input/rich-input.tsx
 msgid "Valid URLs must start with http:// or https://."
 msgstr "Derīgiem URL jāsākas ar http:// vai https://."
+
+#: src/dialogs/auth/enable-two-factor.tsx
+msgid "Verification failed."
+msgstr ""
 
 #: src/dialogs/profile/index.tsx
 msgid "Verified"
@@ -3102,6 +3100,10 @@ msgstr "Jums ir iespēja izvietot to arī uz saviem serveriem, izmantojot Docker
 msgid "You can also use your username to login."
 msgstr "Pieteikšanās laikā varat izmantot arī savu lietotājvārdu."
 
+#: src/dialogs/settings/tabs/ai.tsx
+msgid "You don't have permission to manage AI settings. Only administrators can access this page."
+msgstr ""
+
 #: src/hooks/use-form-blocker.tsx
 msgid "You have unsaved changes that will be lost."
 msgstr ""
@@ -3138,10 +3140,6 @@ msgstr "Jūsu izmaiņas tiek saglabātas automātiski."
 #: src/routes/_home/-sections/features.tsx
 msgid "Your data is secure, and never shared or sold to anyone."
 msgstr "Jūsu dati ir droši un nekad netiek kopīgoti vai pārdoti nevienam."
-
-#: src/dialogs/settings/tabs/ai.tsx
-msgid "Your data is stored locally"
-msgstr "Jūsu dati tiek glabāti lokāli"
 
 #: src/routes/auth/reset-password.tsx
 msgid "Your password has been reset successfully. You can now sign in with your new password."

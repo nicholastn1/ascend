@@ -77,18 +77,10 @@ msgstr "3 ay"
 msgid "6 months"
 msgstr "6 ay"
 
-#: src/dialogs/profile/index.tsx
-msgid "A confirmation link has been sent to your current email address. Please check your inbox to confirm the change."
-msgstr "Təsdiq linki cari e‑poçt ünvanınıza göndərildi. Zəhmət olmasa, dəyişikliyi təsdiqləmək üçün poçt qutunuzu yoxlayın."
-
 #: src/routes/builder/$resumeId/-components/dock.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 msgid "A link to your resume has been copied to clipboard."
 msgstr "Özgeçmişinizə aparan link mübadilə buferinə kopyalandı."
-
-#: src/dialogs/profile/index.tsx
-msgid "A new verification link has been sent to your email address. Please check your inbox to verify your account."
-msgstr "Hesabınızı təsdiqləmək üçün yeni təsdiq linki e‑poçt ünvanınıza göndərildi. Zəhmət olmasa, poçt qutunuzu yoxlayın."
 
 #: src/dialogs/resume/index.tsx
 #: src/dialogs/resume/index.tsx
@@ -205,10 +197,6 @@ msgstr "Sonra Sətir əlavə et"
 msgid "Add Row Before"
 msgstr "Əvvəl Sətir əlavə et"
 
-#: src/components/ai/chat.tsx
-msgid "Added"
-msgstr ""
-
 #: src/utils/locale.ts
 msgid "Afrikaans"
 msgstr "Afrikaans"
@@ -226,12 +214,17 @@ msgstr ""
 msgid "AI Chat"
 msgstr ""
 
+#: src/components/ai/chat.tsx
 #: src/routes/dashboard/chat/-components/message-area.tsx
 msgid "AI chat error"
 msgstr ""
 
 #: src/dialogs/settings/tabs/prompts.tsx
 msgid "AI Prompts"
+msgstr ""
+
+#: src/dialogs/settings/tabs/ai.tsx
+msgid "AI settings saved."
 msgstr ""
 
 #: src/utils/locale.ts
@@ -290,6 +283,10 @@ msgstr "API Girişi"
 #: src/dialogs/settings/tabs/ai.tsx
 msgid "API Key"
 msgstr "API Açarı"
+
+#: src/dialogs/settings/tabs/ai.tsx
+msgid "API key is configured. Leave blank to keep current key."
+msgstr ""
 
 #: src/dialogs/settings/index.tsx
 msgid "API Keys"
@@ -401,6 +398,10 @@ msgstr "Propor­siya"
 #: src/dialogs/settings/index.tsx
 msgid "Authentication"
 msgstr "Autentifikasiya"
+
+#: src/dialogs/auth/disable-two-factor.tsx
+msgid "Authenticator Code"
+msgstr ""
 
 #: src/routes/_home/-sections/features.tsx
 msgid "Available in multiple languages for a localized experience."
@@ -655,6 +656,14 @@ msgstr "Şirkət"
 msgid "Completely free, forever, no hidden costs."
 msgstr "Tamamilə pulsuz, həmişəlik, gizli xərclər olmadan."
 
+#: src/dialogs/settings/tabs/ai.tsx
+msgid "Configure the AI provider and model used for all chat conversations. The API key is stored encrypted on the server. Changes apply to all users."
+msgstr ""
+
+#: src/dialogs/settings/tabs/ai.tsx
+msgid "Configured"
+msgstr ""
+
 #: src/dialogs/api-key/create.tsx
 #: src/dialogs/settings/tabs/danger-zone.tsx
 #: src/hooks/use-prompt.tsx
@@ -685,7 +694,6 @@ msgstr ""
 msgid "Content"
 msgstr ""
 
-#: src/dialogs/auth/enable-two-factor.tsx
 #: src/dialogs/auth/enable-two-factor.tsx
 #: src/dialogs/auth/enable-two-factor.tsx
 #: src/routes/auth/register.tsx
@@ -1004,10 +1012,6 @@ msgstr "2FA‑nı Deaktiv et"
 msgid "Disable Two-Factor Authentication"
 msgstr "İki Mərhələli Autentifikasiyanı Deaktiv et"
 
-#: src/dialogs/settings/tabs/ai.tsx
-msgid "Disabled"
-msgstr "Deaktiv edilib"
-
 #: src/dialogs/auth/disable-two-factor.tsx
 msgid "Disabling two-factor authentication..."
 msgstr "İki mərhələli autentifikasiyanı deaktiv etmə prosesi gedir..."
@@ -1040,10 +1044,6 @@ msgstr "JSON‑u Endir"
 #: src/routes/builder/$resumeId/-components/dock.tsx
 msgid "Download PDF"
 msgstr "PDF‑i endir"
-
-#: src/routes/$username/$slug.tsx
-msgid "Downloading..."
-msgstr "Endirilir..."
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/statistics.tsx
 msgid "Downloads"
@@ -1120,7 +1120,6 @@ msgstr "Təhsil"
 msgid "Email"
 msgstr "E‑poçt"
 
-#: src/dialogs/profile/index.tsx
 #: src/routes/auth/forgot-password.tsx
 #: src/routes/auth/login.tsx
 #: src/routes/auth/register.tsx
@@ -1136,25 +1135,13 @@ msgstr "Aktiv et"
 msgid "Enable 2FA"
 msgstr "2FA‑nı Aktiv et"
 
-#: src/dialogs/settings/tabs/ai.tsx
-msgid "Enable AI Features"
-msgstr "Süni İntellekt Xüsusiyyətlərini Aktiv et"
-
 #: src/dialogs/auth/enable-two-factor.tsx
 msgid "Enable Two-Factor Authentication"
 msgstr "İki Mərhələli Autentifikasiyanı Aktiv et"
 
-#: src/dialogs/settings/tabs/ai.tsx
-msgid "Enabled"
-msgstr "Aktiv edilib"
-
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 msgid "Enabling password protection..."
 msgstr "Parol qorunması aktivləşdirilir..."
-
-#: src/dialogs/auth/enable-two-factor.tsx
-msgid "Enabling two-factor authentication..."
-msgstr "İki mərhələli autentifikasiyanı aktivləşdirmə prosesi gedir..."
 
 #: src/utils/locale.ts
 msgid "English"
@@ -1163,6 +1150,10 @@ msgstr "İngilis"
 #: src/routes/_home/-sections/features.tsx
 msgid "Enhance the security of your account with additional layers of protection."
 msgstr "Hesabınızın təhlükəsizliyini əlavə qoruma qatları ilə gücləndirin."
+
+#: src/dialogs/auth/disable-two-factor.tsx
+msgid "Enter a code from your authenticator app to disable two-factor authentication. Your account will be less secure without 2FA enabled."
+msgstr ""
 
 #: src/routes/auth/verify-2fa-backup.tsx
 msgid "Enter one of your saved backup codes to access your account"
@@ -1176,21 +1167,13 @@ msgstr "Link veriləcək URL‑i daxil edin"
 msgid "Enter the verification code from your authenticator app"
 msgstr "Autentifikator tətbiqinizdən təsdiq kodunu daxil edin"
 
+#: src/dialogs/settings/tabs/ai.tsx
+msgid "Enter your API key"
+msgstr ""
+
 #: src/dialogs/auth/change-password.tsx
 msgid "Enter your current password and a new password to update your account."
 msgstr "Hesabınızı yeniləmək üçün cari parolunuzu və yeni parolu daxil edin."
-
-#: src/dialogs/auth/enable-two-factor.tsx
-msgid "Enter your password to confirm setting up two-factor authentication. When enabled, you'll need to enter a code from your authenticator app every time you log in."
-msgstr "İki mərhələli autentifikasiyanı qurmağı təsdiqləmək üçün parolunuzu daxil edin. Aktiv edildikdə, hər dəfə daxil olarkən autentifikator tətbiqinizdən kod daxil etməli olacaqsınız."
-
-#: src/dialogs/auth/disable-two-factor.tsx
-msgid "Enter your password to disable two-factor authentication. Your account will be less secure without 2FA enabled."
-msgstr "İki mərhələli autentifikasiyanı deaktiv etmək üçün parolunuzu daxil edin. 2FA deaktiv edildikdə, hesabınız daha az təhlükəsiz olacaq."
-
-#: src/dialogs/settings/tabs/ai.tsx
-msgid "Everything entered here is stored locally on your browser. Your data is only sent to the server when making a request to the AI provider, and is never stored or logged on our servers."
-msgstr "Buraya daxil etdiyiniz hər şey brauzerinizdə lokal olaraq saxlanılır. Məlumatlarınız yalnız Süni İntellekt provayderinə sorğu göndərərkən serverə ötürülür və serverlərimizdə heç vaxt saxlanılmır və ya jurnala yazılmır."
 
 #: src/routes/_home/-sections/pillars.tsx
 msgid "Everything in one place. With AI to help."
@@ -1213,7 +1196,7 @@ msgstr "Təcrübə"
 msgid "Expires in"
 msgstr "Bitmə tarixi"
 
-#. placeholder {0}: key.expiresAt?.toLocaleDateString()
+#. placeholder {0}: key.expires_at ? new Date(key.expires_at).toLocaleDateString() : ""
 #: src/dialogs/settings/tabs/api-keys.tsx
 msgid "Expires on {0}"
 msgstr "{0} tarixində başa çatır"
@@ -1230,12 +1213,33 @@ msgstr "İxrac"
 msgid "Failed to move application."
 msgstr ""
 
+#: src/routes/auth/reset-password.tsx
+msgid "Failed to reset password."
+msgstr ""
+
+#: src/routes/auth/forgot-password.tsx
+msgid "Failed to send password reset email."
+msgstr ""
+
+#: src/dialogs/auth/enable-two-factor.tsx
 #: src/dialogs/auth/enable-two-factor.tsx
 msgid "Failed to setup two-factor authentication."
 msgstr "İki mərhələli autentifikasiyanı qurmaq alınmadı."
 
 #: src/routes/auth/login.tsx
 msgid "Failed to sign in. Please try again."
+msgstr ""
+
+#: src/routes/auth/register.tsx
+msgid "Failed to sign up. Please try again."
+msgstr ""
+
+#: src/routes/auth/verify-2fa-backup.tsx
+msgid "Failed to verify backup code."
+msgstr ""
+
+#: src/routes/auth/verify-2fa.tsx
+msgid "Failed to verify code."
 msgstr ""
 
 #: src/routes/_home/-sections/features.tsx
@@ -1621,7 +1625,7 @@ msgstr "Dil"
 msgid "Languages"
 msgstr "Dillər"
 
-#. placeholder {0}: statistics.lastDownloadedAt.toDateString()
+#. placeholder {0}: new Date(statistics.last_downloaded_at).toDateString()
 #: src/routes/builder/$resumeId/-sidebar/right/sections/statistics.tsx
 msgid "Last downloaded on {0}"
 msgstr "Sonuncu dəfə {0} tarixində endirilib"
@@ -1631,7 +1635,7 @@ msgstr "Sonuncu dəfə {0} tarixində endirilib"
 msgid "Last updated on {updatedAt}"
 msgstr "Sonuncu dəfə {updatedAt} tarixində yenilənib"
 
-#. placeholder {0}: statistics.lastViewedAt.toDateString()
+#. placeholder {0}: new Date(statistics.last_viewed_at).toDateString()
 #: src/routes/builder/$resumeId/-sidebar/right/sections/statistics.tsx
 msgid "Last viewed on {0}"
 msgstr "Sonuncu dəfə {0} tarixində baxılıb"
@@ -1712,6 +1716,7 @@ msgid "Loading resumes..."
 msgstr "Özgeçmişlər yüklənir..."
 
 #: src/components/layout/loading-screen.tsx
+#: src/dialogs/auth/enable-two-factor.tsx
 msgid "Loading..."
 msgstr "Yüklənir..."
 
@@ -1886,6 +1891,10 @@ msgstr "Nəticə tapılmadı."
 msgid "Norwegian"
 msgstr "Norveç"
 
+#: src/dialogs/settings/tabs/ai.tsx
+msgid "Not configured"
+msgstr ""
+
 #: src/components/kanban/card.tsx
 #: src/dialogs/application/create.tsx
 #: src/dialogs/application/update.tsx
@@ -1979,8 +1988,6 @@ msgstr "Paraqraf"
 msgid "Passkeys & 2FA"
 msgstr "Keçid Açarları və 2FA"
 
-#: src/dialogs/auth/disable-two-factor.tsx
-#: src/dialogs/auth/enable-two-factor.tsx
 #: src/routes/auth/login.tsx
 #: src/routes/auth/register.tsx
 #: src/routes/auth/resume-password.tsx
@@ -2050,11 +2057,6 @@ msgstr "Davam etmək üçün, özgeçmiş sahibi tərəfindən sizinlə paylaş�
 #: src/components/input/rich-input.tsx
 msgid "Please enter the URL you want to link to:"
 msgstr "Link vermək istədiyiniz URL‑i daxil edin:"
-
-#: src/routes/builder/$resumeId/-components/dock.tsx
-#: src/routes/builder/$resumeId/-sidebar/right/sections/export.tsx
-msgid "Please wait while your PDF is being generated..."
-msgstr "PDF‑iniz yaradılarkən, zəhmət olmasa, gözləyin..."
 
 #: src/utils/locale.ts
 msgid "Polish"
@@ -2209,10 +2211,6 @@ msgstr "Parolunuzu xatırladınız? <0><1>İndi daxil olun <2/></1></0>"
 msgid "Remove Password"
 msgstr "Parolu Sil"
 
-#: src/components/ai/chat.tsx
-msgid "Removed"
-msgstr ""
-
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 msgid "Removing password protection..."
 msgstr "Parol qorunması silinir..."
@@ -2220,14 +2218,6 @@ msgstr "Parol qorunması silinir..."
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-menu.tsx
 msgid "Rename"
 msgstr "Yenidən adlandır"
-
-#: src/dialogs/profile/index.tsx
-msgid "Resend verification email"
-msgstr "Təsdiq e‑poçtunu yenidən göndər"
-
-#: src/dialogs/profile/index.tsx
-msgid "Resending verification email..."
-msgstr "Təsdiq e‑poçtu yenidən göndərilir..."
 
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-menu.tsx
 msgid "Reset"
@@ -2317,6 +2307,7 @@ msgstr ""
 #: src/dialogs/resume/sections/skill.tsx
 #: src/dialogs/resume/sections/summary-item.tsx
 #: src/dialogs/resume/sections/volunteer.tsx
+#: src/dialogs/settings/tabs/ai.tsx
 msgid "Save Changes"
 msgstr "Dəyişiklikləri Yadda Saxla"
 
@@ -2414,6 +2405,15 @@ msgstr "Ayırıcı"
 msgid "Serbian"
 msgstr "Serb"
 
+#: src/dialogs/settings/tabs/ai.tsx
+msgid "Server AI Configuration"
+msgstr ""
+
+#: src/routes/auth/verify-2fa-backup.tsx
+#: src/routes/auth/verify-2fa.tsx
+msgid "Session expired. Please sign in again."
+msgstr ""
+
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 #: src/routes/dashboard/settings/authentication/-components/password.tsx
@@ -2422,6 +2422,14 @@ msgstr "Parol Təyin et"
 
 #: src/routes/_home/-sections/how-it-works.tsx
 msgid "Set up your profile"
+msgstr ""
+
+#: src/dialogs/auth/enable-two-factor.tsx
+msgid "Setting up two-factor authentication. When enabled, you'll need to enter a code from your authenticator app every time you log in."
+msgstr ""
+
+#: src/dialogs/auth/enable-two-factor.tsx
+msgid "Setting up two-factor authentication..."
 msgstr ""
 
 #: src/components/command-palette/pages/navigation.tsx
@@ -2494,15 +2502,9 @@ msgstr "GitHub, Google və ya xüsusi OAuth provayderi ilə daxil olun."
 msgid "Sign up"
 msgstr "Qeydiyyatdan keç"
 
-#: src/routes/auth/-components/social-auth.tsx
-#: src/routes/auth/-components/social-auth.tsx
 #: src/routes/auth/login.tsx
 msgid "Signing in..."
 msgstr "Daxil olunur..."
-
-#: src/components/user/dropdown-menu.tsx
-msgid "Signing out..."
-msgstr "Hesabdan çıxılır..."
 
 #: src/routes/auth/register.tsx
 msgid "Signing up..."
@@ -2532,6 +2534,16 @@ msgstr "Slovak"
 #: src/dialogs/resume/index.tsx
 msgid "Slug"
 msgstr "Slug"
+
+#: src/dialogs/api-key/create.tsx
+#: src/dialogs/auth/change-password.tsx
+#: src/dialogs/auth/disable-two-factor.tsx
+#: src/dialogs/profile/index.tsx
+#: src/dialogs/settings/tabs/api-keys.tsx
+#: src/dialogs/settings/tabs/danger-zone.tsx
+#: src/routes/dashboard/settings/authentication/-components/hooks.tsx
+msgid "Something went wrong."
+msgstr ""
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
@@ -2574,6 +2586,7 @@ msgid "Statistics"
 msgstr "Statistika"
 
 #: src/dialogs/application/create.tsx
+#: src/dialogs/settings/tabs/ai.tsx
 msgid "Status"
 msgstr ""
 
@@ -2695,11 +2708,6 @@ msgstr "Mövzu"
 msgid "Then, enter the 6 digit code that the app provides to continue."
 msgstr "Sonra, davam etmək üçün tətbiqin təqdim etdiyi 6 rəqəmli kodu daxil edin."
 
-#: src/routes/builder/$resumeId/-components/dock.tsx
-#: src/routes/builder/$resumeId/-sidebar/right/sections/export.tsx
-msgid "There was a problem while generating the PDF, please try again in some time."
-msgstr "PDF yaradılarkən problem yarandı, zəhmət olmasa, bir müddət sonra yenidən cəhd edin."
-
 #: src/components/ai/chat.tsx
 msgid "Thinking..."
 msgstr ""
@@ -2714,11 +2722,6 @@ msgstr "Bu əməliyyat geri qaytarıla bilməz."
 msgid "This action cannot be undone. All your data will be permanently deleted."
 msgstr "Bu əməliyyat geri qaytarıla bilməz. Bütün məlumatlarınız həmişəlik silinəcək."
 
-#: src/dialogs/resume/import.tsx
-#: src/dialogs/resume/import.tsx
-msgid "This feature requires AI Integration to be enabled. Please enable it in the settings."
-msgstr "Bu xüsusiyyət üçün Süni İntellekt inteqrasiyasının aktiv olması tələb olunur. Zəhmət olmasa, onu parametrlərdən aktiv edin."
-
 #: src/dialogs/resume/index.tsx
 msgid "This is a URL-friendly name for your resume."
 msgstr "Bu, özgeçmişiniz üçün URL‑ə uyğun bir addır."
@@ -2726,11 +2729,6 @@ msgstr "Bu, özgeçmişiniz üçün URL‑ə uyğun bir addır."
 #: src/dialogs/resume/import.tsx
 msgid "This may take a few minutes, depending on the response of the AI provider. Please do not close the window or refresh the page."
 msgstr "Bu, Süni İntellekt provayderinin cavabından asılı olaraq bir neçə dəqiqə çəkə bilər. Zəhmət olmasa, pəncərəni bağlamayın və ya səhifəni yeniləməyin."
-
-#: src/routes/builder/$resumeId/-components/dock.tsx
-#: src/routes/builder/$resumeId/-sidebar/right/sections/export.tsx
-msgid "This may take a while depending on the server capacity. Please do not close the window or refresh the page."
-msgstr "Bu, server imkanlarından asılı olaraq bir az vaxt apara bilər. Zəhmət olmasa, pəncərəni bağlamayın və ya səhifəni yeniləməyin."
 
 #: src/components/kanban/analytics/overview-cards.tsx
 msgid "This Month"
@@ -2865,8 +2863,8 @@ msgid "Unlimited Resumes"
 msgstr "Limitsiz Özgeçmişlər"
 
 #: src/routes/dashboard/settings/authentication/-components/hooks.tsx
-msgid "Unlinking your {providerName} account..."
-msgstr "{providerName} hesabınızın əlaqəsi kəsilir..."
+msgid "Unlinking accounts is not yet supported."
+msgstr ""
 
 #: src/routes/auth/resume-password.tsx
 #: src/routes/builder/$resumeId/-components/header.tsx
@@ -2968,10 +2966,6 @@ msgstr "Parolunuzu yeniləyin"
 msgid "Update your personal information."
 msgstr ""
 
-#: src/components/ai/chat.tsx
-msgid "Updated"
-msgstr ""
-
 #: src/dialogs/auth/change-password.tsx
 msgid "Updating your password..."
 msgstr "Parolunuz yenilənir..."
@@ -3001,6 +2995,10 @@ msgstr "Özbək"
 #: src/components/input/rich-input.tsx
 msgid "Valid URLs must start with http:// or https://."
 msgstr "Etibarlı URL‑lər http:// və ya https:// ilə başlamalıdır."
+
+#: src/dialogs/auth/enable-two-factor.tsx
+msgid "Verification failed."
+msgstr ""
 
 #: src/dialogs/profile/index.tsx
 msgid "Verified"
@@ -3102,6 +3100,10 @@ msgstr "Həmçinin, Docker imicindən istifadə edərək tətbiqi öz serverlər
 msgid "You can also use your username to login."
 msgstr "Daxil olmaq üçün istifadəçi adınızdan da istifadə edə bilərsiniz."
 
+#: src/dialogs/settings/tabs/ai.tsx
+msgid "You don't have permission to manage AI settings. Only administrators can access this page."
+msgstr ""
+
 #: src/hooks/use-form-blocker.tsx
 msgid "You have unsaved changes that will be lost."
 msgstr ""
@@ -3138,10 +3140,6 @@ msgstr "Dəyişiklikləriniz avtomatik olaraq yadda saxlanılır."
 #: src/routes/_home/-sections/features.tsx
 msgid "Your data is secure, and never shared or sold to anyone."
 msgstr "Məlumatlarınız təhlükəsizdir və heç kimlə paylaşılmır və ya satılmır."
-
-#: src/dialogs/settings/tabs/ai.tsx
-msgid "Your data is stored locally"
-msgstr "Məlumatlarınız lokal olaraq saxlanılır"
 
 #: src/routes/auth/reset-password.tsx
 msgid "Your password has been reset successfully. You can now sign in with your new password."
