@@ -17,8 +17,13 @@ RUN cd /tmp/prod && pnpm install --frozen-lockfile --prod
 # ---------- Builder Layer ----------
 FROM node:24-slim AS builder
 
+ARG VITE_API_URL
+ARG APP_URL
+
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
+ENV VITE_API_URL=${VITE_API_URL}
+ENV APP_URL=${APP_URL}
 RUN corepack enable
 
 WORKDIR /app
