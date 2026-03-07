@@ -2,7 +2,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { t } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
 import { PlusIcon, TrashIcon, UsersThreeIcon } from "@phosphor-icons/react";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
@@ -12,7 +11,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
-import { orpc } from "@/integrations/orpc/client";
+import { useApplicationContacts, useCreateContact, useDeleteContact } from "@/integrations/api/hooks/applications";
 import type { DialogProps } from "../store";
 
 const contactFormSchema = z.object({
@@ -26,17 +25,11 @@ const contactFormSchema = z.object({
 type ContactFormValues = z.infer<typeof contactFormSchema>;
 
 export function ContactsDialog({ data }: DialogProps<"application.contacts">) {
-	const queryClient = useQueryClient();
+	const { data: contacts, isLoading } = useApplicationContacts(data.id);
 
-	const { data: contacts, isLoading } = useQuery(
-		orpc.application.contacts.list.queryOptions({ input: { applicationId: data.id } }),
-	);
+	const { mutate: createContact, isPending: isCreating } = useCreateContact();
 
-	const { mutate: createContact, isPending: isCreating } = useMutation(
-		orpc.application.contacts.create.mutationOptions(),
-	);
-
-	const { mutate: deleteContact } = useMutation(orpc.application.contacts.delete.mutationOptions());
+	const { mutate: deleteContact } = useDeleteContact();
 
 	const form = useForm<ContactFormValues>({
 		resolver: zodResolver(contactFormSchema),
@@ -46,19 +39,16 @@ export function ContactsDialog({ data }: DialogProps<"application.contacts">) {
 	const onAddContact = (values: ContactFormValues) => {
 		createContact(
 			{
-				applicationId: data.id,
+				application_id: data.id,
 				name: values.name,
-				role: values.role || null,
-				email: values.email || null,
-				phone: values.phone || null,
-				linkedinUrl: values.linkedinUrl || null,
+				role: values.role || undefined,
+				email: values.email || undefined,
+				phone: values.phone || undefined,
+				linkedin_url: values.linkedinUrl || undefined,
 			},
 			{
 				onSuccess: () => {
 					toast.success(t`Contact added.`);
-					queryClient.invalidateQueries(
-						orpc.application.contacts.list.queryOptions({ input: { applicationId: data.id } }),
-					);
 					form.reset();
 				},
 				onError: (error) => {
@@ -70,13 +60,10 @@ export function ContactsDialog({ data }: DialogProps<"application.contacts">) {
 
 	const onDeleteContact = (contactId: string) => {
 		deleteContact(
-			{ id: contactId, applicationId: data.id },
+			{ id: contactId, application_id: data.id },
 			{
 				onSuccess: () => {
 					toast.success(t`Contact removed.`);
-					queryClient.invalidateQueries(
-						orpc.application.contacts.list.queryOptions({ input: { applicationId: data.id } }),
-					);
 				},
 				onError: (error) => {
 					toast.error(error.message);

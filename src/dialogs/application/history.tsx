@@ -2,10 +2,9 @@ import { msg } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
 import { ClockCounterClockwiseIcon } from "@phosphor-icons/react";
-import { useQuery } from "@tanstack/react-query";
 import { DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Skeleton } from "@/components/ui/skeleton";
-import { orpc } from "@/integrations/orpc/client";
+import { useApplicationHistory } from "@/integrations/api/hooks/applications";
 import type { DialogProps } from "../store";
 
 const STATUS_LABELS = {
@@ -20,9 +19,7 @@ const STATUS_LABELS = {
 
 export function HistoryDialog({ data }: DialogProps<"application.history">) {
 	const { i18n } = useLingui();
-	const { data: history, isLoading } = useQuery(
-		orpc.application.history.queryOptions({ input: { applicationId: data.id } }),
-	);
+	const { data: history, isLoading } = useApplicationHistory(data.id);
 
 	return (
 		<DialogContent className="max-h-[85vh] overflow-y-auto sm:max-w-md">
@@ -50,18 +47,19 @@ export function HistoryDialog({ data }: DialogProps<"application.history">) {
 							<div className="relative z-10 mt-1 size-3 shrink-0 rounded-full bg-primary" />
 							<div className="min-w-0 flex-1">
 								<p className="font-medium text-sm">
-									{entry.fromStatus ? (
+									{entry.from_status ? (
 										<>
-											{i18n._(STATUS_LABELS[entry.fromStatus])} → {i18n._(STATUS_LABELS[entry.toStatus])}
+											{i18n._(STATUS_LABELS[entry.from_status as keyof typeof STATUS_LABELS])} →{" "}
+											{i18n._(STATUS_LABELS[entry.to_status as keyof typeof STATUS_LABELS])}
 										</>
 									) : (
 										<>
-											<Trans>Created as</Trans> {i18n._(STATUS_LABELS[entry.toStatus])}
+											<Trans>Created as</Trans> {i18n._(STATUS_LABELS[entry.to_status as keyof typeof STATUS_LABELS])}
 										</>
 									)}
 								</p>
 								<p className="text-muted-foreground text-xs">
-									{new Date(entry.changedAt).toLocaleString(undefined, {
+									{new Date(entry.created_at).toLocaleString(undefined, {
 										month: "short",
 										day: "numeric",
 										year: "numeric",

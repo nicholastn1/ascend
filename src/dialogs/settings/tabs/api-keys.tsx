@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useDialogStore } from "@/dialogs/store";
 import { useConfirm } from "@/hooks/use-confirm";
-import { authClient } from "@/integrations/auth/client";
+import { authQueryKeys, deleteApiKey, listApiKeys } from "@/integrations/auth/client";
 
 export function ApiKeysTab() {
 	const confirm = useConfirm();
@@ -16,14 +16,14 @@ export function ApiKeysTab() {
 	const openDialog = useDialogStore((state) => state.openDialog);
 
 	const { data: apiKeys = [] } = useQuery({
-		queryKey: ["auth", "api-keys"],
-		queryFn: () => authClient.apiKey.list(),
-		select: ({ data }) => {
+		queryKey: authQueryKeys.apiKeys,
+		queryFn: () => listApiKeys(),
+		select: (data) => {
 			if (!data) return [];
 
 			return data
-				.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
-				.filter((key) => !!key.expiresAt && key.expiresAt.getTime() > Date.now());
+				.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+				.filter((key) => !!key.expires_at && new Date(key.expires_at).getTime() > Date.now());
 		},
 	});
 
@@ -38,15 +38,13 @@ export function ApiKeysTab() {
 
 		const toastId = toast.loading(t`Deleting your API key...`);
 
-		const { error } = await authClient.apiKey.delete({ keyId: id });
-
-		if (error) {
-			toast.error(error.message, { id: toastId });
-			return;
+		try {
+			await deleteApiKey(id);
+			toast.success(t`The API key has been deleted successfully.`, { id: toastId });
+			queryClient.invalidateQueries({ queryKey: authQueryKeys.apiKeys });
+		} catch (error) {
+			toast.error(error instanceof Error ? error.message : t`Something went wrong.`, { id: toastId });
 		}
-
-		toast.success(t`The API key has been deleted successfully.`, { id: toastId });
-		queryClient.invalidateQueries({ queryKey: ["auth", "api-keys"] });
 	};
 
 	return (
@@ -104,7 +102,7 @@ export function ApiKeysTab() {
 							<div className="flex-1 space-y-1">
 								<p className="font-mono text-xs">{key.start}...</p>
 								<div className="text-muted-foreground text-xs">
-									<Trans>Expires on {key.expiresAt?.toLocaleDateString()}</Trans>
+									<Trans>Expires on {key.expires_at ? new Date(key.expires_at).toLocaleDateString() : ""}</Trans>
 								</div>
 							</div>
 

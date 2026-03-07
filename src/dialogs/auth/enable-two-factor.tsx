@@ -1,30 +1,23 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { t } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
-import { ArrowDownIcon, CopyIcon, EyeIcon, EyeSlashIcon } from "@phosphor-icons/react";
-import { useRouter } from "@tanstack/react-router";
+import { ArrowDownIcon, CopyIcon } from "@phosphor-icons/react";
+import { useQueryClient } from "@tanstack/react-query";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
 import { QRCodeSVG } from "qrcode.react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { match } from "ts-pattern";
-import { useToggle } from "usehooks-ts";
 import z from "zod";
 import { Button } from "@/components/ui/button";
 import { DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 import { useFormBlocker } from "@/hooks/use-form-blocker";
-import { authClient } from "@/integrations/auth/client";
+import { authQueryKeys, setup2FA, verify2FA } from "@/integrations/auth/client";
 import { type DialogProps, useDialogStore } from "../store";
-
-const enableFormSchema = z.object({
-	password: z.string().min(6).max(64),
-});
-
-type EnableFormValues = z.infer<typeof enableFormSchema>;
 
 const verifyFormSchema = z.object({
 	code: z.string().length(6, "Code must be 6 digits"),
@@ -33,21 +26,13 @@ const verifyFormSchema = z.object({
 type VerifyFormValues = z.infer<typeof verifyFormSchema>;
 
 export function EnableTwoFactorDialog(_: DialogProps<"auth.two-factor.enable">) {
-	const router = useRouter();
+	const queryClient = useQueryClient();
 
 	const [totpUri, setTotpUri] = useState<string | null>(null);
 	const [backupCodes, setBackupCodes] = useState<string[] | null>(null);
-	const [step, setStep] = useState<"enable" | "verify" | "backup">("enable");
+	const [step, setStep] = useState<"setup" | "verify" | "backup">("setup");
 
-	const [showPassword, toggleShowPassword] = useToggle(false);
 	const closeDialog = useDialogStore((state) => state.closeDialog);
-
-	const enableForm = useForm<EnableFormValues>({
-		resolver: zodResolver(enableFormSchema),
-		defaultValues: {
-			password: "",
-		},
-	});
 
 	const verifyForm = useForm<VerifyFormValues>({
 		resolver: zodResolver(verifyFormSchema),
@@ -56,65 +41,62 @@ export function EnableTwoFactorDialog(_: DialogProps<"auth.two-factor.enable">) 
 		},
 	});
 
-	const enableFormState = enableForm.formState;
 	const verifyFormState = verifyForm.formState;
 
-	const { blockEvents, requestClose } = useFormBlocker(enableForm, {
+	const { blockEvents, requestClose } = useFormBlocker(verifyForm, {
 		shouldBlock: () => {
-			if (step === "enable") return enableFormState.isDirty && !enableFormState.isSubmitting;
 			if (step === "verify") return verifyFormState.isDirty && !verifyFormState.isSubmitting;
 			return false;
 		},
 	});
 
-	const onEnableSubmit = async (values: EnableFormValues) => {
-		const toastId = toast.loading(t`Enabling two-factor authentication...`);
-
-		const { data, error } = await authClient.twoFactor.enable({
-			password: values.password,
-			issuer: "Ascend",
-		});
-
-		if (error) {
-			toast.error(error.message, { id: toastId });
-			return;
-		}
-
-		if (data.totpURI && data.backupCodes) {
-			setTotpUri(data.totpURI);
-			setBackupCodes(data.backupCodes);
-			setStep("verify");
-			toast.dismiss(toastId);
-		} else {
-			toast.error(t`Failed to setup two-factor authentication.`, { id: toastId });
-		}
-	};
+	useEffect(() => {
+		const initSetup = async () => {
+			const toastId = toast.loading(t`Setting up two-factor authentication...`);
+			try {
+				const data = await setup2FA();
+				if (data.totp_uri && data.backup_codes) {
+					setTotpUri(data.totp_uri);
+					setBackupCodes(data.backup_codes);
+					setStep("verify");
+					toast.dismiss(toastId);
+				} else {
+					toast.error(t`Failed to setup two-factor authentication.`, { id: toastId });
+				}
+			} catch (error) {
+				toast.error(error instanceof Error ? error.message : t`Failed to setup two-factor authentication.`, {
+					id: toastId,
+				});
+			}
+		};
+		initSetup();
+	}, []);
 
 	const onVerifySubmit = async (data: VerifyFormValues) => {
 		const toastId = toast.loading(t`Verifying code...`);
 
-		const { error } = await authClient.twoFactor.verifyTotp({ code: data.code });
-
-		if (error) {
-			toast.error(error.message, { id: toastId });
-			return;
+		try {
+			const result = await verify2FA(data.code);
+			if (result.backup_codes) {
+				setBackupCodes(result.backup_codes);
+			}
+			toast.dismiss(toastId);
+			setStep("backup");
+		} catch (error) {
+			toast.error(error instanceof Error ? error.message : t`Verification failed.`, { id: toastId });
 		}
-
-		toast.dismiss(toastId);
-		setStep("backup");
 	};
 
 	const onConfirmBackup = () => {
 		toast.success(t`Two-factor authentication has been setup successfully.`);
-		router.invalidate();
+		queryClient.invalidateQueries({ queryKey: authQueryKeys.session });
 		closeDialog();
 		onReset();
 	};
 
 	const onReset = () => {
-		enableForm.reset();
 		verifyForm.reset();
-		setStep("enable");
+		setStep("setup");
 		setTotpUri(null);
 		setBackupCodes(null);
 	};
@@ -152,17 +134,17 @@ export function EnableTwoFactorDialog(_: DialogProps<"auth.two-factor.enable">) 
 			<DialogHeader>
 				<DialogTitle>
 					{match(step)
-						.with("enable", () => <Trans>Enable Two-Factor Authentication</Trans>)
+						.with("setup", () => <Trans>Enable Two-Factor Authentication</Trans>)
 						.with("verify", () => <Trans>Setup Authenticator App</Trans>)
 						.with("backup", () => <Trans>Copy Backup Codes</Trans>)
 						.exhaustive()}
 				</DialogTitle>
 				<DialogDescription>
 					{match(step)
-						.with("enable", () => (
+						.with("setup", () => (
 							<Trans>
-								Enter your password to confirm setting up two-factor authentication. When enabled, you'll need to enter
-								a code from your authenticator app every time you log in.
+								Setting up two-factor authentication. When enabled, you'll need to enter a code from your authenticator
+								app every time you log in.
 							</Trans>
 						))
 						.with("verify", () => (
@@ -177,44 +159,10 @@ export function EnableTwoFactorDialog(_: DialogProps<"auth.two-factor.enable">) 
 			</DialogHeader>
 
 			{match(step)
-				.with("enable", () => (
-					<Form {...enableForm}>
-						<form onSubmit={enableForm.handleSubmit(onEnableSubmit)} className="space-y-4">
-							<FormField
-								control={enableForm.control}
-								name="password"
-								render={({ field }) => (
-									<FormItem>
-										<FormLabel>
-											<Trans>Password</Trans>
-										</FormLabel>
-										<div className="flex items-center gap-x-1.5">
-											<FormControl>
-												<Input
-													min={6}
-													max={64}
-													type={showPassword ? "text" : "password"}
-													autoComplete="current-password"
-													{...field}
-												/>
-											</FormControl>
-
-											<Button size="icon" variant="ghost" type="button" onClick={toggleShowPassword}>
-												{showPassword ? <EyeIcon /> : <EyeSlashIcon />}
-											</Button>
-										</div>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
-
-							<DialogFooter>
-								<Button type="submit">
-									<Trans>Continue</Trans>
-								</Button>
-							</DialogFooter>
-						</form>
-					</Form>
+				.with("setup", () => (
+					<div className="flex items-center justify-center py-8">
+						<Trans>Loading...</Trans>
+					</div>
 				))
 				.with("verify", () => {
 					const secret = totpUri ? extractSecretFromTotpUri(totpUri) : null;

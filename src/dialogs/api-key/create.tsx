@@ -15,7 +15,7 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Input } from "@/components/ui/input";
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from "@/components/ui/input-group";
 import { useFormBlocker } from "@/hooks/use-form-blocker";
-import { authClient } from "@/integrations/auth/client";
+import { createApiKey } from "@/integrations/auth/client";
 import { type DialogProps, useDialogStore } from "../store";
 
 const formSchema = z.object({
@@ -51,18 +51,14 @@ const CreateApiKeyForm = ({ setApiKey }: CreateApiKeyFormProps) => {
 	const onSubmit = async (values: FormValues) => {
 		const toastId = toast.loading(t`Creating your API key...`);
 
-		const { data, error } = await authClient.apiKey.create({
-			name: values.name,
-			expiresIn: values.expiresIn,
-		});
-
-		if (error) {
-			toast.error(error.message, { id: toastId });
-			return;
+		try {
+			const expiresAt = new Date(Date.now() + values.expiresIn * 1000).toISOString();
+			const data = await createApiKey({ name: values.name, expires_at: expiresAt });
+			setApiKey(data.key);
+			toast.dismiss(toastId);
+		} catch (error) {
+			toast.error(error instanceof Error ? error.message : t`Something went wrong.`, { id: toastId });
 		}
-
-		setApiKey(data.key);
-		toast.dismiss(toastId);
 	};
 
 	return (

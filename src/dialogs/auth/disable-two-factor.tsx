@@ -1,35 +1,34 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { t } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
-import { EyeIcon, EyeSlashIcon, LockOpenIcon } from "@phosphor-icons/react";
-import { useRouter } from "@tanstack/react-router";
+import { LockOpenIcon } from "@phosphor-icons/react";
+import { useQueryClient } from "@tanstack/react-query";
+import { REGEXP_ONLY_DIGITS } from "input-otp";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { useToggle } from "usehooks-ts";
 import z from "zod";
 import { Button } from "@/components/ui/button";
 import { DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 import { useFormBlocker } from "@/hooks/use-form-blocker";
-import { authClient } from "@/integrations/auth/client";
+import { authQueryKeys, disable2FA } from "@/integrations/auth/client";
 import { type DialogProps, useDialogStore } from "../store";
 
 const formSchema = z.object({
-	password: z.string().min(6).max(64),
+	code: z.string().length(6, "Code must be 6 digits"),
 });
 
 type FormValues = z.infer<typeof formSchema>;
 
 export function DisableTwoFactorDialog(_: DialogProps<"auth.two-factor.disable">) {
-	const router = useRouter();
-	const [showPassword, toggleShowPassword] = useToggle(false);
+	const queryClient = useQueryClient();
 	const closeDialog = useDialogStore((state) => state.closeDialog);
 
 	const form = useForm<FormValues>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
-			password: "",
+			code: "",
 		},
 	});
 
@@ -38,17 +37,15 @@ export function DisableTwoFactorDialog(_: DialogProps<"auth.two-factor.disable">
 	const onSubmit = async (data: FormValues) => {
 		const toastId = toast.loading(t`Disabling two-factor authentication...`);
 
-		const { error } = await authClient.twoFactor.disable({ password: data.password });
-
-		if (error) {
-			toast.error(error.message, { id: toastId });
-			return;
+		try {
+			await disable2FA(data.code);
+			toast.success(t`Two-factor authentication has been disabled successfully.`, { id: toastId });
+			queryClient.invalidateQueries({ queryKey: authQueryKeys.session });
+			closeDialog();
+			form.reset();
+		} catch (error) {
+			toast.error(error instanceof Error ? error.message : t`Something went wrong.`, { id: toastId });
 		}
-
-		toast.success(t`Two-factor authentication has been disabled successfully.`, { id: toastId });
-		router.invalidate();
-		closeDialog();
-		form.reset();
 	};
 
 	return (
@@ -60,8 +57,8 @@ export function DisableTwoFactorDialog(_: DialogProps<"auth.two-factor.disable">
 				</DialogTitle>
 				<DialogDescription>
 					<Trans>
-						Enter your password to disable two-factor authentication. Your account will be less secure without 2FA
-						enabled.
+						Enter a code from your authenticator app to disable two-factor authentication. Your account will be less
+						secure without 2FA enabled.
 					</Trans>
 				</DialogDescription>
 			</DialogHeader>
@@ -70,27 +67,31 @@ export function DisableTwoFactorDialog(_: DialogProps<"auth.two-factor.disable">
 				<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
 					<FormField
 						control={form.control}
-						name="password"
+						name="code"
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>
-									<Trans>Password</Trans>
+									<Trans>Authenticator Code</Trans>
 								</FormLabel>
-								<div className="flex items-center gap-x-1.5">
-									<FormControl>
-										<Input
-											min={6}
-											max={64}
-											type={showPassword ? "text" : "password"}
-											autoComplete="current-password"
-											{...field}
-										/>
-									</FormControl>
-
-									<Button size="icon" variant="ghost" type="button" onClick={toggleShowPassword}>
-										{showPassword ? <EyeIcon /> : <EyeSlashIcon />}
-									</Button>
-								</div>
+								<FormControl>
+									<InputOTP
+										maxLength={6}
+										value={field.value}
+										onChange={field.onChange}
+										pattern={REGEXP_ONLY_DIGITS}
+										onComplete={form.handleSubmit(onSubmit)}
+										pasteTransformer={(pasted) => pasted.replaceAll("-", "")}
+									>
+										<InputOTPGroup>
+											<InputOTPSlot index={0} className="size-12" />
+											<InputOTPSlot index={1} className="size-12" />
+											<InputOTPSlot index={2} className="size-12" />
+											<InputOTPSlot index={3} className="size-12" />
+											<InputOTPSlot index={4} className="size-12" />
+											<InputOTPSlot index={5} className="size-12" />
+										</InputOTPGroup>
+									</InputOTP>
+								</FormControl>
 								<FormMessage />
 							</FormItem>
 						)}

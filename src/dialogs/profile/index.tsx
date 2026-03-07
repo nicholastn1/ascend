@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { t } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
 import { CheckIcon, WarningIcon } from "@phosphor-icons/react";
-import { useRouter } from "@tanstack/react-router";
+import { useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { match } from "ts-pattern";
@@ -14,7 +14,7 @@ import { Input } from "@/components/ui/input";
 import type { DialogProps } from "@/dialogs/store";
 import { useDialogStore } from "@/dialogs/store";
 import { useFormBlocker } from "@/hooks/use-form-blocker";
-import { authClient } from "@/integrations/auth/client";
+import { authQueryKeys, updateProfile, useSession } from "@/integrations/auth/client";
 
 const formSchema = z.object({
 	name: z.string().trim().min(1).max(64),
@@ -26,20 +26,18 @@ const formSchema = z.object({
 		.regex(/^[a-z0-9._-]+$/, {
 			message: "Username can only contain lowercase letters, numbers, dots, hyphens and underscores.",
 		}),
-	email: z.email().trim(),
 });
 
 type FormValues = z.infer<typeof formSchema>;
 
 export function ProfileDialog(_: DialogProps<"profile">) {
-	const router = useRouter();
+	const queryClient = useQueryClient();
 	const closeDialog = useDialogStore((state) => state.closeDialog);
-	const { data: session } = authClient.useSession();
+	const { data: session } = useSession();
 
 	const defaultValues = {
 		name: session?.user.name ?? "",
 		username: session?.user.username ?? "",
-		email: session?.user.email ?? "",
 	};
 
 	const form = useForm<FormValues>({
@@ -50,60 +48,19 @@ export function ProfileDialog(_: DialogProps<"profile">) {
 	const { blockEvents, requestClose } = useFormBlocker(form);
 
 	const onSubmit = async (data: FormValues) => {
-		const { error } = await authClient.updateUser({
-			name: data.name,
-			username: data.username,
-			displayUsername: data.username,
-		});
-
-		if (error) {
-			toast.error(error.message);
-			return;
-		}
-
-		toast.success(t`Your profile has been updated successfully.`);
-		router.invalidate();
-
-		if (data.email !== session?.user.email) {
-			const { error } = await authClient.changeEmail({
-				newEmail: data.email,
-				callbackURL: "/dashboard",
+		try {
+			await updateProfile({
+				name: data.name,
+				username: data.username,
+				display_username: data.username,
 			});
 
-			if (error) {
-				toast.error(error.message);
-				return;
-			}
-
-			toast.success(
-				t`A confirmation link has been sent to your current email address. Please check your inbox to confirm the change.`,
-			);
-			router.invalidate();
+			toast.success(t`Your profile has been updated successfully.`);
+			queryClient.invalidateQueries({ queryKey: authQueryKeys.session });
+			closeDialog();
+		} catch (error) {
+			toast.error(error instanceof Error ? error.message : t`Something went wrong.`);
 		}
-
-		closeDialog();
-	};
-
-	const handleResendVerificationEmail = async () => {
-		if (!session?.user.email) return;
-
-		const toastId = toast.loading(t`Resending verification email...`);
-
-		const { error } = await authClient.sendVerificationEmail({
-			email: session.user.email,
-			callbackURL: "/dashboard",
-		});
-
-		if (error) {
-			toast.error(error.message, { id: toastId });
-			return;
-		}
-
-		toast.success(
-			t`A new verification link has been sent to your email address. Please check your inbox to verify your account.`,
-			{ id: toastId },
-		);
-		router.invalidate();
 	};
 
 	return (
@@ -158,50 +115,24 @@ export function ProfileDialog(_: DialogProps<"profile">) {
 						)}
 					/>
 
-					<FormField
-						control={form.control}
-						name="email"
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>
-									<Trans>Email Address</Trans>
-								</FormLabel>
-								<FormControl>
-									<Input
-										type="email"
-										autoComplete="email"
-										placeholder="john.doe@example.com"
-										className="lowercase"
-										{...field}
-									/>
-								</FormControl>
-								<FormMessage />
-								{session?.user.emailVerified !== undefined &&
-									match(session.user.emailVerified)
-										.with(true, () => (
-											<p className="flex items-center gap-x-1.5 text-green-700 text-xs">
-												<CheckIcon />
-												<Trans>Verified</Trans>
-											</p>
-										))
-										.with(false, () => (
-											<p className="flex items-center gap-x-1.5 text-amber-600 text-xs">
-												<WarningIcon className="size-3.5" />
-												<Trans>Unverified</Trans>
-												<span>|</span>
-												<Button
-													variant="link"
-													className="h-auto gap-x-1.5 p-0! text-inherit text-xs"
-													onClick={handleResendVerificationEmail}
-												>
-													<Trans>Resend verification email</Trans>
-												</Button>
-											</p>
-										))
-										.exhaustive()}
-							</FormItem>
-						)}
-					/>
+					<div>
+						<p className="text-muted-foreground text-sm">{session?.user.email}</p>
+						{session?.user.email_verified !== undefined &&
+							match(session.user.email_verified)
+								.with(true, () => (
+									<p className="flex items-center gap-x-1.5 text-green-700 text-xs">
+										<CheckIcon />
+										<Trans>Verified</Trans>
+									</p>
+								))
+								.with(false, () => (
+									<p className="flex items-center gap-x-1.5 text-amber-600 text-xs">
+										<WarningIcon className="size-3.5" />
+										<Trans>Unverified</Trans>
+									</p>
+								))
+								.exhaustive()}
+					</div>
 
 					<DialogFooter>
 						<Button type="button" variant="ghost" onClick={requestClose}>

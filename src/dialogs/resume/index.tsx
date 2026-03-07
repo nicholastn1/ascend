@@ -2,7 +2,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { t } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
 import { CaretDownIcon, MagicWandIcon, PencilSimpleLineIcon, PlusIcon, TestTubeIcon } from "@phosphor-icons/react";
-import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo } from "react";
 import { useForm, useFormContext, useWatch } from "react-hook-form";
@@ -22,8 +21,8 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Input } from "@/components/ui/input";
 import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText } from "@/components/ui/input-group";
 import { useFormBlocker } from "@/hooks/use-form-blocker";
-import { authClient } from "@/integrations/auth/client";
-import { orpc, type RouterInput } from "@/integrations/orpc/client";
+import { useCreateResume, useDuplicateResume, useUpdateResume } from "@/integrations/api/hooks/resumes";
+import { useSession } from "@/integrations/auth/client";
 import { generateId, generateRandomName, slugify } from "@/utils/string";
 import { type DialogProps, useDialogStore } from "../store";
 
@@ -39,7 +38,7 @@ type FormValues = z.infer<typeof formSchema>;
 export function CreateResumeDialog(_: DialogProps<"resume.create">) {
 	const closeDialog = useDialogStore((state) => state.closeDialog);
 
-	const { mutate: createResume, isPending } = useMutation(orpc.resume.create.mutationOptions());
+	const { mutate: createResume, isPending } = useCreateResume();
 
 	const form = useForm<FormValues>({
 		resolver: zodResolver(formSchema),
@@ -86,8 +85,7 @@ export function CreateResumeDialog(_: DialogProps<"resume.create">) {
 			name: values.name || randomName,
 			slug: values.slug || slugify(randomName),
 			tags: values.tags,
-			withSampleData: true,
-		} satisfies RouterInput["resume"]["create"];
+		};
 
 		const toastId = toast.loading(t`Creating your resume...`);
 
@@ -149,7 +147,7 @@ export function CreateResumeDialog(_: DialogProps<"resume.create">) {
 export function UpdateResumeDialog({ data }: DialogProps<"resume.update">) {
 	const closeDialog = useDialogStore((state) => state.closeDialog);
 
-	const { mutate: updateResume, isPending } = useMutation(orpc.resume.update.mutationOptions());
+	const { mutate: updateResume, isPending } = useUpdateResume();
 
 	const form = useForm<FormValues>({
 		resolver: zodResolver(formSchema),
@@ -220,7 +218,7 @@ export function DuplicateResumeDialog({ data }: DialogProps<"resume.duplicate">)
 	const navigate = useNavigate();
 	const closeDialog = useDialogStore((state) => state.closeDialog);
 
-	const { mutate: duplicateResume, isPending } = useMutation(orpc.resume.duplicate.mutationOptions());
+	const { mutate: duplicateResume, isPending } = useDuplicateResume();
 
 	const form = useForm<FormValues>({
 		resolver: zodResolver(formSchema),
@@ -244,17 +242,17 @@ export function DuplicateResumeDialog({ data }: DialogProps<"resume.duplicate">)
 	const onSubmit = (values: FormValues) => {
 		const toastId = toast.loading(t`Duplicating your resume...`);
 
-		duplicateResume(values, {
-			onSuccess: async (id) => {
+		duplicateResume(values.id, {
+			onSuccess: (resume) => {
 				toast.success(t`Your resume has been duplicated successfully.`, { id: toastId });
 				closeDialog();
 
 				if (data.shouldRedirect) {
-					navigate({ to: `/builder/$resumeId`, params: { resumeId: id } });
+					navigate({ to: `/builder/$resumeId`, params: { resumeId: resume.id } });
 				}
 			},
 			onError: (error) => {
-				toast.error(error.message, { id: toastId });
+				toast.error(error instanceof Error ? error.message : "Failed to duplicate resume", { id: toastId });
 			},
 		});
 	};
@@ -288,7 +286,7 @@ export function DuplicateResumeDialog({ data }: DialogProps<"resume.duplicate">)
 
 function ResumeForm() {
 	const form = useFormContext<FormValues>();
-	const { data: session } = authClient.useSession();
+	const { data: session } = useSession();
 
 	const slugPrefix = useMemo(() => {
 		return `${window.location.origin}/${session?.user.username ?? ""}/`;

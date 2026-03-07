@@ -1,35 +1,29 @@
 import { t } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
 import { TrashIcon } from "@phosphor-icons/react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { orpc } from "@/integrations/orpc/client";
+import { useDeleteApplication } from "@/integrations/api/hooks/applications";
 import { type DialogProps, useDialogStore } from "../store";
 
 export function DeleteApplicationDialog({ data }: DialogProps<"application.delete">) {
 	const closeDialog = useDialogStore((state) => state.closeDialog);
-	const queryClient = useQueryClient();
 
-	const { mutate: deleteApplication, isPending } = useMutation(orpc.application.delete.mutationOptions());
+	const { mutate: deleteApplication, isPending } = useDeleteApplication();
 
 	const onConfirm = () => {
 		const toastId = toast.loading(t`Deleting application...`);
 
-		deleteApplication(
-			{ id: data.id },
-			{
-				onSuccess: () => {
-					toast.success(t`Application deleted successfully.`, { id: toastId });
-					queryClient.invalidateQueries(orpc.application.kanban.queryOptions());
-					closeDialog();
-				},
-				onError: (error) => {
-					toast.error(error.message, { id: toastId });
-				},
+		deleteApplication(data.id, {
+			onSuccess: () => {
+				toast.success(t`Application deleted successfully.`, { id: toastId });
+				closeDialog();
 			},
-		);
+			onError: (error) => {
+				toast.error(error.message, { id: toastId });
+			},
+		});
 	};
 
 	return (

@@ -1,7 +1,6 @@
 import { t } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
 import { FloppyDiskIcon } from "@phosphor-icons/react";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -9,11 +8,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Spinner } from "@/components/ui/spinner";
 import { Textarea } from "@/components/ui/textarea";
-import type { RouterOutput } from "@/integrations/orpc/client";
-import { orpc } from "@/integrations/orpc/client";
+import { type Prompt, usePrompts, useUpdatePrompt } from "@/integrations/api/hooks/prompts";
 import { cn } from "@/utils/style";
-
-type Prompt = RouterOutput["prompt"]["list"][number];
 
 function PromptList({
 	prompts,
@@ -45,8 +41,6 @@ function PromptList({
 }
 
 function PromptEditor({ prompt, onSaved }: { prompt: Prompt; onSaved: () => void }) {
-	const queryClient = useQueryClient();
-
 	const [title, setTitle] = useState(prompt.title);
 	const [description, setDescription] = useState(prompt.description ?? "");
 	const [content, setContent] = useState(prompt.content);
@@ -59,21 +53,21 @@ function PromptEditor({ prompt, onSaved }: { prompt: Prompt; onSaved: () => void
 
 	const isDirty = title !== prompt.title || description !== (prompt.description ?? "") || content !== prompt.content;
 
-	const { mutate: updatePrompt, isPending } = useMutation(
-		orpc.prompt.update.mutationOptions({
-			onSuccess: () => {
-				toast.success(t`Prompt updated successfully.`);
-				queryClient.invalidateQueries({ queryKey: orpc.prompt.list.queryOptions().queryKey });
-				onSaved();
-			},
-			onError: (error) => {
-				toast.error(error.message);
-			},
-		}),
-	);
+	const { mutate: updatePrompt, isPending } = useUpdatePrompt();
 
 	const handleSave = () => {
-		updatePrompt({ id: prompt.id, title, description: description || null, content });
+		updatePrompt(
+			{ slug: prompt.slug, title, description: description || undefined, content },
+			{
+				onSuccess: () => {
+					toast.success(t`Prompt updated successfully.`);
+					onSaved();
+				},
+				onError: (error) => {
+					toast.error(error.message);
+				},
+			},
+		);
 	};
 
 	return (
@@ -122,7 +116,7 @@ function PromptEditor({ prompt, onSaved }: { prompt: Prompt; onSaved: () => void
 export function PromptsTab() {
 	const [selectedPrompt, setSelectedPrompt] = useState<Prompt | null>(null);
 
-	const { data: prompts, isLoading } = useQuery(orpc.prompt.list.queryOptions());
+	const { data: prompts, isLoading } = usePrompts();
 
 	useEffect(() => {
 		if (selectedPrompt && prompts) {

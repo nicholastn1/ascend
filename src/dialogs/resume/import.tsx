@@ -2,7 +2,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { t } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
 import { DownloadSimpleIcon, FileIcon, UploadSimpleIcon } from "@phosphor-icons/react";
-import { useMutation } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
@@ -16,12 +15,12 @@ import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
 import { useFormBlocker } from "@/hooks/use-form-blocker";
 import { useAIStore } from "@/integrations/ai/store";
+import { API_BASE } from "@/integrations/api/client";
+import { useImportResume } from "@/integrations/api/hooks/resumes";
 import { AscendJSONImporter } from "@/integrations/import/ascend-json";
 import { AscendV4JSONImporter } from "@/integrations/import/ascend-v4-json";
 import { JSONResumeImporter } from "@/integrations/import/json-resume";
-import { client, orpc } from "@/integrations/orpc/client";
 import type { ResumeData } from "@/schema/resume/data";
-import { arrayBufferToBase64 } from "@/utils/arraybuffer-to-base64";
 import { cn } from "@/utils/style";
 import { type DialogProps, useDialogStore } from "../store";
 
@@ -72,7 +71,7 @@ export function ImportResumeDialog(_: DialogProps<"resume.import">) {
 	const inputRef = useRef<HTMLInputElement>(null);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 
-	const { mutateAsync: importResume } = useMutation(orpc.resume.import.mutationOptions());
+	const { mutateAsync: importResume } = useImportResume();
 
 	const form = useForm<FormValues>({
 		resolver: zodResolver(formSchema),
@@ -136,37 +135,40 @@ export function ImportResumeDialog(_: DialogProps<"resume.import">) {
 				if (!isAIEnabled)
 					throw new Error(t`This feature requires AI Integration to be enabled. Please enable it in the settings.`);
 
-				const arrayBuffer = await values.file.arrayBuffer();
-				const base64 = arrayBufferToBase64(arrayBuffer);
+				const formData = new FormData();
+				formData.append("file", values.file);
+				formData.append("provider", provider);
+				formData.append("model", model);
+				if (apiKey) formData.append("api_key", apiKey);
+				if (baseURL) formData.append("base_url", baseURL);
 
-				data = await client.ai.parsePdf({
-					provider,
-					model,
-					apiKey,
-					baseURL,
-					file: { name: values.file.name, data: base64 },
+				const res = await fetch(`${API_BASE}/api/v1/ai/parse-pdf`, {
+					method: "POST",
+					credentials: "include",
+					body: formData,
 				});
+				if (!res.ok) throw new Error("Failed to parse PDF");
+				data = await res.json();
 			}
 
 			if (values.type === "docx") {
 				if (!isAIEnabled)
 					throw new Error(t`This feature requires AI Integration to be enabled. Please enable it in the settings.`);
 
-				const arrayBuffer = await values.file.arrayBuffer();
-				const base64 = arrayBufferToBase64(arrayBuffer);
-				const mediaType =
-					values.file.type === "application/msword"
-						? ("application/msword" as const)
-						: ("application/vnd.openxmlformats-officedocument.wordprocessingml.document" as const);
+				const formData = new FormData();
+				formData.append("file", values.file);
+				formData.append("provider", provider);
+				formData.append("model", model);
+				if (apiKey) formData.append("api_key", apiKey);
+				if (baseURL) formData.append("base_url", baseURL);
 
-				data = await client.ai.parseDocx({
-					provider,
-					model,
-					apiKey,
-					baseURL,
-					mediaType,
-					file: { name: values.file.name, data: base64 },
+				const res = await fetch(`${API_BASE}/api/v1/ai/parse-docx`, {
+					method: "POST",
+					credentials: "include",
+					body: formData,
 				});
+				if (!res.ok) throw new Error("Failed to parse document");
+				data = await res.json();
 			}
 
 			if (!data) throw new Error("No data was returned from the AI provider.");

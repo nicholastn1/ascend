@@ -3,7 +3,6 @@ import { msg, t } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
 import { PlusIcon } from "@phosphor-icons/react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
@@ -13,7 +12,7 @@ import { DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTit
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { orpc } from "@/integrations/orpc/client";
+import { useCreateApplication } from "@/integrations/api/hooks/applications";
 import { APPLICATION_STATUSES, applicationStatusSchema, salaryPeriodSchema } from "@/schema/application";
 import { type DialogProps, useDialogStore } from "../store";
 
@@ -49,7 +48,6 @@ type FormValues = z.infer<typeof formSchema>;
 export function CreateApplicationDialog({ data }: DialogProps<"application.create">) {
 	const { i18n } = useLingui();
 	const closeDialog = useDialogStore((state) => state.closeDialog);
-	const queryClient = useQueryClient();
 
 	const STATUS_OPTIONS = APPLICATION_STATUSES.map((s) => ({
 		value: s,
@@ -68,7 +66,7 @@ export function CreateApplicationDialog({ data }: DialogProps<"application.creat
 		{ value: "monthly", label: i18n._(PERIOD_LABELS.monthly) },
 	];
 
-	const { mutate: createApplication, isPending } = useMutation(orpc.application.create.mutationOptions());
+	const { mutate: createApplication, isPending } = useCreateApplication();
 
 	const form = useForm<FormValues>({
 		resolver: zodResolver(formSchema),
@@ -90,20 +88,19 @@ export function CreateApplicationDialog({ data }: DialogProps<"application.creat
 
 		createApplication(
 			{
-				companyName: values.companyName,
-				jobTitle: values.jobTitle,
-				currentStatus: values.currentStatus,
-				jobUrl: values.jobUrl || null,
-				salaryAmount: values.salaryAmount || null,
-				salaryCurrency: values.salaryCurrency || null,
-				salaryPeriod: values.salaryPeriod || null,
-				notes: values.notes || null,
-				applicationDate: values.applicationDate || null,
+				company_name: values.companyName,
+				job_title: values.jobTitle,
+				current_status: values.currentStatus,
+				job_url: values.jobUrl || undefined,
+				salary_amount: values.salaryAmount ? Number(values.salaryAmount) : undefined,
+				salary_currency: values.salaryCurrency || undefined,
+				salary_period: values.salaryPeriod || undefined,
+				notes: values.notes || undefined,
+				application_date: values.applicationDate || undefined,
 			},
 			{
 				onSuccess: () => {
 					toast.success(t`Application created successfully.`, { id: toastId });
-					queryClient.invalidateQueries(orpc.application.kanban.queryOptions());
 					closeDialog();
 				},
 				onError: (error) => {

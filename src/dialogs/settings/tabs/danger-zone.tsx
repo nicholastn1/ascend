@@ -8,8 +8,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useConfirm } from "@/hooks/use-confirm";
-import { authClient } from "@/integrations/auth/client";
-import { orpc } from "@/integrations/orpc/client";
+import { deleteAccount, logout } from "@/integrations/auth/client";
 
 const CONFIRMATION_TEXT = "delete";
 
@@ -19,7 +18,9 @@ export function DangerZoneTab() {
 	const [confirmationText, setConfirmationText] = useState("");
 	const isConfirmationValid = confirmationText === CONFIRMATION_TEXT;
 
-	const { mutate: deleteAccount } = useMutation(orpc.auth.deleteAccount.mutationOptions());
+	const { mutate: performDelete } = useMutation({
+		mutationFn: () => deleteAccount(),
+	});
 
 	const handleDeleteAccount = async () => {
 		const confirmed = await confirm(t`Are you sure you want to delete your account?`, {
@@ -32,14 +33,14 @@ export function DangerZoneTab() {
 
 		const toastId = toast.loading(t`Deleting your account...`);
 
-		deleteAccount(undefined, {
+		performDelete(undefined, {
 			onSuccess: async () => {
 				toast.success(t`Your account has been deleted successfully.`, { id: toastId });
-				await authClient.signOut();
+				await logout();
 				navigate({ to: "/" });
 			},
 			onError: (error) => {
-				toast.error(error.message, { id: toastId });
+				toast.error(error instanceof Error ? error.message : t`Something went wrong.`, { id: toastId });
 			},
 		});
 	};

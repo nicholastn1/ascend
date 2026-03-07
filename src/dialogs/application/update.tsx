@@ -2,7 +2,6 @@ import { msg, t } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
 import { AddressBookIcon, ClockCounterClockwiseIcon, PencilSimpleIcon, TrashIcon } from "@phosphor-icons/react";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useCallback, useState } from "react";
 import { toast } from "sonner";
 import z from "zod";
@@ -14,8 +13,8 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Textarea } from "@/components/ui/textarea";
-import { orpc } from "@/integrations/orpc/client";
-import { salaryPeriodSchema } from "@/schema/application";
+import { useApplication, useUpdateApplication } from "@/integrations/api/hooks/applications";
+import { type ApplicationStatus, salaryPeriodSchema } from "@/schema/application";
 import { type DialogProps, useDialogStore } from "../store";
 import { StatusBadge } from "./status-badge";
 
@@ -41,7 +40,6 @@ export function UpdateApplicationDialog({ data }: DialogProps<"application.updat
 	const { i18n } = useLingui();
 	const openDialog = useDialogStore((state) => state.openDialog);
 	const closeDialog = useDialogStore((state) => state.closeDialog);
-	const queryClient = useQueryClient();
 
 	const [editingField, setEditingField] = useState<EditableField>(null);
 	const [draftValue, setDraftValue] = useState<Record<string, string | null>>({});
@@ -59,14 +57,9 @@ export function UpdateApplicationDialog({ data }: DialogProps<"application.updat
 		{ value: "monthly", label: i18n._(PERIOD_LABELS.monthly) },
 	];
 
-	const { data: application, isLoading } = useQuery(orpc.application.getById.queryOptions({ input: { id: data.id } }));
+	const { data: application, isLoading } = useApplication(data.id);
 
-	const { mutate: updateApplication, isPending } = useMutation(orpc.application.update.mutationOptions());
-
-	const invalidateQueries = useCallback(() => {
-		queryClient.invalidateQueries(orpc.application.getById.queryOptions({ input: { id: data.id } }));
-		queryClient.invalidateQueries(orpc.application.kanban.queryOptions());
-	}, [queryClient, data.id]);
+	const { mutate: updateApplication, isPending } = useUpdateApplication();
 
 	const startEditing = useCallback(
 		(field: EditableField) => {
@@ -75,23 +68,23 @@ export function UpdateApplicationDialog({ data }: DialogProps<"application.updat
 			setEditingField(field);
 			switch (field) {
 				case "jobTitle":
-					setDraftValue({ jobTitle: application.jobTitle });
+					setDraftValue({ jobTitle: application.job_title });
 					break;
 				case "companyName":
-					setDraftValue({ companyName: application.companyName });
+					setDraftValue({ companyName: application.company_name });
 					break;
 				case "jobUrl":
-					setDraftValue({ jobUrl: application.jobUrl ?? "" });
+					setDraftValue({ jobUrl: application.job_url ?? "" });
 					break;
 				case "salary":
 					setDraftValue({
-						salaryAmount: application.salaryAmount ?? "",
-						salaryCurrency: application.salaryCurrency ?? "USD",
-						salaryPeriod: application.salaryPeriod ?? null,
+						salaryAmount: application.salary_amount?.toString() ?? "",
+						salaryCurrency: application.salary_currency ?? "USD",
+						salaryPeriod: application.salary_period ?? null,
 					});
 					break;
 				case "applicationDate":
-					setDraftValue({ applicationDate: application.applicationDate ?? "" });
+					setDraftValue({ applicationDate: application.application_date ?? "" });
 					break;
 				case "notes":
 					setDraftValue({ notes: application.notes ?? "" });
@@ -121,7 +114,7 @@ export function UpdateApplicationDialog({ data }: DialogProps<"application.updat
 						setFieldError(result.error.issues[0].message);
 						return;
 					}
-					payload = { jobTitle: result.data };
+					payload = { job_title: result.data };
 					break;
 				}
 				case "companyName": {
@@ -130,7 +123,7 @@ export function UpdateApplicationDialog({ data }: DialogProps<"application.updat
 						setFieldError(result.error.issues[0].message);
 						return;
 					}
-					payload = { companyName: result.data };
+					payload = { company_name: result.data };
 					break;
 				}
 				case "jobUrl": {
@@ -139,19 +132,19 @@ export function UpdateApplicationDialog({ data }: DialogProps<"application.updat
 						setFieldError(result.error.issues[0].message);
 						return;
 					}
-					payload = { jobUrl: result.data || null };
+					payload = { job_url: result.data || null };
 					break;
 				}
 				case "salary": {
 					payload = {
-						salaryAmount: draftValue.salaryAmount || null,
-						salaryCurrency: draftValue.salaryCurrency || null,
-						salaryPeriod: draftValue.salaryPeriod || null,
+						salary_amount: draftValue.salaryAmount ? Number(draftValue.salaryAmount) : null,
+						salary_currency: draftValue.salaryCurrency || null,
+						salary_period: draftValue.salaryPeriod || null,
 					};
 					break;
 				}
 				case "applicationDate": {
-					payload = { applicationDate: draftValue.applicationDate || null };
+					payload = { application_date: draftValue.applicationDate || null };
 					break;
 				}
 				case "notes": {
@@ -164,7 +157,6 @@ export function UpdateApplicationDialog({ data }: DialogProps<"application.updat
 				{ id: data.id, ...payload },
 				{
 					onSuccess: () => {
-						invalidateQueries();
 						setEditingField(null);
 						setDraftValue({});
 					},
@@ -172,14 +164,16 @@ export function UpdateApplicationDialog({ data }: DialogProps<"application.updat
 				},
 			);
 		},
-		[data.id, draftValue, updateApplication, invalidateQueries],
+		[data.id, draftValue, updateApplication],
 	);
 
 	const formatSalary = () => {
-		if (!application?.salaryAmount) return null;
-		const amount = Number(application.salaryAmount).toLocaleString();
-		const currency = application.salaryCurrency ?? "USD";
-		const period = application.salaryPeriod ? `/${i18n._(PERIOD_LABELS[application.salaryPeriod]).toLowerCase()}` : "";
+		if (!application?.salary_amount) return null;
+		const amount = Number(application.salary_amount).toLocaleString();
+		const currency = application.salary_currency ?? "USD";
+		const period = application.salary_period
+			? `/${i18n._(PERIOD_LABELS[application.salary_period as keyof typeof PERIOD_LABELS]).toLowerCase()}`
+			: "";
 		return `${currency} ${amount}${period}`;
 	};
 
@@ -202,8 +196,8 @@ export function UpdateApplicationDialog({ data }: DialogProps<"application.updat
 			if (type === "application.delete") {
 				openDialog(type, {
 					id: data.id,
-					companyName: application?.companyName ?? "",
-					jobTitle: application?.jobTitle ?? "",
+					companyName: application?.company_name ?? "",
+					jobTitle: application?.job_title ?? "",
 				});
 			} else {
 				openDialog(type, { id: data.id });
@@ -248,7 +242,7 @@ export function UpdateApplicationDialog({ data }: DialogProps<"application.updat
 					onConfirm={() => saveField("jobTitle")}
 					onCancel={cancelEditing}
 					isLoading={isPending}
-					readView={<p className="font-semibold text-lg">{application.jobTitle}</p>}
+					readView={<p className="font-semibold text-lg">{application.job_title}</p>}
 					editView={
 						<div>
 							<Input
@@ -270,7 +264,7 @@ export function UpdateApplicationDialog({ data }: DialogProps<"application.updat
 					onConfirm={() => saveField("companyName")}
 					onCancel={cancelEditing}
 					isLoading={isPending}
-					readView={<p className="text-muted-foreground">{application.companyName}</p>}
+					readView={<p className="text-muted-foreground">{application.company_name}</p>}
 					editView={
 						<div>
 							<Input
@@ -287,9 +281,9 @@ export function UpdateApplicationDialog({ data }: DialogProps<"application.updat
 
 				{/* Status + Date Row */}
 				<div className="flex items-center gap-3 px-2">
-					<StatusBadge applicationId={data.id} status={application.currentStatus} />
+					<StatusBadge applicationId={data.id} status={application.current_status as ApplicationStatus} />
 					<span className="text-muted-foreground text-sm">
-						{formatDate(application.applicationDate) ?? formatDate(application.createdAt.toString())}
+						{formatDate(application.application_date) ?? formatDate(application.created_at)}
 					</span>
 				</div>
 
@@ -309,9 +303,9 @@ export function UpdateApplicationDialog({ data }: DialogProps<"application.updat
 							onCancel={cancelEditing}
 							isLoading={isPending}
 							readView={
-								application.jobUrl ? (
+								application.job_url ? (
 									<p className="truncate text-primary text-sm underline-offset-2 hover:underline">
-										{application.jobUrl}
+										{application.job_url}
 									</p>
 								) : (
 									<p className="text-muted-foreground/60 text-sm italic">
@@ -397,8 +391,8 @@ export function UpdateApplicationDialog({ data }: DialogProps<"application.updat
 							onCancel={cancelEditing}
 							isLoading={isPending}
 							readView={
-								application.applicationDate ? (
-									<p className="text-sm">{formatDate(application.applicationDate)}</p>
+								application.application_date ? (
+									<p className="text-sm">{formatDate(application.application_date)}</p>
 								) : (
 									<p className="text-muted-foreground/60 text-sm italic">
 										<Trans>Click to add...</Trans>

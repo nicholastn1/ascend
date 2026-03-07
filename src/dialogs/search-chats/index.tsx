@@ -1,7 +1,6 @@
 import { t } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
 import { ChatCircleIcon, MagnifyingGlassIcon } from "@phosphor-icons/react";
-import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import { useCallback, useMemo, useRef, useState } from "react";
 import { DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
@@ -9,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import type { DialogProps } from "@/dialogs/store";
 import { useDialogStore } from "@/dialogs/store";
-import { orpc } from "@/integrations/orpc/client";
+import { useConversations } from "@/integrations/api/hooks/chat";
 import { cn } from "@/utils/style";
 
 export function SearchChatsDialog(_: DialogProps<"search-chats">) {
@@ -20,7 +19,7 @@ export function SearchChatsDialog(_: DialogProps<"search-chats">) {
 	const [query, setQuery] = useState("");
 	const [selectedIndex, setSelectedIndex] = useState(0);
 
-	const { data: conversations = [] } = useQuery(orpc.chat.listConversations.queryOptions());
+	const { data: conversations = [] } = useConversations();
 
 	const filtered = useMemo(() => {
 		if (!query.trim()) return conversations;
@@ -108,7 +107,7 @@ export function SearchChatsDialog(_: DialogProps<"search-chats">) {
 								<ChatCircleIcon className="size-4 shrink-0 text-muted-foreground" />
 								<span className="min-w-0 flex-1 truncate">{conv.title || <Trans>New conversation</Trans>}</span>
 								<span className="shrink-0 text-muted-foreground text-xs">
-									{new Date(conv.updatedAt).toLocaleDateString()}
+									{new Date(conv.updated_at).toLocaleDateString()}
 								</span>
 							</button>
 						))}

@@ -12,7 +12,7 @@ import { DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTit
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useFormBlocker } from "@/hooks/use-form-blocker";
-import { authClient } from "@/integrations/auth/client";
+import { changePassword } from "@/integrations/auth/client";
 import { type DialogProps, useDialogStore } from "../store";
 
 const formSchema = z
@@ -47,19 +47,14 @@ export function ChangePasswordDialog(_: DialogProps<"auth.change-password">) {
 	const onSubmit = async (data: FormValues) => {
 		const toastId = toast.loading(t`Updating your password...`);
 
-		const { error } = await authClient.changePassword({
-			currentPassword: data.currentPassword,
-			newPassword: data.newPassword,
-		});
-
-		if (error) {
-			toast.error(error.message, { id: toastId });
-			return;
+		try {
+			await changePassword(data.currentPassword, data.newPassword);
+			toast.success(t`Your password has been updated successfully.`, { id: toastId });
+			queryClient.invalidateQueries({ queryKey: ["auth", "accounts"] });
+			closeDialog();
+		} catch (error) {
+			toast.error(error instanceof Error ? error.message : t`Something went wrong.`, { id: toastId });
 		}
-
-		toast.success(t`Your password has been updated successfully.`, { id: toastId });
-		queryClient.invalidateQueries({ queryKey: ["auth", "accounts"] });
-		closeDialog();
 	};
 
 	return (

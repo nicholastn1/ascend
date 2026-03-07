@@ -1,11 +1,10 @@
 import { msg } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react";
 import { CaretDownIcon } from "@phosphor-icons/react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Combobox } from "@/components/ui/combobox";
-import { orpc } from "@/integrations/orpc/client";
+import { useMoveApplication } from "@/integrations/api/hooks/applications";
 import { APPLICATION_STATUSES, type ApplicationStatus } from "@/schema/application";
 import { cn } from "@/utils/style";
 
@@ -36,9 +35,8 @@ type StatusBadgeProps = {
 
 export function StatusBadge({ applicationId, status }: StatusBadgeProps) {
 	const { i18n } = useLingui();
-	const queryClient = useQueryClient();
 
-	const { mutate: moveApplication, isPending } = useMutation(orpc.application.move.mutationOptions());
+	const { mutate: moveApplication, isPending } = useMoveApplication();
 
 	const statusOptions = APPLICATION_STATUSES.map((s) => ({
 		value: s,
@@ -51,10 +49,6 @@ export function StatusBadge({ applicationId, status }: StatusBadgeProps) {
 		moveApplication(
 			{ id: applicationId, status: newStatus },
 			{
-				onSuccess: () => {
-					queryClient.invalidateQueries(orpc.application.getById.queryOptions({ input: { id: applicationId } }));
-					queryClient.invalidateQueries(orpc.application.kanban.queryOptions());
-				},
 				onError: (error) => toast.error(error.message),
 			},
 		);
