@@ -17,8 +17,10 @@ export function AvgTimeChart() {
 
 	if (!avgTime || avgTime.length === 0) return null;
 
-	const chartData = (avgTime as { status: string; avg_days: number }[]).map((entry) => ({
-		name: entry.status.charAt(0).toUpperCase() + entry.status.slice(1),
+	const formatStatus = (s: string | null | undefined) =>
+		s ? s.charAt(0).toUpperCase() + s.slice(1) : "";
+	const chartData = (avgTime as { status?: string; avg_days: number }[]).map((entry) => ({
+		name: formatStatus(entry.status),
 		days: entry.avg_days,
 	}));
 

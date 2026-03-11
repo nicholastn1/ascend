@@ -155,14 +155,13 @@ export function KanbanBoard({
 	// Apply client-side filters
 	const getFilteredApps = useCallback(
 		(apps: ApplicationCardData[]) => {
-			let filtered = apps;
-			if (searchQuery) {
-				const q = searchQuery.toLowerCase();
-				filtered = filtered.filter(
-					(app) => app.companyName.toLowerCase().includes(q) || app.jobTitle.toLowerCase().includes(q),
-				);
-			}
-			return filtered;
+			const list = apps ?? [];
+			if (!searchQuery) return list;
+			const q = searchQuery.toLowerCase();
+			return list.filter(
+				(app) =>
+					(app.companyName ?? "").toLowerCase().includes(q) || (app.jobTitle ?? "").toLowerCase().includes(q),
+			);
 		},
 		[searchQuery],
 	);
@@ -197,7 +196,7 @@ export function KanbanBoard({
 					<KanbanColumn
 						key={status}
 						status={status}
-						applications={getFilteredApps(board[status])}
+						applications={getFilteredApps(board[status] ?? [])}
 						onAddApplication={onAddApplication}
 						onEditApplication={onEditApplication}
 						onDeleteApplication={onDeleteApplication}

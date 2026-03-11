@@ -17,9 +17,11 @@ export function FunnelChart() {
 
 	if (!funnel || funnel.length === 0) return null;
 
-	const chartData = (funnel as { from_status: string; to_status: string; rate: number; count: number }[]).map(
+	const formatStatus = (s: string | null | undefined) =>
+		s ? s.charAt(0).toUpperCase() + s.slice(1) : "";
+	const chartData = (funnel as { from_status?: string; to_status?: string; rate: number; count: number }[]).map(
 		(entry) => ({
-			name: `${entry.from_status.charAt(0).toUpperCase() + entry.from_status.slice(1)} → ${entry.to_status.charAt(0).toUpperCase() + entry.to_status.slice(1)}`,
+			name: `${formatStatus(entry.from_status)} → ${formatStatus(entry.to_status)}`,
 			rate: entry.rate,
 			count: entry.count,
 		}),
