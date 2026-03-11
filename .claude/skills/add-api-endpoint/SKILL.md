@@ -1,112 +1,132 @@
-# Skill: Add a New API Endpoint
+---
+name: add-api-endpoint
+description: Add or update a frontend API integration for the Rails backend. Use when wiring a new REST endpoint, regenerating OpenAPI types, creating TanStack Query hooks, or connecting UI to backend data.
+---
+# Add API Integration
 
 ## When to Use
 
-- Adding a new server-side operation
-- Extending the oRPC API
-- Creating new backend functionality
+- A backend endpoint was added or changed in `ascend-api`
+- You need a new query or mutation hook under `src/integrations/api/hooks/`
+- UI work needs data that is not yet exposed through the frontend API layer
 
-## Step by Step
+## Workflow
 
-### 1. Create the Service
+### 1. Confirm the backend contract first
 
-Add business logic in `src/integrations/orpc/services/<name>.ts`:
+This repo is the frontend only. If the endpoint does not already exist in `ascend-api`, stop and coordinate the backend change first.
 
-```tsx
-import { db, schema } from "@/integrations/drizzle";
-import { ORPCError } from "@orpc/server";
+When the backend OpenAPI spec changes, regenerate the local types:
 
-export const myService = {
-	myOperation: async (input: { userId: string; data: string }) => {
-		// Database queries, business logic, etc.
-		const result = await db.query.myTable.findFirst({
-			where: eq(schema.myTable.userId, input.userId),
-		});
-
-		if (!result) {
-			throw new ORPCError("NOT_FOUND", { message: "Resource not found" });
-		}
-
-		return result;
-	},
-};
+```bash
+pnpm api:generate
 ```
 
-### 2. Create the Router
+Generated types live in `src/integrations/api/types.ts`.
 
-Define the endpoint in `src/integrations/orpc/router/<name>.ts`:
+### 2. Decide between `openapi-fetch` and raw `fetch`
 
-```tsx
-import { z } from "zod";
-import { protectedProcedure } from "../context";
-import { myService } from "../services/my-service";
+Use `api` from `src/integrations/api/client.ts` by default:
 
-export const myRouter = {
-	myOperation: protectedProcedure
-		.route({
-			method: "GET",
-			path: "/my-resource/{id}",
-			tags: ["MyResource"],
-			operationId: "getMyResource",
-			summary: "Get resource by ID",
-			description: "Detailed description of what this endpoint does.",
-			successDescription: "Resource retrieved successfully",
-		})
-		.input(z.object({ id: z.string() }))
-		.output(z.object({ id: z.string(), data: z.string() }))
-		.handler(async ({ context, input }) => {
-			return await myService.myOperation({
-				userId: context.user.id,
-				...input,
+```ts
+import { api } from "@/integrations/api/client";
+
+const { data, error } = await api.GET("/api/v1/resumes/{id}", {
+	params: { path: { id } },
+});
+
+if (error) throw error;
+return data;
+```
+
+Use raw `fetch` only when the existing codebase already does so for that shape of request:
+
+- multipart uploads
+- streaming responses
+- endpoints where the generated client is awkward
+
+### 3. Put the hook in the right feature file
+
+Follow the existing domain grouping:
+
+- `src/integrations/api/hooks/resumes.ts`
+- `src/integrations/api/hooks/applications.ts`
+- `src/integrations/api/hooks/chat.ts`
+- `src/integrations/api/hooks/prompts.ts`
+- `src/integrations/api/hooks/storage.ts`
+
+Keep related query keys in the same file.
+
+### 4. Match the established hook pattern
+
+Typical query:
+
+```ts
+export function useThing(id: string) {
+	return useQuery<Thing>({
+		queryKey: thingQueryKeys.detail(id),
+		queryFn: async () => {
+			const { data, error } = await api.GET("/api/v1/things/{id}", {
+				params: { path: { id } },
 			});
-		}),
-};
+			if (error) throw error;
+			return data as Thing;
+		},
+		enabled: !!id,
+	});
+}
 ```
 
-Choose the right procedure type:
-- `publicProcedure` - No auth required (also supports optional auth via session or API key)
-- `protectedProcedure` - Requires authenticated user (throws UNAUTHORIZED if not)
-- `serverOnlyProcedure` - Internal server calls only (rejects browser requests)
+Typical mutation:
 
-### 3. Register in Router Index
+```ts
+export function useCreateThing() {
+	const queryClient = useQueryClient();
 
-Add to `src/integrations/orpc/router/index.ts`:
-
-```tsx
-import { myRouter } from "./my-router";
-
-export default {
-	// ... existing routers
-	myResource: myRouter,
-};
+	return useMutation({
+		mutationFn: async (body: CreateThingInput) => {
+			const { data, error } = await api.POST("/api/v1/things", { body });
+			if (error) throw error;
+			return data as Thing;
+		},
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: thingQueryKeys.all });
+		},
+	});
+}
 ```
 
-### 4. Use from the Client
+### 5. Preserve backend field names
 
-Call the endpoint using the oRPC client with TanStack Query:
+Do not remap backend `snake_case` into `camelCase` inside the API layer unless there is an existing, well-defined boundary for that transformation.
 
-```tsx
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { orpc } from "@/integrations/orpc/client";
+Examples already in the repo:
 
-// In a component
-const { data } = useSuspenseQuery(orpc.myResource.myOperation.queryOptions({ input: { id: "123" } }));
-```
+- `current_status` in application hooks
+- `created_at` and `updated_at` in chat/resume/application types
+- `is_public` and `has_password` in resume hooks
 
-Or for mutations:
+### 6. Wire the UI
 
-```tsx
-import { useMutation } from "@tanstack/react-query";
+After the hook exists:
 
-const mutation = useMutation(orpc.myResource.myOperation.mutationOptions());
-mutation.mutate({ data: "..." });
+- use it directly in the route/component/dialog that needs it
+- show user-facing failures with Sonner toasts when appropriate
+- invalidate the smallest query scope that keeps UI correct
+
+## Checks
+
+After adding the integration:
+
+```bash
+pnpm typecheck
+pnpm lint
 ```
 
 ## Anti-Patterns
 
-- Don't put business logic in the router handler - keep it in the service layer
-- Don't skip input/output Zod validation - it ensures type safety and generates OpenAPI docs
-- Don't use `publicProcedure` when the endpoint requires auth - use `protectedProcedure`
-- Don't create raw API routes in `src/routes/api/` - use oRPC procedures instead
-- Don't access `context.user` in `publicProcedure` without null-checking - user may be anonymous
-- Don't forget to add OpenAPI route metadata (method, path, tags) for API documentation
+- Don’t create new in-repo server procedures; this repo talks to the Rails API
+- Don’t add duplicate fetch wrappers when an existing feature hook file is the right home
+- Don’t forget `credentials: "include"` on raw `fetch` calls
+- Don’t eagerly invalidate every query when a smaller key can be targeted
+- Don’t silently rename API fields at random boundaries

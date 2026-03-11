@@ -1,6 +1,6 @@
 # ADR-001: TanStack Start as Full-Stack Framework
 
-**Status:** Accepted
+**Status:** Superseded by ADR-010
 **Date:** 2026-01-14
 **Version:** 2.0
 
@@ -29,3 +29,4 @@ Use TanStack Start with Nitro as the server framework, TanStack Router for file-
 |---------|------|---------|
 | 1.0 | 2026-01-14 | Initial decision |
 | 2.0 | 2026-03-06 | Updated: TanStack Start remains for SSR only, Nitro no longer serves API (moved to Rails). No DB migrations plugin, no oRPC routes. |
+| 3.0 | 2026-03-10 | Superseded by ADR-010 to reflect the frontend-shell architecture explicitly |

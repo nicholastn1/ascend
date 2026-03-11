@@ -30,7 +30,7 @@ export type ApplicationHistory = {
 	id: string;
 	from_status: string | null;
 	to_status: string;
-	created_at: string;
+	changed_at: string;
 };
 
 export const applicationQueryKeys = {

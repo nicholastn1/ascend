@@ -278,7 +278,12 @@ export function AITab() {
 				{isLoading ? (
 					<Skeleton className="h-5 w-24" />
 				) : (
-					<p className={cn("flex items-center gap-x-2 text-sm", config?.configured ? "text-success" : "text-destructive")}>
+					<p
+						className={cn(
+							"flex items-center gap-x-2 text-sm",
+							config?.configured ? "text-success" : "text-destructive",
+						)}
+					>
 						{config?.configured ? <CheckCircleIcon /> : <XCircleIcon />}
 						{config?.configured ? <Trans>Configured</Trans> : <Trans>Not configured</Trans>}
 					</p>

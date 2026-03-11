@@ -6,15 +6,19 @@ Record of significant technical decisions in this project.
 
 | ADR | Title | Status |
 |-----|-------|--------|
-| [001](001-tanstack-start-fullstack-framework.md) | TanStack Start as Full-Stack Framework | Accepted |
-| [002](002-orpc-api-layer.md) | oRPC for Type-Safe API Layer | Accepted |
-| [003](003-better-auth-authentication.md) | better-auth for Authentication | Accepted |
-| [004](004-drizzle-orm-postgresql.md) | Drizzle ORM with PostgreSQL | Accepted |
+| [001](001-tanstack-start-fullstack-framework.md) | TanStack Start as Full-Stack Framework | Superseded by ADR-010 |
+| [002](002-orpc-api-layer.md) | oRPC for Type-Safe API Layer | Superseded by ADR-007 |
+| [003](003-better-auth-authentication.md) | better-auth for Authentication | Superseded by ADR-008 |
+| [004](004-drizzle-orm-postgresql.md) | Drizzle ORM with PostgreSQL | Superseded |
 | [005](005-biome-linting-formatting.md) | Biome for Linting and Formatting | Accepted |
-| [006](006-kanban-application-tracker.md) | Kanban Application Tracker | Accepted |
+| [006](006-kanban-application-tracker.md) | Kanban Application Tracker | Superseded by ADR-013 |
 | [007](007-openapi-fetch-api-client.md) | openapi-fetch for API Client | Accepted |
 | [008](008-session-cookies-cross-origin-auth.md) | Session Cookies for Cross-Origin Auth | Accepted |
 | [009](009-localstorage-ui-preferences.md) | localStorage for UI Preferences | Accepted |
+| [010](010-tanstack-start-frontend-shell.md) | TanStack Start as Frontend Shell | Accepted |
+| [011](011-query-zustand-state-split.md) | TanStack Query and Zustand State Split | Accepted |
+| [012](012-hybrid-docker-development-deployment.md) | Hybrid Docker Strategy for Development and Deployment | Accepted |
+| [013](013-api-backed-application-tracker-ui.md) | API-Backed Application Tracker UI | Accepted |
 
 ## Template
 

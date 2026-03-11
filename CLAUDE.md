@@ -1,6 +1,6 @@
 # ascend
 
-> A career management platform for creating, updating, and sharing resumes with real-time preview, multiple templates, AI assistance, and self-hosting support.
+> A TanStack Start frontend for Ascend, a career platform that helps users build resumes, track job applications, and use AI-assisted career tools against the `ascend-api` Rails backend.
 
 ## Decision Compliance
 
@@ -20,78 +20,86 @@ If a requested change conflicts with an existing decision:
 ## Stack
 
 - **Language:** TypeScript 5.9, ES2022 target
-- **Runtime:** Node.js with Vite 8 (beta) bundler
-- **Frontend:** React 19, TanStack Router (file-based routing), TanStack Start (SSR), TanStack React Query
-- **Backend:** Nitro server (via TanStack Start), oRPC (type-safe RPC with OpenAPI generation)
-- **Database:** PostgreSQL with Drizzle ORM
-- **Auth:** better-auth (email/password, Google, GitHub, custom OAuth, 2FA, passkeys, API keys)
-- **Styling:** Tailwind CSS 4, Shadcn/ui components, Radix UI primitives
-- **AI:** Vercel AI SDK (OpenAI, Anthropic, Google Gemini, Ollama)
-- **i18n:** Lingui (with Crowdin for translations)
-- **Linting:** Biome (formatter + linter, tabs, double quotes, 120 line width)
+- **Runtime:** Node.js 24+, Vite 8 beta, Nitro runtime via TanStack Start
+- **Frontend:** React 19, TanStack Start, TanStack Router, TanStack React Query
+- **API Client:** `openapi-fetch` + generated OpenAPI types from `ascend-api`
+- **Authentication:** Rails-managed session cookies with `credentials: "include"`
+- **State:** TanStack Query for server state, Zustand for local/UI/editor state, React Hook Form + Zod for forms
+- **Styling:** Tailwind CSS 4, custom `ui/` primitives, Radix-style composition patterns
+- **i18n:** Lingui with `.po` files in `locales/`
+- **PWA:** `vite-plugin-pwa`
+- **Linting/Formatting:** Biome (tabs, double quotes, 120 columns)
 - **Package Manager:** pnpm 10.30.3
-- **PDF Generation:** Puppeteer Core via Browserless/Chromium service
+- **Docs:** Mintlify in `docs/`
 
 ## Commands
 
-**Note:** Docker (`compose.yml`) is used for production deployment. For local development, run commands directly.
+**Docker note:** this repo uses Docker in two ways:
+- `compose.dev.yml` runs local infrastructure only
+- `compose.yml` runs the production-style full stack
 
 ```bash
-# Development
-pnpm dev                    # Start dev server on port 3000
+# Local development
+docker compose -f compose.dev.yml up -d   # Start local infra (Postgres, Browserless, SeaweedFS, Mailpit)
+pnpm dev                                  # Start frontend dev server on http://localhost:5173
 
-# Linting & Formatting
-pnpm lint                   # Run Biome check with auto-fix (biome check --write)
-pnpm typecheck              # Run TypeScript type checking (tsc --noEmit)
+# Build and run
+pnpm build                                # Build the TanStack Start app
+pnpm start                                # Start the built server from .output/server/index.mjs
+pnpm preview                              # Preview Vite build output
 
-# Build
-pnpm build                  # Production build (vite build)
-pnpm start                  # Start production server (node .output/server/index.mjs)
+# Code quality
+pnpm lint                                 # Run Biome check with auto-fix
+pnpm typecheck                            # Run TypeScript type checking
+pnpm knip                                 # Find unused exports/dependencies
 
-# Database
-pnpm db:generate            # Generate Drizzle migration files
-pnpm db:migrate             # Run pending migrations
-pnpm db:push                # Push schema changes directly (dev only)
-pnpm db:studio              # Open Drizzle Studio GUI
-pnpm db:pull                # Pull schema from existing database
+# API typing
+pnpm api:generate                         # Regenerate OpenAPI types from ../ascend-api/swagger/v1/swagger.yaml
 
-# i18n
-pnpm lingui:extract         # Extract translation strings
+# i18n and docs
+pnpm lingui:extract                       # Extract translation strings
+pnpm docs:dev                             # Run Mintlify docs locally
 
-# Code Quality
-pnpm knip                   # Find unused exports/dependencies
+# Production-style container stack
+docker compose up -d
 ```
 
 ## Critical Rules
 
-1. **Always ask before assuming** - When there is ambiguity, multiple valid approaches, or decisions to be made, use the AskUserQuestion tool to clarify before proceeding. Never assume user intent.
-2. **Use Biome formatting conventions** - Tabs for indentation, double quotes for strings, 120-char line width. Run `pnpm lint` to auto-fix. Never use Prettier or ESLint.
-3. **Use oRPC for API endpoints** - All API logic goes through `src/integrations/orpc/`. Use `publicProcedure`, `protectedProcedure`, or `serverOnlyProcedure` context. Never create raw REST endpoints.
-4. **Resume data is JSONB** - Resume content is stored as a single JSONB column. Use JSON Patch operations for partial updates via the `patch` procedure rather than full replacements.
-5. **Shadcn/ui component patterns** - UI primitives live in `src/components/ui/`. Use `cn()` utility for class merging. Use `cva` for variant-based styling.
-6. **File-based routing** - Routes are in `src/routes/` using TanStack Router conventions. The route tree is auto-generated (`routeTree.gen.ts`) - never edit it manually.
-7. **No unused imports** - Biome enforces `noUnusedImports` as an error. Clean imports before committing.
+1. **Always ask before assuming** - If behavior, UX, or architecture is ambiguous, ask instead of guessing.
+2. **Prefer live code over stale docs** - This repo has older documentation from the former full-stack architecture. For current behavior, trust source files and the newest ADRs first.
+3. **Use the generated REST client pattern** - API work belongs under `src/integrations/api/`. Reuse `api` from `src/integrations/api/client.ts`, add hooks in `src/integrations/api/hooks/`, and run `pnpm api:generate` after backend spec changes.
+4. **Keep backend response casing intact** - API payloads generally stay in backend `snake_case`. Do not remap fields to `camelCase` unless there is an established boundary already doing it.
+5. **Auth is cookie-based** - Use `credentials: "include"` for browser requests. For SSR/session reads, forward the incoming `cookie` header to the Rails API.
+6. **Use Biome conventions** - Tabs for indentation, double quotes, 120-char line width, organized imports. Run `pnpm lint` after substantial edits.
+7. **Respect TanStack Router conventions** - Routes live in `src/routes/`; `routeTree.gen.ts` is generated and must never be edited manually.
+8. **Use the established state split** - TanStack Query for server data, Zustand for UI/editor stores, React Hook Form + Zod for forms. Do not introduce ad hoc global state.
+9. **Multipart and streaming endpoints may use raw fetch** - `openapi-fetch` is the default, but direct `fetch` is acceptable for uploads and streaming chat flows when existing code already follows that pattern.
+10. **No unused imports** - Biome treats them as errors.
 
 ## Architecture
 
-### Full-Stack SSR with TanStack Start + Nitro
+### Frontend Shell
 
-The app uses TanStack Start for server-side rendering backed by Nitro as the server framework. Vite handles bundling. Server-side code runs via Nitro plugins (`plugins/`) and API routes (`src/routes/api/`). Database migrations run automatically on server startup via `plugins/1.migrate.ts`.
+This repository is the frontend application. TanStack Start provides SSR, routing, and the document shell, while the actual business API lives in the sibling `ascend-api` Rails project.
 
-### oRPC API Layer
+### API Integration
 
-All API endpoints are defined as type-safe RPC procedures in `src/integrations/orpc/router/`. Business logic lives in `src/integrations/orpc/services/`. The router exposes namespaces: `ai`, `auth`, `resume`, `storage`, `printer`, `flags`, `statistics`. Client-side calls use an isomorphic oRPC client with TanStack Query integration.
+The frontend calls the backend through `openapi-fetch` in `src/integrations/api/client.ts`. Feature-level hooks live in `src/integrations/api/hooks/` and wrap REST endpoints in TanStack Query queries and mutations.
 
 ### State Management
 
-- **Server state:** TanStack React Query (via oRPC integration)
-- **Global client state:** Zustand stores (dialog state, resume editor, sidebar)
-- **Form state:** React Hook Form with Zod validation
-- **Persistence:** localStorage for theme and locale preferences
+- **Server state:** TanStack Query
+- **UI/editor state:** Zustand stores
+- **Forms:** React Hook Form + Zod resolvers
+- **Persistence:** localStorage for theme, locale, builder layout, and some client-only preferences
 
-### Resume Template System
+### Major App Areas
 
-Templates are React components in `src/components/resume/templates/` (13 templates, Pokemon-themed names). Each template renders resume data into a printable format. The printer service (`/printer/$resumeId` route) renders templates headlessly via Puppeteer for PDF/screenshot generation.
+- **Resume builder:** `/builder/$resumeId` with a live preview, left/right sidebars, and Zustand-backed editing state
+- **Dashboard:** resumes, applications, chat, and settings under `src/routes/dashboard/`
+- **Public resume pages:** `/$username/$slug`
+- **Auth routes:** under `src/routes/auth/`
 
 ---
 
@@ -99,5 +107,5 @@ Templates are React components in `src/components/resume/templates/` (13 templat
 
 - Domain and architecture → `.context/CONTEXT.md`
 - Architectural decisions → `.context/decisions/`
-- Task-specific skills → `.context/skills/`
-- Bug reproduction guide → `.context/skills/bug-reproduction/SKILL.md`
+- Task-specific skills → `.claude/skills/`
+- Bug reproduction guide → `.claude/skills/bug-reproduction/SKILL.md`

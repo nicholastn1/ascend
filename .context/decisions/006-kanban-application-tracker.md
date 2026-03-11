@@ -1,6 +1,6 @@
 # ADR-006: Kanban Application Tracker Architecture
 
-**Status:** Accepted
+**Status:** Superseded by ADR-013
 **Date:** 2026-03-02
 **Version:** 1.0
 
@@ -50,3 +50,4 @@ Users of Ascend need a way to track job applications through various stages with
 | Version | Date | Changes |
 |---------|------|---------|
 | 1.0 | 2026-03-02 | Initial decision |
+| 2.0 | 2026-03-10 | Superseded by ADR-013 to capture the current REST-backed frontend architecture |

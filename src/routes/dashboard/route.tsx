@@ -1,8 +1,8 @@
 import { createFileRoute, Outlet, useNavigate, useRouter } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { LoadingScreen } from "@/components/layout/loading-screen";
-import { useSession } from "@/integrations/auth/client";
 import { SidebarProvider } from "@/components/ui/sidebar";
+import { useSession } from "@/integrations/auth/client";
 import { getSidebarState, setSidebarState } from "./-components/functions";
 import { DashboardSidebar, SidebarToggleButton } from "./-components/sidebar";
 
@@ -38,7 +38,7 @@ function RouteComponent() {
 			<DashboardSidebar />
 			<SidebarToggleButton />
 
-			<main className="@container flex-1 p-4">
+			<main className="@container flex min-h-0 flex-1 flex-col p-4">
 				<Outlet />
 			</main>
 		</SidebarProvider>

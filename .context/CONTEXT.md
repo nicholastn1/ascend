@@ -2,7 +2,7 @@
 
 ## Overview
 
-Ascend is a free, open-source resume builder web application. Users create accounts, build resumes using a visual editor with real-time preview, choose from multiple templates, customize design (colors, fonts, spacing), and export to PDF. Resumes can be shared via public links. The app supports AI-assisted content writing, multi-language UI, and can be self-hosted. Target users are job seekers who want a privacy-respecting, customizable resume tool.
+Ascend is a career platform frontend focused on three user-facing workflows: building resumes, tracking job applications, and using AI tools for career help. This repository is the SSR React app; persistence, authentication, and business APIs live in the sibling `ascend-api` Rails backend. The main users are job seekers who want a polished resume builder, a lightweight job tracker, and built-in AI assistance without juggling multiple tools.
 
 ## Domain
 
@@ -10,286 +10,222 @@ Ascend is a free, open-source resume builder web application. Users create accou
 
 | Entity | Responsibility |
 |--------|----------------|
-| `user` | User account with email, username, profile image. Supports multiple auth methods. |
-| `resume` | A resume document owned by a user. Contains all sections as JSONB data, plus metadata (name, slug, tags, visibility, lock status). |
-| `resumeStatistics` | Tracks views and downloads per resume with timestamps. |
-| `session` | Authentication session with IP/user-agent tracking. |
-| `account` | OAuth provider connections (Google, GitHub, custom) linked to a user. |
-| `apikey` | API keys for programmatic access with rate limiting (default 500 req/day). |
-| `twoFactor` | TOTP secrets and backup codes for 2FA. |
-| `passkey` | WebAuthn/passkey credentials for passwordless auth. |
-| `application` | Job application tracked by a user. Status enum: applied, screening, interviewing, offer, accepted, rejected, withdrawn. |
-| `applicationContact` | Contact person associated with a job application (name, role, email, phone, LinkedIn). |
-| `applicationHistory` | Status change audit log for applications (fromStatus → toStatus with timestamp). |
-| `conversation` | AI chat conversation owned by a user, with agent type and title. |
-| `message` | Individual message in a conversation (role: user/assistant/system, content, metadata). |
-| `aiPrompt` | Reusable AI prompt template with slug, title, description, and content. |
+| `AuthSession` | Current signed-in user session returned by the Rails API and reused in route guards and settings screens. |
+| `Resume` | User-owned resume document with `name`, `slug`, tags, sharing flags, lock/password flags, and nested `data`. |
+| `ResumeData` | Structured resume payload containing picture, section content, metadata, typography, page settings, layout pages, and custom CSS. |
+| `ResumeStatistics` | Per-resume views/downloads plus last activity timestamps shown in sharing/statistics UI. |
+| `Application` | A tracked job application with company, role, status, salary, notes, and date fields. |
+| `ApplicationContact` | People attached to a job application for follow-up and networking. |
+| `ApplicationHistory` | Status transitions used for history timelines and analytics charts. |
+| `Conversation` | AI chat thread with `agent_type`, optional title/model, and ordered messages. |
+| `Message` | Individual chat message for the AI assistant feature. |
+| `Prompt` | Editable AI prompt template surfaced in settings. |
+| `AiConfig` | User AI provider configuration, model selection, API key presence, and connection-test state. |
+| `FeatureFlags` | Lightweight server flags such as `disable_signups` and `disable_email_auth`, loaded into the root route. |
 
 ### Resume Data Structure
 
-The `resume.data` JSONB field contains:
-- **basics** - Name, headline, email, phone, location, URL, custom fields, picture
-- **sections** - 12 section types: summary, experience, education, awards, certifications, skills, languages, profiles, projects, publications, references, volunteer, interests + custom sections
-- **metadata** - Template choice, page format (A4/Letter/Free-form), theme colors, typography, spacing, layout configuration, CSS overrides, locale, cover letter
+`resume.data` is the main editing payload on the frontend. It includes:
+
+- **Profile content:** basics, picture, links, and summary content
+- **Section arrays:** experience, education, skills, projects, languages, awards, certifications, publications, references, volunteer, interests, and custom sections
+- **Metadata:** template, page format, typography, colors, spacing, page options, layout pages, locale, and CSS overrides
 
 ### Modules/Packages
 
 ```
 src/
-├── components/              # React components
-│   ├── ai/                  # AI chat panel
-│   ├── command-palette/     # Cmd+K command palette
-│   ├── input/               # Custom inputs (chip, color, icon, rich text, URL)
-│   ├── resume/
-│   │   ├── templates/       # 1 resume template (mdi)
-│   │   ├── shared/          # Shared resume rendering (sections, items, page)
-│   │   ├── hooks/           # CSS variables, webfont loading
-│   │   └── preview.tsx      # Main resume preview renderer
-│   ├── ui/                  # Shadcn/ui primitives (50+ components)
-│   └── theme/               # Theme provider & toggle
-├── dialogs/                 # Modal dialogs (resume sections, import, template gallery, API keys, auth)
-├── hooks/                   # Custom React hooks
+├── components/                # Reusable UI, resume rendering, kanban charts, command palette, theme
+├── dialogs/                   # Global modal/dialog system for resumes, applications, auth, settings
+├── hooks/                     # Shared React hooks (confirm, prompt, mobile, form blocker)
 ├── integrations/
-│   ├── auth/                # better-auth config, client, types
-│   ├── drizzle/             # Database schema, client, connection pool
-│   ├── orpc/                # API layer
-│   │   ├── router/          # RPC endpoint definitions (ai, application, auth, chat, flags, printer, prompt, resume, statistics, storage)
-│   │   ├── services/        # Business logic (one service per domain)
-│   │   ├── context.ts       # Auth middleware (public/protected/serverOnly procedures)
-│   │   └── client.ts        # Isomorphic oRPC client
-│   ├── query/               # TanStack Query client setup
-│   ├── ai/                  # AI store and tools (patch-resume)
-│   ├── import/              # Resume import parsers (JSON Resume, RR v4 JSON)
-│   └── email/               # SMTP email service
-├── routes/                  # TanStack Router file-based routes
-│   ├── api/                 # API endpoints (rpc, auth, health, openapi)
-│   ├── _home/               # Landing page sections
-│   ├── auth/                # Auth pages (login, register, forgot/reset password, 2FA)
-│   ├── builder/$resumeId/   # Resume editor (left sidebar: sections, right sidebar: design/export)
-│   ├── dashboard/           # User dashboard (resumes, applications kanban, chat, settings)
-│   ├── $username/$slug      # Public resume view
-│   ├── printer/$resumeId    # Headless print route for PDF generation
-│   └── mcp/                 # Model Context Protocol integration
-├── schema/                  # Zod schemas
-│   ├── resume/data.ts       # Resume data validation (656 lines)
-│   ├── resume/sample.ts     # Default resume data
-│   ├── templates.ts         # Template definitions
-│   └── page.ts              # Page format definitions (A4, Letter, Free-form)
-├── styles/                  # Global CSS
-└── utils/                   # Utility functions
-
-plugins/
-└── 1.migrate.ts             # Nitro plugin: auto-runs DB migrations on server start
-
-migrations/                  # Drizzle migration files (PostgreSQL)
-locales/                     # Translation files (managed via Crowdin)
+│   ├── api/                   # openapi-fetch client, generated types, feature hooks, chat helpers
+│   ├── auth/                  # Session helpers, auth hooks, provider helpers
+│   ├── ai/                    # Client-only AI config store and prompt assets
+│   ├── import/                # Resume importers for Ascend JSON and JSON Resume
+│   └── query/                 # TanStack Query client setup
+├── routes/                    # TanStack Router file routes for home, auth, dashboard, builder, public resume
+├── schema/                    # Zod schemas and domain enums used by forms/UI
+├── styles/                    # Global CSS
+└── utils/                     # Local storage, sanitization, file, string, locale, style helpers
 ```
 
 ## Main Flows
 
 ### Authentication Flow
 
-```
-1. User visits /auth/login or /auth/register
-2. Chooses auth method: email/password, Google, GitHub, custom OAuth
-3. better-auth handles session creation, stores in `session` table
-4. Session cookie set → user redirected to /dashboard
-5. Protected routes check session via protectedProcedure middleware
-6. Optional: 2FA challenge after password login
-7. Optional: API key auth for programmatic access (checked in publicProcedure)
-```
-
-### Resume Building Flow
-
-```
-1. User creates resume from /dashboard/resumes (blank or import)
-2. Redirected to /builder/$resumeId
-3. Left sidebar: edit sections (basics, experience, education, etc.)
-4. Right sidebar: customize design (template, colors, fonts, spacing, CSS)
-5. Center: real-time preview rendered by template components
-6. Changes saved via oRPC resume.patch (JSON Patch operations)
-7. State managed by Zustand store with undo/redo (zundo)
+```text
+1. User visits /auth/login or /auth/register in the frontend
+2. UI calls Rails API endpoints via src/integrations/auth/client.ts
+3. Rails sets or reads signed session cookies
+4. Root route and protected pages call getSession()/useSession()
+5. SSR requests forward the incoming cookie header when needed
+6. On success the user is routed into /dashboard
 ```
 
-### PDF Export Flow
+### Resume Builder Flow
 
+```text
+1. User creates or opens a resume from /dashboard/resumes
+2. /builder/$resumeId loads the resume through a TanStack Query fetch
+3. The route seeds the Zustand resume store
+4. Left sidebar edits sections, right sidebar edits design/export settings
+5. ResumePreview renders pages from metadata.layout.pages using the selected template
+6. Store changes debounce-sync back to the Rails API
 ```
-1. User clicks export in builder right sidebar
-2. Client calls oRPC printer.generatePdf
-3. Server connects to Browserless/Chromium via WebSocket
-4. Puppeteer navigates to /printer/$resumeId (server-only route)
-5. Resume rendered with template, waits for fonts to load
-6. PDF generated with proper page dimensions and margins
-7. PDF uploaded to storage (S3 or local filesystem)
-8. URL returned to client for download
+
+### Public Resume Flow
+
+```text
+1. Visitor opens /$username/$slug
+2. Loader fetches public resume data from the backend
+3. Protected resumes redirect to /auth/resume-password on 403
+4. ResumePreview renders the public version and the visitor can download the PDF
 ```
 
 ### AI Chat Flow
 
-```
-1. User opens AI panel in builder
-2. Sends message via oRPC ai.chat (streaming)
-3. Server routes to configured AI provider (OpenAI/Anthropic/Google/Ollama)
-4. AI has access to patch_resume tool to modify resume sections
-5. Tool calls generate JSON Patch operations applied to resume data
-6. Streaming response displayed in chat UI
+```text
+1. User opens /dashboard/chat
+2. Conversation list and rate limit are loaded with query hooks
+3. New messages stream through sendMessageStreaming()
+4. UI appends chunks live and invalidates the conversation list when done
+5. Settings pages manage provider/model config separately through AI config endpoints
 ```
 
 ## External Integrations
 
 | System | Type | Description |
 |--------|------|-------------|
-| PostgreSQL | Database | Primary data store for users, sessions, resumes |
-| Browserless/Chromium | WebSocket | Headless browser for PDF/screenshot generation |
-| S3 (SeaweedFS/Minio/AWS) | Object Storage | File uploads (pictures, PDFs, screenshots) |
-| OpenAI / Anthropic / Google / Ollama | AI API | Resume content assistance and document parsing |
-| Google OAuth | OAuth2 | Social login provider |
-| GitHub OAuth | OAuth2 | Social login provider |
-| SMTP Server | Email | Verification emails, password resets |
-| Crowdin | i18n | Translation management (30+ languages) |
-| Google Fonts | API | Font list generation for resume typography |
+| `ascend-api` | Rails API | Primary backend for auth, resumes, applications, chat, prompts, storage, and flags |
+| Browserless/Chromium | Docker service | Used by the backend/export pipeline; local dev stack exposes it via `compose.dev.yml` |
+| SeaweedFS / S3-compatible storage | Object storage | Stores uploads and exported assets |
+| PostgreSQL | Database | Backend persistence in local dev stack |
+| Mailpit | Email testing | Captures development emails locally |
+| AI providers | External APIs | OpenAI, Anthropic, Gemini, Ollama, or gateway-based models |
+| Crowdin | Translation workflow | Locale files are managed as Lingui `.po` files in this repo |
 
 ## Glossary
 
 | Term | Definition |
 |------|------------|
-| **Template** | A React component that renders resume data into a visual layout (1 available: mdi) |
-| **Section** | A discrete part of a resume (e.g., experience, education, skills). Each has its own Zod schema and editor dialog. |
-| **Builder** | The main resume editing interface at `/builder/$resumeId` with left sidebar (content), right sidebar (design), and center preview. |
-| **Printer** | The server-side route and service that renders resumes headlessly for PDF/screenshot generation via Puppeteer. |
-| **oRPC** | Object RPC - the type-safe API framework used instead of REST. Procedures are defined with Zod input/output schemas. |
-| **Procedure** | An oRPC endpoint. Three types: `publicProcedure` (anonymous + auth), `protectedProcedure` (auth required), `serverOnlyProcedure` (internal only). |
-| **JSON Patch** | RFC 6902 standard for describing changes to JSON documents. Used for resume updates to minimize data transfer. |
-| **Slug** | URL-friendly identifier for a resume, unique per user. Used in public sharing URLs (`/$username/$slug`). |
-| **Feature Flags** | Server-side toggles (e.g., disable signups, disable email auth, debug printer). Configured via environment variables. |
-| **Browserless** | A headless Chrome-as-a-service container used for PDF rendering. Connected via WebSocket. |
-| **Application** | A job application being tracked in the kanban board. Has a status lifecycle from applied → accepted/rejected/withdrawn. |
-| **Conversation** | A persistent AI chat thread. Users can have multiple conversations with different agent types. |
+| **Builder** | The resume editor at `/builder/$resumeId` with left/right sidebars and a live central preview. |
+| **Template** | A React resume layout component selected from `src/schema/templates.ts`. The current frontend ships with `mdi`. |
+| **Layout page** | One page entry inside `resume.data.metadata.layout.pages`, rendered by `ResumePreview`. |
+| **Feature hook** | A TanStack Query wrapper in `src/integrations/api/hooks/` around a backend REST endpoint. |
+| **Dialog type** | A discriminated union entry in `src/dialogs/store.ts` that controls a modal flow. |
+| **Agent type** | The AI assistant mode used by chat conversations, such as `general` or `recruiter-reply`. |
+| **Public resume** | The shareable route at `/$username/$slug`, optionally password-protected by the backend. |
 
 ## Architecture
 
 ### System Overview
 
-Ascend is a full-stack SSR monolith built with TanStack Start (React 19 + Nitro server). It uses a single-page-app experience with server-side rendering, backed by PostgreSQL. The app bundles with Vite 8 and deploys as a Docker container with Browserless for PDF generation and S3-compatible storage for file uploads.
+Ascend is an SSR frontend monolith built with TanStack Start, but it is no longer a full-stack app in this repository. The app handles routing, rendering, local state, and browser-side UX while delegating authentication, persistence, and business APIs to the separate `ascend-api` backend over cookie-authenticated REST calls.
 
 ### Directory Structure
 
-```
+```text
 ascend/
-├── src/                        # Application source code
-│   ├── components/             # Reusable React components (ai, kanban, resume, ui, inputs, layout)
-│   ├── dialogs/                # Modal dialogs organized by domain (resume, application, auth, settings, api-key)
-│   ├── hooks/                  # Custom React hooks (confirm, controlled-state, form-blocker, mobile, prompt)
-│   ├── integrations/           # External service integrations (auth, drizzle, orpc, query, ai, email, import)
-│   ├── routes/                 # TanStack file-based routes (pages + API endpoints)
-│   ├── schema/                 # Zod validation schemas (resume data, templates, page formats)
-│   ├── styles/                 # Global CSS (Tailwind 4 + custom styles)
-│   └── utils/                  # Utility functions (string, color, env, logger, sanitize, file)
-├── plugins/                    # Nitro server plugins (database migration on startup)
-├── migrations/                 # Drizzle SQL migration files
-├── locales/                    # i18n translation files (30+ languages via Crowdin)
-├── public/                     # Static assets (icons, PWA manifest, screenshots)
-├── docs/                       # Documentation site (Mintlify)
-├── scripts/                    # Build/utility scripts
-└── .claude/                    # Claude Code configuration (skills, commands, scripts)
+├── src/                      # Application code
+│   ├── components/           # UI primitives, resume renderer, kanban, layout, theme
+│   ├── dialogs/              # Global modal flows and dialog registry
+│   ├── hooks/                # Shared hooks
+│   ├── integrations/         # API client, auth helpers, AI store, importers, query client
+│   ├── routes/               # TanStack Router pages and layouts
+│   ├── schema/               # Zod schemas and enums
+│   ├── styles/               # Global styles
+│   └── utils/                # Helpers for theme, locale, files, strings, sanitization
+├── docs/                     # Mintlify documentation site
+├── locales/                  # Lingui translation catalogs
+├── public/                   # Static assets, screenshots, template previews, PWA output
+├── scripts/                  # Utility scripts for fonts and migrations
+├── spec/                     # Fixture-like assets, not an active test suite
+├── compose.dev.yml           # Local infrastructure containers only
+├── compose.yml               # Production-style full stack
+└── Dockerfile                # Multi-stage image build for the frontend app
 ```
 
 ### Key Dependencies
 
 | Category | Libraries |
 |----------|-----------|
-| **Framework** | React 19, TanStack Start/Router/Query, Nitro (server) |
-| **API** | oRPC (server + client + zod + openapi + tanstack-query) |
-| **Database** | Drizzle ORM, pg (PostgreSQL driver) |
-| **Auth** | better-auth (email, OAuth, 2FA, passkeys, API keys) |
-| **AI** | Vercel AI SDK, @ai-sdk/openai, @ai-sdk/anthropic, @ai-sdk/google, ai-sdk-ollama |
-| **Styling** | Tailwind CSS 4, Radix UI, class-variance-authority, tailwind-merge |
-| **Rich Text** | TipTap (editor), Monaco Editor (CSS editor), markdown-it |
-| **Forms** | React Hook Form, @hookform/resolvers, Zod 4 |
-| **State** | Zustand, zundo (undo/redo), Immer |
-| **DnD** | @dnd-kit/core, @dnd-kit/sortable |
-| **PDF** | Puppeteer Core (via Browserless) |
-| **Storage** | @aws-sdk/client-s3, Sharp (image processing) |
-| **i18n** | Lingui (core + react + CLI + vite-plugin + babel-plugin) |
-| **Charts** | Recharts |
-| **Tooling** | Biome (lint/format), TypeScript 5.9, Vite 8, Knip |
+| Framework | React 19, TanStack Start, TanStack Router, Nitro, Vite 8 |
+| Data fetching | TanStack Query, `openapi-fetch`, generated OpenAPI types |
+| Forms/validation | React Hook Form, `@hookform/resolvers`, Zod |
+| Local state | Zustand, Immer, zundo |
+| Styling/UI | Tailwind CSS 4, `tailwind-merge`, `class-variance-authority`, custom `ui/` components |
+| i18n | Lingui core/react/CLI/vite plugin |
+| Editors/content | TipTap, Monaco, Markdown-It |
+| Drag and drop | `@dnd-kit/core`, `@dnd-kit/sortable` |
+| Charts | Recharts |
+| PWA | `vite-plugin-pwa` |
+| Tooling | Biome, TypeScript, Knip |
 
 ### Data Flow
 
-```
-Browser → TanStack Router (SSR) → React Components
-                                      ↓
-                              oRPC Client (isomorphic)
-                                      ↓
-                         Nitro Server (API routes: /api/rpc/*)
-                                      ↓
-                         oRPC Router → Service Layer
-                                      ↓
-                         Drizzle ORM → PostgreSQL
+```text
+Browser
+  → TanStack Router loaders/components
+  → TanStack Query hooks in src/integrations/api/hooks/
+  → openapi-fetch client or raw fetch helpers
+  → Rails API (ascend-api) with credentials: "include"
+  → JSON responses cached in QueryClient
+  → Zustand stores hydrate/edit client-only state where needed
 ```
 
-For PDF generation:
-```
-Client → oRPC printer.generatePdf → Puppeteer (WebSocket to Browserless)
-       → navigates to /printer/$resumeId → renders resume template
-       → captures PDF → uploads to S3 → returns URL
+For SSR session-aware flows:
+
+```text
+Incoming request
+  → TanStack Start server render
+  → getRequestHeaders().get("cookie")
+  → forwarded to Rails session endpoint
+  → root route context receives session + feature flags
 ```
 
 ## Conventions
 
+Sampled `20` representative files across routes, dialogs, API hooks, stores, utils, config, and docs. The repo contains `473` source-like files under `src/`, `docs/`, `public/`, `locales/`, and `scripts/`, so the convention analysis used the `100+ files` branch.
+
 ### Naming Patterns
 
-- **Files:** kebab-case for all files (`color-picker.tsx`, `use-confirm.tsx`, `resume-password.tsx`)
-- **Components:** PascalCase exports matching file purpose (`ColorPicker`, `ResumeCard`)
-- **Variables/functions:** camelCase (`generateId`, `defaultResumeData`, `isPublic`)
-- **Database columns:** snake_case in SQL (`user_id`, `created_at`, `is_public`), camelCase in Drizzle schema (`userId`, `createdAt`, `isPublic`)
-- **Routes:** TanStack conventions — `$param` for dynamic segments, `-components/` for co-located private components, `_prefix` for layout routes
-- **Enums:** pgEnum with snake_case values (`"applied"`, `"screening"`, `"interviewing"`)
-- **Constants:** UPPERCASE_SNAKE_CASE (`MAX_AI_FILE_BYTES`, `APPLICATION_STATUSES`)
+- **Files:** lowercase kebab-case for general files such as `dropdown-menu.tsx`, `message-area.tsx`, `use-form-blocker.tsx`
+- **Routes:** TanStack Router naming with `index.tsx`, dynamic segments like `$resumeId`, and route-local private folders like `-components` and `-sidebar`
+- **Exports:** React components use PascalCase, hooks use `useCamelCase`, constants use UPPERCASE_SNAKE_CASE
+- **API types/payloads:** backend-shaped `snake_case` fields are preserved in frontend hook types (`current_status`, `created_at`, `is_public`)
 
 ### Error Handling
 
-- **oRPC errors:** `ORPCError` with string codes (`"NOT_FOUND"`, `"UNAUTHORIZED"`) and custom error definitions per router via `.errors({...})`
-- **Custom error classes:** `ResumePatchError` extends `Error` with structured fields (`code`, `index`, `operation`)
-- **DB constraint errors:** Checked via `get(error, "cause.constraint")` from es-toolkit, then mapped to ORPCError
-- **AI errors:** Type-checked with `instanceof AISDKError || instanceof OllamaError`, re-thrown as `ORPCError("BAD_GATEWAY")`
-- **Client-side:** TanStack Query error states, toast notifications via Sonner
-- **Migration errors:** Caught in plugin, logged, and re-thrown to prevent server start
+- Query/mutation hooks consistently use `const { data, error } = await api...; if (error) throw error`
+- Direct `fetch` helpers parse JSON errors and throw `Error` with a backend message fallback
+- UI code catches at the interaction boundary and reports through Sonner toasts
+- Some root/session helpers intentionally degrade to `null` or default values instead of hard-failing during boot
+
+### Testing Style
+
+- No automated test framework is configured in this repo
+- No `test` script exists in `package.json`
+- No active `*.test.*` or `*.spec.*` source files were found
+- Practical verification is currently: `pnpm typecheck`, `pnpm lint`, and manual browser checks against the local frontend/API stack
 
 ### Import Organization
 
-Biome auto-organizes imports. Typical order:
-1. External library imports (`react`, `drizzle-orm`, `@orpc/*`, `zod`)
-2. Internal absolute imports via `@/` alias (`@/integrations/*`, `@/schema/*`, `@/utils/*`)
-3. Relative imports for co-located files (`./store`, `../-components/header`)
+- Imports are consistently grouped as external packages first, then internal `@/` aliases, then local relative imports
+- Biome is configured to organize imports automatically
+- Most feature files prefer alias imports for cross-feature dependencies and relative imports only for nearby route/dialog files
 
 ### State Management
 
-- **Server state:** oRPC + TanStack Query. Queries defined via `orpc.resume.findMany.queryOptions()`, mutations via `useMutation`
-- **Zustand stores:** Used for UI state (dialog management in `src/dialogs/store.ts`, sidebar state, command palette). Dialog store uses Zod discriminated unions for type-safe dialog data
-- **Resume editor:** Zustand store with zundo for undo/redo history. JSON Patch operations for granular updates
-- **Form state:** React Hook Form with Zod resolvers for all form inputs
+- **Server state:** TanStack Query handles fetching, caching, invalidation, and route hydration
+- **Client state:** Zustand stores manage dialogs, builder sidebars, command palette state, AI settings, and the live resume editor
+- **Editor state:** the resume store uses Immer and zundo for mutable updates plus undo/redo-like history behavior
+- **Form state:** React Hook Form + Zod resolvers are the default form pattern
+- **Persistence:** localStorage is used for theme, locale, builder layout, and some AI config
 
-### API Patterns
+### API Response Format
 
-- **Procedure chain:** `protectedProcedure.route({...}).input(z.object({...})).output(z.object({...})).handler(async ({context, input}) => {...})`
-- **Route metadata:** HTTP method, RESTful path, OpenAPI tags, operationId, summary, description
-- **Service layer:** Services export namespaced objects with methods: `resumeService.tags.list()`, `resumeService.statistics.getById()`
-- **No envelope pattern:** Procedures return typed objects directly
-- **Streaming:** AI chat uses AsyncIterator/generator returns with Vercel AI SDK
-- **Three procedure types:**
-  - `publicProcedure` — optional auth (checks API key or session)
-  - `protectedProcedure` — requires authenticated session
-  - `serverOnlyProcedure` — internal only, no client access
-
-### Database Patterns
-
-- Drizzle ORM with fluent query builders: `.select().from().where().returning()`
-- `sql<type>` tagged templates for raw SQL with type annotation
-- Pattern matching via `ts-pattern`: `match(input.sort).with("lastUpdatedAt", () => ...).exhaustive()`
-- UUID primary keys with `generateId()`, cascade deletes on foreign keys
-
-### Testing
-
-- No test framework is configured. No test files exist in the codebase.
-- Code quality is enforced via Biome (linting + formatting), TypeScript strict mode, and Knip (unused code detection).
+- The frontend consumes REST JSON endpoints from the Rails API
+- Response objects are typically returned directly without an envelope
+- Feature hooks wrap these endpoints into query/mutation hooks under `src/integrations/api/hooks/`
+- Multipart uploads and streaming chat use raw `fetch` where that is simpler than the generated client

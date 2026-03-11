@@ -77,7 +77,7 @@ function RouteComponent() {
 	);
 
 	return (
-		<div className="flex flex-1 flex-col">
+		<div className="flex min-h-0 flex-1 flex-col">
 			<div className="flex items-center gap-4 px-4 pt-4">
 				<DashboardHeader title={t`Job Tracker`} icon={BriefcaseIcon} />
 
@@ -110,13 +110,15 @@ function RouteComponent() {
 					</div>
 
 					<div className="min-h-0 flex-1 pt-4">
-						<KanbanBoard
+						<div className="h-full">
+							<KanbanBoard
 							searchQuery={searchQuery}
 							statusFilter={statusFilter}
 							onAddApplication={onAddApplication}
 							onEditApplication={onEditApplication}
 							onDeleteApplication={onDeleteApplication}
 						/>
+						</div>
 					</div>
 				</div>
 			)}

@@ -1,145 +1,135 @@
-# Skill: Bug Reproduction
+---
+name: bug-reproduction
+description: Reproduce bugs in the Ascend frontend before fixing them. Use when investigating UI regressions, auth/session issues, builder problems, query hook failures, or browser-only bugs in this repo.
+---
+# Bug Reproduction
 
 ## When to Use
 
-- You encounter a bug that needs fixing
-- You're working on a bug report or issue
-- Before attempting ANY fix — always reproduce first
-- When using the `/fix-bug` command
+- You are about to fix a bug
+- A user reports broken UI, auth, builder, chat, or dashboard behavior
+- You need to validate whether a regression is frontend-only or backend-contract-related
 
 ## Test Framework
 
-- **Framework:** No test framework is currently configured in this project
-- **Type checking:** `pnpm typecheck` (TypeScript `tsc --noEmit`)
-- **Linting:** `pnpm lint` (Biome check with auto-fix)
-- **Test directory:** N/A - no tests currently exist
+- **Framework:** No automated test framework is currently configured in this repo
+- **Type checking:** `pnpm typecheck`
+- **Linting:** `pnpm lint`
+- **Test directory:** None
+- **E2E framework:** None detected
 
-## How to Reproduce a Bug
+## Local Run Commands
 
-### Step 1: Understand the Bug
-
-Read the bug description carefully. Identify:
-- **Expected behavior:** What should happen?
-- **Actual behavior:** What happens instead?
-- **Trigger conditions:** When does it occur? (specific input, state, timing)
-
-Check for additional context:
-- Error logs or stack traces
-- Screenshots or recordings
-- Related GitHub issues or PRs
-
-### Step 2: Locate the Code
-
-Key areas to search by bug type:
-
-**UI/Builder bugs:**
-- Templates: `src/components/resume/templates/`
-- Section dialogs: `src/dialogs/resume/sections/`
-- Builder layout: `src/routes/builder/$resumeId/`
-- Resume preview: `src/components/resume/preview.tsx`
-
-**API/Backend bugs:**
-- oRPC routers: `src/integrations/orpc/router/`
-- Services: `src/integrations/orpc/services/`
-- Auth: `src/integrations/auth/`
-
-**Data/Schema bugs:**
-- Resume schema: `src/schema/resume/data.ts`
-- DB schema: `src/integrations/drizzle/schema.ts`
-
-**PDF/Print bugs:**
-- Printer route: `src/routes/printer/$resumeId`
-- Printer service: `src/integrations/orpc/services/printer.ts`
-
-### Step 3: Verify with Type Checking and Linting
-
-Since there's no test framework, use these tools to validate:
+Start the required local stack first:
 
 ```bash
-# Type check the project
-pnpm typecheck
-
-# Lint and auto-fix
-pnpm lint
-```
-
-### Step 4: Manual Reproduction
-
-Start the dev server and reproduce:
-
-```bash
+docker compose -f compose.dev.yml up -d
 pnpm dev
 ```
 
-Then navigate to `http://localhost:3000` and follow the bug reproduction steps.
+Current frontend dev URL:
 
-For printer/PDF bugs, you can enable debug mode:
+- `http://localhost:5173`
+
+The frontend expects the Rails API to be available separately, typically on:
+
+- `http://localhost:3000`
+
+## Reproduction Workflow
+
+### 1. Write the bug down as behavior
+
+Before changing code, capture:
+
+- expected behavior
+- actual behavior
+- exact route or dialog involved
+- whether auth is required
+- whether the issue depends on existing backend data
+
+### 2. Identify the likely layer
+
+Common entry points:
+
+- **Auth/session:** `src/integrations/auth/`, `src/routes/auth/`, `src/routes/__root.tsx`
+- **Resume builder:** `src/routes/builder/$resumeId/`, `src/components/resume/`, `src/dialogs/resume/`
+- **Dashboard applications:** `src/integrations/api/hooks/applications.ts`, `src/dialogs/application/`, `src/components/kanban/`
+- **AI chat:** `src/routes/dashboard/chat/`, `src/integrations/api/hooks/chat.ts`, `src/integrations/api/chat.ts`
+- **Public resume pages:** `src/routes/$username/$slug.tsx`, `src/integrations/api/hooks/resumes.ts`
+- **Local preference bugs:** `src/utils/theme.ts`, `src/utils/locale.ts`, `src/routes/builder/$resumeId/route.tsx`
+
+### 3. Reproduce manually in the browser
+
+Use the real route whenever possible instead of reasoning from code only.
+
+Examples:
+
+- builder: `/builder/{resumeId}`
+- resumes dashboard: `/dashboard/resumes`
+- applications: `/dashboard/applications`
+- chat: `/dashboard/chat`
+- public resume: `/{username}/{slug}`
+
+### 4. Decide whether the bug is frontend or contract-related
+
+Suspect a backend/API contract issue when:
+
+- a hook throws on a field shape mismatch after `api:generate` drift
+- the bug only happens after a network response
+- session or feature-flag loading differs between SSR and client navigation
+
+Suspect a frontend/UI issue when:
+
+- the network data is correct but rendering or interaction is wrong
+- localStorage state causes layout/theme/locale bugs
+- a dialog, form, or store behaves incorrectly without backend errors
+
+### 5. Validate the fix
+
+Run:
+
 ```bash
-FLAG_DEBUG_PRINTER=true pnpm dev
+pnpm typecheck
+pnpm lint
 ```
-Then navigate directly to `/printer/{resumeId}` to inspect the print layout.
 
-### Step 5: Fix and Verify
+Then re-run the manual scenario in the browser.
 
-After implementing the fix:
-1. Run type checking — `pnpm typecheck`
-2. Run linting — `pnpm lint`
-3. Manually verify the fix in the browser
-4. Check for regressions in related functionality
+## Project-Specific Examples
+
+### Example: builder layout/localStorage issues
+
+Relevant files:
+
+- `src/routes/builder/$resumeId/route.tsx`
+- `src/components/resume/store/resume.ts`
+
+This flow mixes:
+
+- session-gated route loading
+- localStorage-backed panel layout
+- a Zustand resume store that debounce-syncs edits to the backend
+
+If a bug involves missing builder state, stale panels, or data not appearing after navigation, reproduce it through the real builder route before editing.
+
+### Example: import/upload and API failure handling
+
+Relevant file:
+
+- `src/dialogs/resume/import.tsx`
+
+This dialog uses:
+
+- React Hook Form + Zod validation
+- direct multipart `fetch` calls for PDF/DOCX parsing
+- toast-based user feedback
+
+If the bug involves imports, check both client-side file validation and backend error payload handling.
 
 ## Anti-Patterns
 
-- Don't skip type checking — it catches many issues without tests
-- Don't fix the bug without understanding the root cause
-- Don't modify the resume JSONB schema without updating Zod validation in `src/schema/resume/data.ts`
-- Don't forget to check both client-side and server-side code paths — bugs may span the full stack
-- Don't ignore Biome lint errors — they are enforced as errors, not warnings
-
-## UI Bugs
-
-### Manual Test Plans
-
-When the bug involves UI behavior, create a test plan:
-
-```markdown
-## Test Plan: [Bug Description]
-
-### Steps to Reproduce
-1. Navigate to [URL/page]
-2. [Action 1]
-3. [Action 2]
-4. Expected: [what should happen]
-5. Actual: [what happens instead]
-
-### Validation Method
-- [ ] Visual inspection in browser
-- [ ] Type checking passes (`pnpm typecheck`)
-- [ ] Linting passes (`pnpm lint`)
-- [ ] Build succeeds (`pnpm build`)
-```
-
-### PDF/Print Bugs
-
-For printer-related bugs:
-1. Enable `FLAG_DEBUG_PRINTER=true` to bypass server-only check
-2. Navigate to `/printer/{resumeId}` directly in browser
-3. Inspect the rendered page — this is exactly what Puppeteer sees
-4. Check CSS custom properties, page breaks, and margin calculations
-
-## Examples from This Codebase
-
-Since no test framework is configured, validation relies on:
-
-1. **TypeScript strict mode** — Catches type mismatches, null safety issues
-   ```bash
-   pnpm typecheck
-   ```
-
-2. **Biome linting** — Catches unused imports, suspicious patterns
-   ```bash
-   pnpm lint
-   ```
-
-3. **Zod runtime validation** — Resume data validated at API boundaries via oRPC input/output schemas in `src/integrations/orpc/router/resume.ts`
-
-4. **Manual testing** — Run `pnpm dev` and verify in browser at `http://localhost:3000`
+- Don’t fix first and reproduce later
+- Don’t assume the old oRPC/full-stack architecture still applies in this repo
+- Don’t skip the browser when the bug is interaction-heavy
+- Don’t treat `pnpm typecheck` and `pnpm lint` as substitutes for manual validation
+- Don’t ignore cookie-forwarding differences between SSR and client-side requests

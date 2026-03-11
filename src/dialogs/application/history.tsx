@@ -59,7 +59,7 @@ export function HistoryDialog({ data }: DialogProps<"application.history">) {
 									)}
 								</p>
 								<p className="text-muted-foreground text-xs">
-									{new Date(entry.created_at).toLocaleString(undefined, {
+									{new Date(entry.changed_at).toLocaleString(undefined, {
 										month: "short",
 										day: "numeric",
 										year: "numeric",

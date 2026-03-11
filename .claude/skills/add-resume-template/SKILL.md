@@ -1,92 +1,72 @@
-# Skill: Add a New Resume Template
+---
+name: add-resume-template
+description: Add a new resume template to the frontend preview/gallery system. Use when creating a new template component, registering it in template metadata, or wiring preview assets for resume layouts.
+---
+# Add Resume Template
 
 ## When to Use
 
-- Adding a new resume template to the gallery
-- Creating a custom layout for resumes
-- Extending the template system
+- Adding a new resume template
+- Extending the preview/gallery system
+- Updating template metadata, screenshots, or print-margin handling
 
-## Step by Step
+## Workflow
 
-### 1. Create the Template Component
+### 1. Create the template component
 
-Create a new file at `src/components/resume/templates/<name>.tsx`.
+Add a file in `src/components/resume/templates/`.
 
-Follow the existing pattern (see `mdi.tsx` for reference):
+Use the existing `mdi` implementation as the source of truth. Templates are selected in `ResumePreview` and receive:
 
-```tsx
-import { getSectionComponent } from "@/components/resume/shared/get-section-component";
-import { useResumeStore } from "@/somewhere"; // check existing templates for exact import
+- `pageIndex`
+- `pageLayout`
 
-interface TemplateProps {
-	pageIndex: number;
-	pageLayout: {
-		main: SectionType[];
-		sidebar: SectionType[];
-		fullWidth: boolean;
-	};
-}
+They render from the Zustand resume store rather than receiving all resume data by props.
 
-export function MyTemplate({ pageIndex, pageLayout }: TemplateProps) {
-	const isFirstPage = pageIndex === 0;
-	const { main, sidebar, fullWidth } = pageLayout;
+### 2. Register the template enum
 
-	return (
-		<div className="...">
-			{isFirstPage && <Header />}
-			{/* Render sidebar and main sections using getSectionComponent() */}
-			{!fullWidth && (
-				<aside data-layout="sidebar">
-					{sidebar.map((section) => {
-						const Component = getSectionComponent(section, { sectionClassName: "..." });
-						return <Component key={section} id={section} />;
-					})}
-				</aside>
-			)}
-			<main data-layout="main">
-				{main.map((section) => {
-					const Component = getSectionComponent(section, { sectionClassName: "..." });
-					return <Component key={section} id={section} />;
-				})}
-			</main>
-		</div>
-	);
-}
-```
+Update `src/schema/templates.ts`:
 
-Key points:
-- Use `getSectionComponent()` to dynamically render sections
-- Access resume data via `useResumeStore()` hook
-- Style with Tailwind CSS and CSS custom properties (`--page-primary-color`, etc.)
-- Use `data-layout="sidebar"` and `data-layout="main"` attributes for layout identification
+- add the template key to `templateSchema`
+- decide whether it belongs in `printMarginTemplates`
 
-### 2. Register the Template
+### 3. Register the preview component
 
-Add the template to the template registry in `src/schema/templates.ts`:
+Update `src/components/resume/preview.tsx` so `getTemplateComponent()` can resolve the new template.
 
-- Add the template name to the templates array/enum
-- The name should be lowercase
+### 4. Add gallery metadata
 
-### 3. Add to Preview Renderer
+Update `src/dialogs/resume/template/data.ts`:
 
-Register the template in `src/components/resume/preview.tsx` so the preview system knows how to render it.
+- human-readable name
+- description
+- tags
+- sidebar position
+- thumbnail path
 
-### 4. Add Template Thumbnail
+### 5. Add assets
 
-Add a thumbnail image for the template gallery at `public/templates/jpg/<name>.jpg`.
+Expected frontend assets usually include:
 
-### 5. Add to Template Gallery Dialog
+- `public/templates/jpg/<name>.jpg`
+- optionally `public/templates/pdf/<name>.pdf` if the docs/gallery expect a PDF preview too
 
-Ensure the template appears in `src/dialogs/resume/template/data.ts` for the gallery selection UI.
+### 6. Verify in the builder
 
-### 6. Handle Printer Margins
+Open a real resume in the builder and confirm:
 
-If the template needs custom margins for PDF generation, update the printer service margin calculation in `src/integrations/orpc/services/printer.ts`.
+- template selection works
+- layout renders across all pages
+- custom CSS still scopes correctly
+- icons, typography, and page numbers still behave correctly
+
+### 7. Coordinate PDF/export behavior if needed
+
+This repo owns preview rendering, but export behavior may depend on backend/browserless rendering too. If the template changes print assumptions, verify the exported PDF path against the backend stack as well.
 
 ## Anti-Patterns
 
-- Don't hardcode section rendering - always use `getSectionComponent()` for dynamic section dispatch
-- Don't access resume data directly from props - use `useResumeStore()` hook
-- Don't use fixed pixel values for layout - use CSS custom properties for theme-aware sizing
-- Don't forget to handle `isFirstPage` check - the header should only render on page 1
-- Don't forget the `data-layout` attributes - the printer service uses these for page break calculation
+- Don’t hardcode section content instead of using the shared resume rendering patterns
+- Don’t forget to register the template in both schema and preview lookup
+- Don’t add gallery metadata without matching public assets
+- Don’t assume the frontend preview alone proves PDF/export correctness
