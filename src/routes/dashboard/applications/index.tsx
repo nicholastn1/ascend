@@ -101,7 +101,7 @@ function RouteComponent() {
 			</div>
 
 			{view === "board" && (
-				<>
+				<div className="flex min-h-0 flex-1 flex-col">
 					<div className="flex flex-wrap items-center gap-3 px-4 pt-4">
 						<div className="min-w-[250px] flex-1 sm:max-w-sm">
 							<SearchBar value={searchQuery} onValueChange={setSearchQuery} />
@@ -109,14 +109,16 @@ function RouteComponent() {
 						<Filters statusFilter={statusFilter} onStatusFilterChange={setStatusFilter} />
 					</div>
 
-					<KanbanBoard
-						searchQuery={searchQuery}
-						statusFilter={statusFilter}
-						onAddApplication={onAddApplication}
-						onEditApplication={onEditApplication}
-						onDeleteApplication={onDeleteApplication}
-					/>
-				</>
+					<div className="min-h-0 flex-1 pt-4">
+						<KanbanBoard
+							searchQuery={searchQuery}
+							statusFilter={statusFilter}
+							onAddApplication={onAddApplication}
+							onEditApplication={onEditApplication}
+							onDeleteApplication={onDeleteApplication}
+						/>
+					</div>
+				</div>
 			)}
 
 			{view === "analytics" && (

@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import type { ApplicationCardData } from "@/components/kanban/card";
 import { api } from "@/integrations/api/client";
 
 export type Application = {
@@ -75,13 +76,35 @@ export function useApplication(id: string) {
 	});
 }
 
+function toApplicationCardData(raw: Record<string, unknown>): ApplicationCardData {
+	return {
+		id: String(raw.id),
+		currentStatus: raw.current_status as ApplicationCardData["currentStatus"],
+		companyName: String(raw.company_name ?? ""),
+		jobTitle: String(raw.job_title ?? ""),
+		jobUrl: (raw.job_url as string | null) ?? null,
+		salaryAmount: raw.salary_amount != null ? String(raw.salary_amount) : null,
+		salaryCurrency: (raw.salary_currency as string | null) ?? null,
+		salaryPeriod: (raw.salary_period as ApplicationCardData["salaryPeriod"]) ?? null,
+		notes: (raw.notes as string | null) ?? null,
+		applicationDate: (raw.application_date as string | null) ?? null,
+		createdAt: new Date(String(raw.created_at)),
+		updatedAt: new Date(String(raw.updated_at)),
+	};
+}
+
 export function useKanban() {
-	return useQuery<Record<string, any[]>>({
+	return useQuery<Record<string, ApplicationCardData[]>>({
 		queryKey: applicationQueryKeys.kanban,
 		queryFn: async () => {
 			const { data, error } = await api.GET("/api/v1/applications/kanban");
 			if (error) throw error;
-			return data as unknown as Record<string, any[]>;
+			const raw = data as unknown as Record<string, Record<string, unknown>[]>;
+			const result: Record<string, ApplicationCardData[]> = {};
+			for (const [status, apps] of Object.entries(raw)) {
+				result[status] = (apps ?? []).map(toApplicationCardData);
+			}
+			return result;
 		},
 	});
 }

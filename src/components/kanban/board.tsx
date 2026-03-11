@@ -169,7 +169,7 @@ export function KanbanBoard({
 
 	if (isLoading) {
 		return (
-			<div className="flex gap-4 overflow-x-auto p-4 max-md:snap-x max-md:snap-mandatory">
+			<div className="flex h-full gap-4 overflow-x-auto p-4 max-md:snap-x max-md:snap-mandatory">
 				{APPLICATION_STATUSES.map((status) => (
 					<div key={status} className="flex w-[300px] shrink-0 flex-col gap-2 rounded-xl border bg-muted/30 p-3">
 						<Skeleton className="mb-2 h-6 w-24" />
@@ -192,7 +192,7 @@ export function KanbanBoard({
 			onDragStart={handleDragStart}
 			onDragEnd={handleDragEnd}
 		>
-			<div className="flex gap-4 overflow-x-auto p-4 max-md:snap-x max-md:snap-mandatory">
+			<div className="flex h-full gap-4 overflow-x-auto p-4 max-md:snap-x max-md:snap-mandatory">
 				{visibleStatuses.map((status) => (
 					<KanbanColumn
 						key={status}

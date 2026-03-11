@@ -77,7 +77,7 @@ export const KanbanColumn = memo(function KanbanColumn({
 				</Button>
 			</div>
 
-			<ScrollArea className="flex-1 px-2 pb-2">
+			<ScrollArea className="min-h-0 flex-1 px-2 pb-2">
 				<div ref={setNodeRef} className="flex min-h-[100px] flex-col gap-2 p-1">
 					<SortableContext items={cardIds} strategy={verticalListSortingStrategy}>
 						{applications.length === 0 ? (
