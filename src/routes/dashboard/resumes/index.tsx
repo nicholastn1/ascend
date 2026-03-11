@@ -65,7 +65,7 @@ function RouteComponent() {
 	};
 
 	return (
-		<div className="space-y-4">
+		<div className="space-y-4 px-4">
 			<DashboardHeader icon={ReadCvLogoIcon} title={t`Resumes`} />
 
 			<Separator />

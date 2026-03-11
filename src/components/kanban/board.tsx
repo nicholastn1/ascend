@@ -159,8 +159,7 @@ export function KanbanBoard({
 			if (!searchQuery) return list;
 			const q = searchQuery.toLowerCase();
 			return list.filter(
-				(app) =>
-					(app.companyName ?? "").toLowerCase().includes(q) || (app.jobTitle ?? "").toLowerCase().includes(q),
+				(app) => (app.companyName ?? "").toLowerCase().includes(q) || (app.jobTitle ?? "").toLowerCase().includes(q),
 			);
 		},
 		[searchQuery],

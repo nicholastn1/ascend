@@ -78,7 +78,7 @@ function RouteComponent() {
 
 	return (
 		<div className="flex min-h-0 flex-1 flex-col">
-			<div className="flex items-center gap-4 px-4 pt-4">
+			<div className="flex items-center gap-4 px-4">
 				<DashboardHeader title={t`Job Tracker`} icon={BriefcaseIcon} />
 
 				<Tabs className="ms-auto" value={view} onValueChange={(v) => setView(v as "board" | "analytics")}>
@@ -112,12 +112,12 @@ function RouteComponent() {
 					<div className="min-h-0 flex-1 pt-4">
 						<div className="h-full">
 							<KanbanBoard
-							searchQuery={searchQuery}
-							statusFilter={statusFilter}
-							onAddApplication={onAddApplication}
-							onEditApplication={onEditApplication}
-							onDeleteApplication={onDeleteApplication}
-						/>
+								searchQuery={searchQuery}
+								statusFilter={statusFilter}
+								onAddApplication={onAddApplication}
+								onEditApplication={onEditApplication}
+								onDeleteApplication={onDeleteApplication}
+							/>
 						</div>
 					</div>
 				</div>

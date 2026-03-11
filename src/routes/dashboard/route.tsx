@@ -1,8 +1,9 @@
 import { createFileRoute, Outlet, useNavigate, useRouter } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { LoadingScreen } from "@/components/layout/loading-screen";
-import { SidebarProvider } from "@/components/ui/sidebar";
+import { SidebarProvider, useSidebarState } from "@/components/ui/sidebar";
 import { useSession } from "@/integrations/auth/client";
+import { cn } from "@/utils/style";
 import { getSidebarState, setSidebarState } from "./-components/functions";
 import { DashboardSidebar, SidebarToggleButton } from "./-components/sidebar";
 
@@ -37,10 +38,16 @@ function RouteComponent() {
 		<SidebarProvider open={sidebarState} onOpenChange={handleSidebarOpenChange}>
 			<DashboardSidebar />
 			<SidebarToggleButton />
-
-			<main className="@container flex min-h-0 flex-1 flex-col p-4">
-				<Outlet />
-			</main>
+			<DashboardMain />
 		</SidebarProvider>
+	);
+}
+
+function DashboardMain() {
+	const { state } = useSidebarState();
+	return (
+		<main className={cn("@container flex min-h-0 flex-1 flex-col p-4", state === "collapsed" && "pl-14")}>
+			<Outlet />
+		</main>
 	);
 }
