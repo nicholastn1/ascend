@@ -21,7 +21,8 @@ export function SectionBase({ type, className, ...props }: Props) {
 		return state.resume.data.sections[type];
 	});
 
-	const isHidden = "hidden" in section && section.hidden;
+	const isHidden =
+		typeof section === "object" && section !== null && "hidden" in section && Boolean(section.hidden);
 	const collapsed = useSectionStore((state) => state.sections[type]?.collapsed ?? false);
 	const toggleCollapsed = useSectionStore((state) => state.toggleCollapsed);
 
@@ -45,7 +46,9 @@ export function SectionBase({ type, className, ...props }: Props) {
 					<div className="flex flex-1 items-center gap-x-4">
 						{getSectionIcon(type)}
 						<h2 className="line-clamp-1 font-bold text-2xl tracking-tight">
-							{("title" in section && section.title) || getSectionTitle(type)}
+							{typeof section === "object" && section !== null && "title" in section && section.title
+								? section.title
+								: getSectionTitle(type)}
 						</h2>
 					</div>
 

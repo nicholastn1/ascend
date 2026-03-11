@@ -513,6 +513,7 @@ export type ResumeData = z.infer<typeof resumeDataSchema>;
 /**
  * Merges partial resume data from the API with defaults. Use when loading resumes
  * that may have been created with minimal data (e.g. missing metadata/typography).
+ * Handles legacy formats where summary/sections may be strings or wrong shapes.
  */
 export function normalizeResumeData(data: Partial<ResumeData> | null | undefined): ResumeData {
 	if (!data) return defaultResumeData;
@@ -521,6 +522,17 @@ export function normalizeResumeData(data: Partial<ResumeData> | null | undefined
 	if (!merged.metadata?.typography) {
 		merged.metadata = { ...defaultResumeData.metadata, ...merged.metadata } as ResumeData["metadata"];
 		merged.metadata.typography = merged.metadata.typography ?? defaultResumeData.metadata.typography;
+	}
+	// Legacy format: summary may be a string (HTML content) instead of { title, columns, hidden, content }
+	if (typeof merged.summary === "string") {
+		merged.summary = { ...defaultResumeData.summary, content: merged.summary };
+	} else if (
+		merged.summary &&
+		typeof merged.summary === "object" &&
+		!("hidden" in merged.summary) &&
+		merged.summary !== null
+	) {
+		merged.summary = { ...defaultResumeData.summary, ...(merged.summary as Record<string, unknown>) };
 	}
 	return merged;
 }
