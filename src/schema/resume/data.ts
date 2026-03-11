@@ -1,3 +1,4 @@
+import { merge } from "es-toolkit/compat";
 import z from "zod";
 import { templateSchema } from "../templates";
 
@@ -508,6 +509,21 @@ export const resumeDataSchema = z.object({
 });
 
 export type ResumeData = z.infer<typeof resumeDataSchema>;
+
+/**
+ * Merges partial resume data from the API with defaults. Use when loading resumes
+ * that may have been created with minimal data (e.g. missing metadata/typography).
+ */
+export function normalizeResumeData(data: Partial<ResumeData> | null | undefined): ResumeData {
+	if (!data) return defaultResumeData;
+	const merged = merge({}, defaultResumeData, data) as ResumeData;
+	// Ensure metadata.typography always exists (handles legacy resumes with no metadata)
+	if (!merged.metadata?.typography) {
+		merged.metadata = { ...defaultResumeData.metadata, ...merged.metadata } as ResumeData["metadata"];
+		merged.metadata.typography = merged.metadata.typography ?? defaultResumeData.metadata.typography;
+	}
+	return merged;
+}
 
 export const defaultResumeData: ResumeData = {
 	picture: {

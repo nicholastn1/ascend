@@ -10,7 +10,7 @@ import { immer } from "zustand/middleware/immer";
 import { create } from "zustand/react";
 import { useStoreWithEqualityFn } from "zustand/traditional";
 import { syncResumeData } from "@/integrations/api/hooks/resumes";
-import type { ResumeData } from "@/schema/resume/data";
+import { normalizeResumeData, type ResumeData } from "@/schema/resume/data";
 
 export type Resume = {
 	id: string;
@@ -54,8 +54,16 @@ export const useResumeStore = create<ResumeStore>()(
 
 			initialize: (resume) => {
 				set((state) => {
-					state.resume = resume as Resume;
-					state.isReady = resume !== null;
+					if (!resume) {
+						state.resume = null as unknown as Resume;
+						state.isReady = false;
+					} else {
+						state.resume = {
+							...resume,
+							data: normalizeResumeData(resume.data),
+						} as Resume;
+						state.isReady = true;
+					}
 					useResumeStore.temporal.getState().clear();
 				});
 			},

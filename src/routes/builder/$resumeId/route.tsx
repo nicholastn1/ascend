@@ -73,14 +73,15 @@ function RouteComponent() {
 
 	if (isSessionPending || !session || isResumePending || !resume || !isReady) return <LoadingScreen />;
 
-	return <BuilderPage resume={resume} initialLayout={initialLayout} />;
+	return <BuilderPage initialLayout={initialLayout} />;
 }
 
 type BuilderLayoutProps = React.ComponentProps<"div"> & {
 	initialLayout: Layout;
 };
 
-function BuilderPage({ resume, initialLayout }: { resume: Resume; initialLayout: Layout }) {
+function BuilderPage({ initialLayout }: { initialLayout: Layout }) {
+	const resume = useResumeStore((state) => state.resume);
 	const style = useCSSVariables(resume.data);
 	return <BuilderLayout style={style} initialLayout={initialLayout} />;
 }
