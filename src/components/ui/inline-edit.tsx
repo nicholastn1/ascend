@@ -29,8 +29,14 @@ export function InlineEdit({
 	const handleClickOutside = useCallback(
 		(event: MouseEvent) => {
 			if (!isEditing) return;
-			if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
-				onCancel();
+			const target = event.target as Node;
+			if (!containerRef.current?.contains(target)) {
+				// Ignore clicks inside Radix portalled content (popover, dropdown, etc.)
+				// so dropdown options don't trigger cancel when rendered outside the container
+				const isInPortal = (target as Element).closest?.(
+					"[data-slot='popover-content'], [data-radix-popper-content-wrapper]",
+				);
+				if (!isInPortal) onCancel();
 			}
 		},
 		[isEditing, onCancel],
