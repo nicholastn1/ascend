@@ -39,6 +39,12 @@ msgstr "{0, plural, one {# item} other {# items}}"
 msgid "{0} / {1} messages today"
 msgstr "{0} / {1} messages today"
 
+#. placeholder {0}: removeTarget.count
+#. placeholder {1}: removeTarget.label
+#: src/dialogs/settings/tabs/job-tracker.tsx
+msgid "{0} application(s) use \"{1}\". Choose a destination status to move them to before removing this column."
+msgstr "{0} application(s) use \"{1}\". Choose a destination status to move them to before removing this column."
+
 #: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-menu.tsx
 msgid "{column, plural, one {# Column} other {# Columns}}"
@@ -72,6 +78,10 @@ msgstr "3 months"
 msgid "6 months"
 msgstr "6 months"
 
+#: src/dialogs/settings/tabs/job-tracker.tsx
+msgid "A column with that name already exists."
+msgstr "A column with that name already exists."
+
 #: src/routes/builder/$resumeId/-components/dock.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 msgid "A link to your resume has been copied to clipboard."
@@ -86,12 +96,8 @@ msgstr "A resume with this slug already exists."
 msgid "A4"
 msgstr "A4"
 
-#: src/components/kanban/analytics/status-chart.tsx
 #: src/components/kanban/column.tsx
-#: src/components/kanban/filters.tsx
-#: src/dialogs/application/create.tsx
 #: src/dialogs/application/history.tsx
-#: src/dialogs/application/status-badge.tsx
 msgid "Accepted"
 msgstr "Accepted"
 
@@ -100,6 +106,7 @@ msgid "Access your resumes and data programmatically using the API."
 msgstr "Access your resumes and data programmatically using the API."
 
 #: src/dialogs/application/contacts.tsx
+#: src/dialogs/settings/tabs/job-tracker.tsx
 msgid "Add"
 msgstr "Add"
 
@@ -168,6 +175,10 @@ msgstr "Add a new skill"
 msgid "Add a new volunteer experience"
 msgstr "Add a new volunteer experience"
 
+#: src/dialogs/settings/tabs/job-tracker.tsx
+msgid "Add column"
+msgstr "Add column"
+
 #: src/components/input/rich-input.tsx
 msgid "Add Column After"
 msgstr "Add Column After"
@@ -179,6 +190,10 @@ msgstr "Add Column Before"
 #: src/dialogs/application/contacts.tsx
 msgid "Add Contact"
 msgstr "Add Contact"
+
+#: src/dialogs/settings/tabs/job-tracker.tsx
+msgid "Add custom column"
+msgstr "Add custom column"
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/layout/pages.tsx
 msgid "Add Page"
@@ -307,16 +322,16 @@ msgstr "Application Kanban"
 msgid "Applications by Status"
 msgstr "Applications by Status"
 
+#: src/dialogs/settings/tabs/job-tracker.tsx
+msgid "Applications migrated and column removed."
+msgstr "Applications migrated and column removed."
+
 #: src/components/kanban/analytics/timeline-chart.tsx
 msgid "Applications Over Time"
 msgstr "Applications Over Time"
 
-#: src/components/kanban/analytics/status-chart.tsx
 #: src/components/kanban/column.tsx
-#: src/components/kanban/filters.tsx
-#: src/dialogs/application/create.tsx
 #: src/dialogs/application/history.tsx
-#: src/dialogs/application/status-badge.tsx
 msgid "Applied"
 msgstr "Applied"
 
@@ -532,6 +547,8 @@ msgstr "Bullet List"
 #: src/dialogs/resume/sections/volunteer.tsx
 #: src/dialogs/settings/tabs/api-keys.tsx
 #: src/dialogs/settings/tabs/danger-zone.tsx
+#: src/dialogs/settings/tabs/job-tracker.tsx
+#: src/dialogs/settings/tabs/job-tracker.tsx
 #: src/hooks/use-prompt.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 msgid "Cancel"
@@ -636,6 +653,23 @@ msgstr "Code Block"
 #: src/routes/dashboard/-components/sidebar.tsx
 msgid "Collapse Sidebar"
 msgstr "Collapse Sidebar"
+
+#: src/dialogs/settings/tabs/job-tracker.tsx
+msgid "Column added."
+msgstr "Column added."
+
+#: src/dialogs/settings/tabs/job-tracker.tsx
+msgid "Column name"
+msgstr "Column name"
+
+#: src/dialogs/settings/tabs/job-tracker.tsx
+#: src/dialogs/settings/tabs/job-tracker.tsx
+msgid "Column order updated."
+msgstr "Column order updated."
+
+#: src/dialogs/settings/tabs/job-tracker.tsx
+msgid "Column removed."
+msgstr "Column removed."
 
 #: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-menu.tsx
@@ -825,6 +859,10 @@ msgstr "Create a new resume"
 #: src/dialogs/resume/sections/skill.tsx
 msgid "Create a new skill"
 msgstr "Create a new skill"
+
+#: src/dialogs/settings/tabs/job-tracker.tsx
+msgid "Create a new status column for your workflow (e.g. \"Phone Screen\", \"Technical Interview\")."
+msgstr "Create a new status column for your workflow (e.g. \"Phone Screen\", \"Technical Interview\")."
 
 #: src/dialogs/resume/sections/summary-item.tsx
 msgid "Create a new summary item"
@@ -1088,6 +1126,10 @@ msgstr "e.g. Google"
 #: src/dialogs/application/contacts.tsx
 msgid "e.g. Jane Smith"
 msgstr "e.g. Jane Smith"
+
+#: src/dialogs/settings/tabs/job-tracker.tsx
+msgid "e.g. Phone Screen"
+msgstr "e.g. Phone Screen"
 
 #: src/dialogs/application/contacts.tsx
 msgid "e.g. Recruiter"
@@ -1536,12 +1578,8 @@ msgstr "Interests"
 msgid "Interview preparation"
 msgstr "Interview preparation"
 
-#: src/components/kanban/analytics/status-chart.tsx
 #: src/components/kanban/column.tsx
-#: src/components/kanban/filters.tsx
-#: src/dialogs/application/create.tsx
 #: src/dialogs/application/history.tsx
-#: src/dialogs/application/status-badge.tsx
 msgid "Interviewing"
 msgstr "Interviewing"
 
@@ -1569,6 +1607,7 @@ msgstr "Job searching is chaotic. It doesn't have to be."
 msgid "Job Title"
 msgstr "Job Title"
 
+#: src/dialogs/settings/index.tsx
 #: src/routes/dashboard/-components/sidebar.tsx
 #: src/routes/dashboard/applications/index.tsx
 msgid "Job Tracker"
@@ -1582,6 +1621,10 @@ msgstr "Job URL"
 #: src/components/input/rich-input.tsx
 msgid "Justify Align"
 msgstr "Justify Align"
+
+#: src/dialogs/settings/tabs/job-tracker.tsx
+msgid "Kanban columns"
+msgstr "Kanban columns"
 
 #: src/utils/locale.ts
 msgid "Kannada"
@@ -1772,6 +1815,18 @@ msgstr "Margin (Horizontal)"
 msgid "Margin (Vertical)"
 msgstr "Margin (Vertical)"
 
+#: src/dialogs/settings/tabs/job-tracker.tsx
+msgid "Maximum {MAX_CUSTOM_STATUSES} custom columns."
+msgstr "Maximum {MAX_CUSTOM_STATUSES} custom columns."
+
+#: src/dialogs/settings/tabs/job-tracker.tsx
+msgid "Migrate and remove"
+msgstr "Migrate and remove"
+
+#: src/dialogs/settings/tabs/job-tracker.tsx
+msgid "Migrate applications before removing"
+msgstr "Migrate applications before removing"
+
 #: src/routes/_home/-sections/problem.tsx
 msgid "Missed deadlines"
 msgstr "Missed deadlines"
@@ -1785,6 +1840,7 @@ msgstr "Model"
 msgid "Monthly"
 msgstr "Monthly"
 
+#: src/dialogs/settings/tabs/job-tracker.tsx
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-item.tsx
 msgid "Move to"
 msgstr "Move to"
@@ -1905,12 +1961,8 @@ msgstr "Notes, contacts, and salary tracking"
 msgid "Odia"
 msgstr "Odia"
 
-#: src/components/kanban/analytics/status-chart.tsx
 #: src/components/kanban/column.tsx
-#: src/components/kanban/filters.tsx
-#: src/dialogs/application/create.tsx
 #: src/dialogs/application/history.tsx
-#: src/dialogs/application/status-badge.tsx
 msgid "Offer"
 msgstr "Offer"
 
@@ -2189,12 +2241,8 @@ msgstr "References"
 msgid "Refresh"
 msgstr "Refresh"
 
-#: src/components/kanban/analytics/status-chart.tsx
 #: src/components/kanban/column.tsx
-#: src/components/kanban/filters.tsx
-#: src/dialogs/application/create.tsx
 #: src/dialogs/application/history.tsx
-#: src/dialogs/application/status-badge.tsx
 msgid "Rejected"
 msgstr "Rejected"
 
@@ -2213,6 +2261,10 @@ msgstr "Removing password protection..."
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-menu.tsx
 msgid "Rename"
 msgstr "Rename"
+
+#: src/dialogs/settings/tabs/job-tracker.tsx
+msgid "Reorder columns with the up/down buttons. Add custom statuses or remove columns you don't use."
+msgstr "Reorder columns with the up/down buttons. Add custom statuses or remove columns you don't use."
 
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-menu.tsx
 msgid "Reset"
@@ -2318,12 +2370,8 @@ msgstr "Scattered applications"
 msgid "School"
 msgstr "School"
 
-#: src/components/kanban/analytics/status-chart.tsx
 #: src/components/kanban/column.tsx
-#: src/components/kanban/filters.tsx
-#: src/dialogs/application/create.tsx
 #: src/dialogs/application/history.tsx
-#: src/dialogs/application/status-badge.tsx
 msgid "Screening"
 msgstr "Screening"
 
@@ -2374,6 +2422,10 @@ msgstr "Select"
 #: src/dialogs/settings/tabs/prompts.tsx
 msgid "Select a prompt to edit"
 msgstr "Select a prompt to edit"
+
+#: src/dialogs/settings/tabs/job-tracker.tsx
+msgid "Select status"
+msgstr "Select status"
 
 #: src/components/ui/combobox.tsx
 #: src/components/ui/multiple-combobox.tsx
@@ -3069,12 +3121,8 @@ msgstr "What do you want to rename this section to?"
 msgid "When locked, the resume cannot be updated or deleted."
 msgstr "When locked, the resume cannot be updated or deleted."
 
-#: src/components/kanban/analytics/status-chart.tsx
 #: src/components/kanban/column.tsx
-#: src/components/kanban/filters.tsx
-#: src/dialogs/application/create.tsx
 #: src/dialogs/application/history.tsx
-#: src/dialogs/application/status-badge.tsx
 msgid "Withdrawn"
 msgstr "Withdrawn"
 

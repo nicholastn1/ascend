@@ -1,33 +1,22 @@
-import { msg } from "@lingui/core/macro";
-import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
 import { FunnelIcon, XIcon } from "@phosphor-icons/react";
 import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { APPLICATION_STATUSES, type ApplicationStatus } from "@/schema/application";
+import { useApplicationWorkflow } from "@/integrations/api/hooks/applications";
 import { cn } from "@/utils/style";
 
-const STATUS_LABELS = {
-	applied: msg`Applied`,
-	screening: msg`Screening`,
-	interviewing: msg`Interviewing`,
-	offer: msg`Offer`,
-	accepted: msg`Accepted`,
-	rejected: msg`Rejected`,
-	withdrawn: msg`Withdrawn`,
-};
-
 type FiltersProps = {
-	statusFilter: ApplicationStatus[];
-	onStatusFilterChange: (statuses: ApplicationStatus[]) => void;
+	statusFilter: string[];
+	onStatusFilterChange: (statuses: string[]) => void;
 };
 
 export function Filters({ statusFilter, onStatusFilterChange }: FiltersProps) {
-	const { i18n } = useLingui();
 	const [isOpen, setIsOpen] = useState(false);
+	const { data: workflow } = useApplicationWorkflow();
+	const statuses = workflow?.statuses ?? [];
 
-	const toggleStatus = (status: ApplicationStatus) => {
+	const toggleStatus = (status: string) => {
 		if (statusFilter.includes(status)) {
 			onStatusFilterChange(statusFilter.filter((s) => s !== status));
 		} else {
@@ -55,19 +44,19 @@ export function Filters({ statusFilter, onStatusFilterChange }: FiltersProps) {
 
 			{isOpen && (
 				<div className="mt-2 flex flex-wrap items-center gap-1.5">
-					{APPLICATION_STATUSES.map((status) => {
-						const isActive = statusFilter.includes(status);
+					{statuses.map((s) => {
+						const isActive = statusFilter.includes(s.slug);
 						return (
 							<button
-								key={status}
+								key={s.slug}
 								type="button"
-								onClick={() => toggleStatus(status)}
+								onClick={() => toggleStatus(s.slug)}
 								className={cn(
 									"rounded-full border px-2.5 py-1 text-xs transition-colors",
 									isActive ? "border-primary bg-primary text-primary-foreground" : "border-border hover:bg-muted",
 								)}
 							>
-								{i18n._(STATUS_LABELS[status])}
+								{s.label}
 							</button>
 						);
 					})}

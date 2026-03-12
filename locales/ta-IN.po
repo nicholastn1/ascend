@@ -44,6 +44,12 @@ msgstr "{0, plural, one {# உருப்படி} other {# உருப்ப
 msgid "{0} / {1} messages today"
 msgstr ""
 
+#. placeholder {0}: removeTarget.count
+#. placeholder {1}: removeTarget.label
+#: src/dialogs/settings/tabs/job-tracker.tsx
+msgid "{0} application(s) use \"{1}\". Choose a destination status to move them to before removing this column."
+msgstr ""
+
 #: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-menu.tsx
 msgid "{column, plural, one {# Column} other {# Columns}}"
@@ -77,6 +83,10 @@ msgstr "3 மாதங்கள்"
 msgid "6 months"
 msgstr "6 மாதங்கள்"
 
+#: src/dialogs/settings/tabs/job-tracker.tsx
+msgid "A column with that name already exists."
+msgstr ""
+
 #: src/routes/builder/$resumeId/-components/dock.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 msgid "A link to your resume has been copied to clipboard."
@@ -91,12 +101,8 @@ msgstr "இந்த ஸ்லக் உடன் ஒரு ரெஸ்யூ�
 msgid "A4"
 msgstr "ஏ4"
 
-#: src/components/kanban/analytics/status-chart.tsx
 #: src/components/kanban/column.tsx
-#: src/components/kanban/filters.tsx
-#: src/dialogs/application/create.tsx
 #: src/dialogs/application/history.tsx
-#: src/dialogs/application/status-badge.tsx
 msgid "Accepted"
 msgstr ""
 
@@ -105,6 +111,7 @@ msgid "Access your resumes and data programmatically using the API."
 msgstr "API-யை பயன்படுத்தி உங்கள் ரெஸ்யூமிகளையும் தரவையும் நிரலாலும் அணுகலாம்."
 
 #: src/dialogs/application/contacts.tsx
+#: src/dialogs/settings/tabs/job-tracker.tsx
 msgid "Add"
 msgstr ""
 
@@ -173,6 +180,10 @@ msgstr "ஒரு புதிய திறனைச் சேர்க்கவ
 msgid "Add a new volunteer experience"
 msgstr "ஒரு புதிய தன்னார்வ அனுபவத்தைச் சேர்க்கவும்"
 
+#: src/dialogs/settings/tabs/job-tracker.tsx
+msgid "Add column"
+msgstr ""
+
 #: src/components/input/rich-input.tsx
 msgid "Add Column After"
 msgstr "பின் நெடுவரிசைச் சேர்க்கவும்"
@@ -183,6 +194,10 @@ msgstr "முன் நெடுவரிசைச் சேர்க்கவ�
 
 #: src/dialogs/application/contacts.tsx
 msgid "Add Contact"
+msgstr ""
+
+#: src/dialogs/settings/tabs/job-tracker.tsx
+msgid "Add custom column"
 msgstr ""
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/layout/pages.tsx
@@ -312,16 +327,16 @@ msgstr ""
 msgid "Applications by Status"
 msgstr ""
 
+#: src/dialogs/settings/tabs/job-tracker.tsx
+msgid "Applications migrated and column removed."
+msgstr ""
+
 #: src/components/kanban/analytics/timeline-chart.tsx
 msgid "Applications Over Time"
 msgstr ""
 
-#: src/components/kanban/analytics/status-chart.tsx
 #: src/components/kanban/column.tsx
-#: src/components/kanban/filters.tsx
-#: src/dialogs/application/create.tsx
 #: src/dialogs/application/history.tsx
-#: src/dialogs/application/status-badge.tsx
 msgid "Applied"
 msgstr ""
 
@@ -537,6 +552,8 @@ msgstr "குறியிட்டு பட்டியல்"
 #: src/dialogs/resume/sections/volunteer.tsx
 #: src/dialogs/settings/tabs/api-keys.tsx
 #: src/dialogs/settings/tabs/danger-zone.tsx
+#: src/dialogs/settings/tabs/job-tracker.tsx
+#: src/dialogs/settings/tabs/job-tracker.tsx
 #: src/hooks/use-prompt.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 msgid "Cancel"
@@ -640,6 +657,23 @@ msgstr "குறியீட்டு தொகுதி"
 
 #: src/routes/dashboard/-components/sidebar.tsx
 msgid "Collapse Sidebar"
+msgstr ""
+
+#: src/dialogs/settings/tabs/job-tracker.tsx
+msgid "Column added."
+msgstr ""
+
+#: src/dialogs/settings/tabs/job-tracker.tsx
+msgid "Column name"
+msgstr ""
+
+#: src/dialogs/settings/tabs/job-tracker.tsx
+#: src/dialogs/settings/tabs/job-tracker.tsx
+msgid "Column order updated."
+msgstr ""
+
+#: src/dialogs/settings/tabs/job-tracker.tsx
+msgid "Column removed."
 msgstr ""
 
 #: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx
@@ -830,6 +864,10 @@ msgstr "ஒரு புதிய ரெஸ்யூமியை உருவா
 #: src/dialogs/resume/sections/skill.tsx
 msgid "Create a new skill"
 msgstr "ஒரு புதிய திறனை உருவாக்கவும்"
+
+#: src/dialogs/settings/tabs/job-tracker.tsx
+msgid "Create a new status column for your workflow (e.g. \"Phone Screen\", \"Technical Interview\")."
+msgstr ""
 
 #: src/dialogs/resume/sections/summary-item.tsx
 msgid "Create a new summary item"
@@ -1092,6 +1130,10 @@ msgstr ""
 
 #: src/dialogs/application/contacts.tsx
 msgid "e.g. Jane Smith"
+msgstr ""
+
+#: src/dialogs/settings/tabs/job-tracker.tsx
+msgid "e.g. Phone Screen"
 msgstr ""
 
 #: src/dialogs/application/contacts.tsx
@@ -1541,12 +1583,8 @@ msgstr "விருப்பங்கள்"
 msgid "Interview preparation"
 msgstr ""
 
-#: src/components/kanban/analytics/status-chart.tsx
 #: src/components/kanban/column.tsx
-#: src/components/kanban/filters.tsx
-#: src/dialogs/application/create.tsx
 #: src/dialogs/application/history.tsx
-#: src/dialogs/application/status-badge.tsx
 msgid "Interviewing"
 msgstr ""
 
@@ -1574,6 +1612,7 @@ msgstr ""
 msgid "Job Title"
 msgstr ""
 
+#: src/dialogs/settings/index.tsx
 #: src/routes/dashboard/-components/sidebar.tsx
 #: src/routes/dashboard/applications/index.tsx
 msgid "Job Tracker"
@@ -1587,6 +1626,10 @@ msgstr ""
 #: src/components/input/rich-input.tsx
 msgid "Justify Align"
 msgstr "இரு விளிமைகளும் ஒழுங்காக்கு"
+
+#: src/dialogs/settings/tabs/job-tracker.tsx
+msgid "Kanban columns"
+msgstr ""
 
 #: src/utils/locale.ts
 msgid "Kannada"
@@ -1777,6 +1820,18 @@ msgstr "விளிம்பு (கிடைமட்ட)"
 msgid "Margin (Vertical)"
 msgstr "விளிம்பு (செங்குத்து)"
 
+#: src/dialogs/settings/tabs/job-tracker.tsx
+msgid "Maximum {MAX_CUSTOM_STATUSES} custom columns."
+msgstr ""
+
+#: src/dialogs/settings/tabs/job-tracker.tsx
+msgid "Migrate and remove"
+msgstr ""
+
+#: src/dialogs/settings/tabs/job-tracker.tsx
+msgid "Migrate applications before removing"
+msgstr ""
+
 #: src/routes/_home/-sections/problem.tsx
 msgid "Missed deadlines"
 msgstr ""
@@ -1790,6 +1845,7 @@ msgstr "மாதிரி"
 msgid "Monthly"
 msgstr ""
 
+#: src/dialogs/settings/tabs/job-tracker.tsx
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-item.tsx
 msgid "Move to"
 msgstr "இதற்கு நகர்த்தவும்"
@@ -1910,12 +1966,8 @@ msgstr ""
 msgid "Odia"
 msgstr "ஒடியா"
 
-#: src/components/kanban/analytics/status-chart.tsx
 #: src/components/kanban/column.tsx
-#: src/components/kanban/filters.tsx
-#: src/dialogs/application/create.tsx
 #: src/dialogs/application/history.tsx
-#: src/dialogs/application/status-badge.tsx
 msgid "Offer"
 msgstr ""
 
@@ -2194,12 +2246,8 @@ msgstr "பரிந்துரைகள்"
 msgid "Refresh"
 msgstr "மீண்டும் ஏற்று"
 
-#: src/components/kanban/analytics/status-chart.tsx
 #: src/components/kanban/column.tsx
-#: src/components/kanban/filters.tsx
-#: src/dialogs/application/create.tsx
 #: src/dialogs/application/history.tsx
-#: src/dialogs/application/status-badge.tsx
 msgid "Rejected"
 msgstr ""
 
@@ -2218,6 +2266,10 @@ msgstr "கடவுச்சொல் பாதுகாப்பை நீக�
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-menu.tsx
 msgid "Rename"
 msgstr "மறுபெயரிடு"
+
+#: src/dialogs/settings/tabs/job-tracker.tsx
+msgid "Reorder columns with the up/down buttons. Add custom statuses or remove columns you don't use."
+msgstr ""
 
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-menu.tsx
 msgid "Reset"
@@ -2323,12 +2375,8 @@ msgstr ""
 msgid "School"
 msgstr "பள்ளி"
 
-#: src/components/kanban/analytics/status-chart.tsx
 #: src/components/kanban/column.tsx
-#: src/components/kanban/filters.tsx
-#: src/dialogs/application/create.tsx
 #: src/dialogs/application/history.tsx
-#: src/dialogs/application/status-badge.tsx
 msgid "Screening"
 msgstr ""
 
@@ -2378,6 +2426,10 @@ msgstr ""
 
 #: src/dialogs/settings/tabs/prompts.tsx
 msgid "Select a prompt to edit"
+msgstr ""
+
+#: src/dialogs/settings/tabs/job-tracker.tsx
+msgid "Select status"
 msgstr ""
 
 #: src/components/ui/combobox.tsx
@@ -3074,12 +3126,8 @@ msgstr "இந்த பகுதியை என்ன என்று மற�
 msgid "When locked, the resume cannot be updated or deleted."
 msgstr "பூட்டப்பட்டிருக்கும் போது, ரெஸ்யூமியை புதுப்பிக்கவோ நீக்கவோ முடியாது."
 
-#: src/components/kanban/analytics/status-chart.tsx
 #: src/components/kanban/column.tsx
-#: src/components/kanban/filters.tsx
-#: src/dialogs/application/create.tsx
 #: src/dialogs/application/history.tsx
-#: src/dialogs/application/status-badge.tsx
 msgid "Withdrawn"
 msgstr ""
 

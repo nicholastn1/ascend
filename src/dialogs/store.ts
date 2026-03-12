@@ -1,6 +1,5 @@
 import z from "zod";
 import { create } from "zustand/react";
-import { applicationStatusSchema } from "@/schema/application";
 import {
 	awardItemSchema,
 	certificationItemSchema,
@@ -19,7 +18,15 @@ import {
 	volunteerItemSchema,
 } from "@/schema/resume/data";
 
-const settingsTabSchema = z.enum(["preferences", "authentication", "api-keys", "ai", "danger-zone", "prompts"]);
+const settingsTabSchema = z.enum([
+	"preferences",
+	"authentication",
+	"api-keys",
+	"ai",
+	"job-tracker",
+	"danger-zone",
+	"prompts",
+]);
 
 export type SettingsTab = z.infer<typeof settingsTabSchema>;
 
@@ -164,7 +171,7 @@ const dialogTypeSchema = z.discriminatedUnion("type", [
 	z.object({ type: z.literal("resume.sections.custom.update"), data: customSectionSchema }),
 	z.object({
 		type: z.literal("application.create"),
-		data: z.object({ initialStatus: applicationStatusSchema.optional() }).optional(),
+		data: z.object({ initialStatus: z.string().optional() }).optional(),
 	}),
 	z.object({
 		type: z.literal("application.update"),

@@ -21,8 +21,7 @@ export function SectionBase({ type, className, ...props }: Props) {
 		return state.resume.data.sections[type];
 	});
 
-	const isHidden =
-		typeof section === "object" && section !== null && "hidden" in section && Boolean(section.hidden);
+	const isHidden = typeof section === "object" && section !== null && "hidden" in section && Boolean(section.hidden);
 	const collapsed = useSectionStore((state) => state.sections[type]?.collapsed ?? false);
 	const toggleCollapsed = useSectionStore((state) => state.toggleCollapsed);
 

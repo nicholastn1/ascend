@@ -33,11 +33,24 @@ export type ApplicationHistory = {
 	changed_at: string;
 };
 
+export type ApplicationWorkflowStatus = {
+	slug: string;
+	label: string;
+	is_custom: boolean;
+	color?: string;
+	position: number;
+};
+
+export type ApplicationWorkflow = {
+	statuses: ApplicationWorkflowStatus[];
+};
+
 export const applicationQueryKeys = {
 	all: ["applications"] as const,
 	list: (filters?: Record<string, unknown>) => ["applications", "list", filters] as const,
 	detail: (id: string) => ["applications", "detail", id] as const,
 	kanban: ["applications", "kanban"] as const,
+	workflow: ["applications", "workflow"] as const,
 	contacts: (appId: string) => ["applications", appId, "contacts"] as const,
 	history: (appId: string) => ["applications", appId, "history"] as const,
 	analytics: {
@@ -91,6 +104,55 @@ function toApplicationCardData(raw: Record<string, unknown>): ApplicationCardDat
 		createdAt: new Date(String(raw.created_at)),
 		updatedAt: new Date(String(raw.updated_at)),
 	};
+}
+
+export function useApplicationWorkflow() {
+	return useQuery<ApplicationWorkflow>({
+		queryKey: applicationQueryKeys.workflow,
+		queryFn: async () => {
+			const { data, error } = await api.GET("/api/v1/users/me/application_workflow");
+			if (error) throw error;
+			return data as unknown as ApplicationWorkflow;
+		},
+	});
+}
+
+export function useUpdateApplicationWorkflow() {
+	const queryClient = useQueryClient();
+	return useMutation({
+		mutationFn: async (
+			statuses: Array<{ slug: string; label?: string; is_custom?: boolean; color?: string; position?: number }>,
+		) => {
+			const { data, error } = await api.PUT("/api/v1/users/me/application_workflow", {
+				body: { statuses },
+			});
+			if (error) throw error;
+			return data as unknown as ApplicationWorkflow;
+		},
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: applicationQueryKeys.workflow });
+			queryClient.invalidateQueries({ queryKey: applicationQueryKeys.kanban });
+			queryClient.invalidateQueries({ queryKey: applicationQueryKeys.all });
+		},
+	});
+}
+
+export function useMigrateApplicationsStatus() {
+	const queryClient = useQueryClient();
+	return useMutation({
+		mutationFn: async (params: { from_status: string; to_status: string }) => {
+			const { data, error } = await api.POST("/api/v1/applications/migrate_status", {
+				body: params,
+			});
+			if (error) throw error;
+			return (data ?? { migrated_count: 0 }) as { migrated_count: number };
+		},
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: applicationQueryKeys.all });
+			queryClient.invalidateQueries({ queryKey: applicationQueryKeys.kanban });
+			queryClient.invalidateQueries({ queryKey: applicationQueryKeys.workflow });
+		},
+	});
 }
 
 export function useKanban() {

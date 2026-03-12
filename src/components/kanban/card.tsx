@@ -6,11 +6,9 @@ import { memo } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import type { ApplicationStatus } from "@/schema/application";
-
 export type ApplicationCardData = {
 	id: string;
-	currentStatus: ApplicationStatus;
+	currentStatus: string;
 	companyName: string;
 	jobTitle: string;
 	jobUrl?: string | null;

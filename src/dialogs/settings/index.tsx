@@ -1,6 +1,15 @@
 import { t } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
-import { BrainIcon, GearSixIcon, KeyIcon, NoteIcon, ShieldCheckIcon, WarningIcon, XIcon } from "@phosphor-icons/react";
+import {
+	BrainIcon,
+	GearSixIcon,
+	KanbanIcon,
+	KeyIcon,
+	NoteIcon,
+	ShieldCheckIcon,
+	WarningIcon,
+	XIcon,
+} from "@phosphor-icons/react";
 import { useState } from "react";
 import { DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import type { DialogProps, SettingsTab } from "@/dialogs/store";
@@ -10,6 +19,7 @@ import { AITab } from "./tabs/ai";
 import { ApiKeysTab } from "./tabs/api-keys";
 import { AuthenticationTab } from "./tabs/authentication";
 import { DangerZoneTab } from "./tabs/danger-zone";
+import { JobTrackerTab } from "./tabs/job-tracker";
 import { PreferencesTab } from "./tabs/preferences";
 import { PromptsTab } from "./tabs/prompts";
 
@@ -25,6 +35,7 @@ const tabs: TabConfig[] = [
 	{ id: "authentication", label: () => t`Authentication`, icon: ShieldCheckIcon },
 	{ id: "api-keys", label: () => t`API Keys`, icon: KeyIcon },
 	{ id: "ai", label: () => t`Artificial Intelligence`, icon: BrainIcon },
+	{ id: "job-tracker", label: () => t`Job Tracker`, icon: KanbanIcon },
 	{ id: "danger-zone", label: () => t`Danger Zone`, icon: WarningIcon },
 	{ id: "prompts", label: () => t`Prompts`, icon: NoteIcon, adminOnly: true },
 ];
@@ -38,6 +49,7 @@ export function SettingsDialog({ data }: DialogProps<"settings">) {
 		authentication: <AuthenticationTab />,
 		"api-keys": <ApiKeysTab />,
 		ai: <AITab />,
+		"job-tracker": <JobTrackerTab />,
 		"danger-zone": <DangerZoneTab />,
 		prompts: <PromptsTab />,
 	};

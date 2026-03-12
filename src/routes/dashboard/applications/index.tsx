@@ -10,7 +10,6 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useDialogStore } from "@/dialogs/store";
-import type { ApplicationStatus } from "@/schema/application";
 import { DashboardHeader } from "../-components/header";
 
 const OverviewCards = lazy(() =>
@@ -52,11 +51,11 @@ function AnalyticsFallback() {
 function RouteComponent() {
 	const openDialog = useDialogStore((state) => state.openDialog);
 	const [searchQuery, setSearchQuery] = useState("");
-	const [statusFilter, setStatusFilter] = useState<ApplicationStatus[]>([]);
+	const [statusFilter, setStatusFilter] = useState<string[]>([]);
 	const [view, setView] = useState<"board" | "analytics">("board");
 
 	const onAddApplication = useCallback(
-		(status: ApplicationStatus) => {
+		(status: string) => {
 			openDialog("application.create", { initialStatus: status });
 		},
 		[openDialog],

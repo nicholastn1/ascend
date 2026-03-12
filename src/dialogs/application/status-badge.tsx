@@ -1,24 +1,11 @@
-import { msg } from "@lingui/core/macro";
-import { useLingui } from "@lingui/react";
 import { CaretDownIcon } from "@phosphor-icons/react";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Combobox } from "@/components/ui/combobox";
-import { useMoveApplication } from "@/integrations/api/hooks/applications";
-import { APPLICATION_STATUSES, type ApplicationStatus } from "@/schema/application";
+import { useApplicationWorkflow, useMoveApplication } from "@/integrations/api/hooks/applications";
 import { cn } from "@/utils/style";
 
-const STATUS_LABEL_MAP: Record<ApplicationStatus, ReturnType<typeof msg>> = {
-	applied: msg`Applied`,
-	screening: msg`Screening`,
-	interviewing: msg`Interviewing`,
-	offer: msg`Offer`,
-	accepted: msg`Accepted`,
-	rejected: msg`Rejected`,
-	withdrawn: msg`Withdrawn`,
-};
-
-const STATUS_COLORS: Record<ApplicationStatus, string> = {
+const FALLBACK_COLORS: Record<string, string> = {
 	applied: "bg-blue-500/15 text-blue-700 dark:text-blue-400",
 	screening: "bg-purple-500/15 text-purple-700 dark:text-purple-400",
 	interviewing: "bg-amber-500/15 text-amber-700 dark:text-amber-400",
@@ -30,20 +17,30 @@ const STATUS_COLORS: Record<ApplicationStatus, string> = {
 
 type StatusBadgeProps = {
 	applicationId: string;
-	status: ApplicationStatus;
+	status: string;
 };
 
 export function StatusBadge({ applicationId, status }: StatusBadgeProps) {
-	const { i18n } = useLingui();
-
+	const { data: workflow } = useApplicationWorkflow();
 	const { mutate: moveApplication, isPending } = useMoveApplication();
 
-	const statusOptions = APPLICATION_STATUSES.map((s) => ({
-		value: s,
-		label: i18n._(STATUS_LABEL_MAP[s]),
-	}));
+	const statusOptions = workflow?.statuses?.map((s) => ({ value: s.slug, label: s.label })) ?? [
+		{ value: "applied", label: "Applied" },
+		{ value: "screening", label: "Screening" },
+		{ value: "interviewing", label: "Interviewing" },
+		{ value: "offer", label: "Offer" },
+		{ value: "accepted", label: "Accepted" },
+		{ value: "rejected", label: "Rejected" },
+		{ value: "withdrawn", label: "Withdrawn" },
+	];
 
-	const handleStatusChange = (newStatus: ApplicationStatus | null) => {
+	const statusConfig = workflow?.statuses?.find((s) => s.slug === status);
+	const label = statusConfig?.label ?? statusOptions.find((o) => o.value === status)?.label ?? status;
+	const colorClass = statusConfig?.color
+		? ""
+		: (FALLBACK_COLORS[status] ?? "bg-zinc-500/15 text-zinc-700 dark:text-zinc-400");
+
+	const handleStatusChange = (newStatus: string | null) => {
 		if (!newStatus || newStatus === status) return;
 
 		moveApplication(
@@ -65,13 +62,14 @@ export function StatusBadge({ applicationId, status }: StatusBadgeProps) {
 				className: cn("h-auto gap-1 px-0 hover:bg-transparent"),
 				children: () => (
 					<Badge
-						className={cn(
-							"cursor-pointer gap-1 border-none font-medium",
-							STATUS_COLORS[status],
-							isPending && "opacity-60",
-						)}
+						className={cn("cursor-pointer gap-1 border-none font-medium", colorClass, isPending && "opacity-60")}
+						style={
+							statusConfig?.color
+								? { backgroundColor: `${statusConfig.color}20`, color: statusConfig.color }
+								: undefined
+						}
 					>
-						{i18n._(STATUS_LABEL_MAP[status])}
+						{label}
 						<CaretDownIcon className="size-3" />
 					</Badge>
 				),

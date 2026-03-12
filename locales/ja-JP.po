@@ -44,6 +44,12 @@ msgstr "{0, plural, other {# 件のアイテム}}"
 msgid "{0} / {1} messages today"
 msgstr ""
 
+#. placeholder {0}: removeTarget.count
+#. placeholder {1}: removeTarget.label
+#: src/dialogs/settings/tabs/job-tracker.tsx
+msgid "{0} application(s) use \"{1}\". Choose a destination status to move them to before removing this column."
+msgstr ""
+
 #: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-menu.tsx
 msgid "{column, plural, one {# Column} other {# Columns}}"
@@ -77,6 +83,10 @@ msgstr "3か月"
 msgid "6 months"
 msgstr "6か月"
 
+#: src/dialogs/settings/tabs/job-tracker.tsx
+msgid "A column with that name already exists."
+msgstr ""
+
 #: src/routes/builder/$resumeId/-components/dock.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 msgid "A link to your resume has been copied to clipboard."
@@ -91,12 +101,8 @@ msgstr "このスラッグの履歴書はすでに存在します。"
 msgid "A4"
 msgstr "A4"
 
-#: src/components/kanban/analytics/status-chart.tsx
 #: src/components/kanban/column.tsx
-#: src/components/kanban/filters.tsx
-#: src/dialogs/application/create.tsx
 #: src/dialogs/application/history.tsx
-#: src/dialogs/application/status-badge.tsx
 msgid "Accepted"
 msgstr ""
 
@@ -105,6 +111,7 @@ msgid "Access your resumes and data programmatically using the API."
 msgstr "API を使用して、プログラムから履歴書とデータにアクセスできます。"
 
 #: src/dialogs/application/contacts.tsx
+#: src/dialogs/settings/tabs/job-tracker.tsx
 msgid "Add"
 msgstr ""
 
@@ -173,6 +180,10 @@ msgstr "新しいスキルを追加"
 msgid "Add a new volunteer experience"
 msgstr "新しいボランティア経験を追加"
 
+#: src/dialogs/settings/tabs/job-tracker.tsx
+msgid "Add column"
+msgstr ""
+
 #: src/components/input/rich-input.tsx
 msgid "Add Column After"
 msgstr "後に列を追加"
@@ -183,6 +194,10 @@ msgstr "前に列を追加"
 
 #: src/dialogs/application/contacts.tsx
 msgid "Add Contact"
+msgstr ""
+
+#: src/dialogs/settings/tabs/job-tracker.tsx
+msgid "Add custom column"
 msgstr ""
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/layout/pages.tsx
@@ -312,16 +327,16 @@ msgstr ""
 msgid "Applications by Status"
 msgstr ""
 
+#: src/dialogs/settings/tabs/job-tracker.tsx
+msgid "Applications migrated and column removed."
+msgstr ""
+
 #: src/components/kanban/analytics/timeline-chart.tsx
 msgid "Applications Over Time"
 msgstr ""
 
-#: src/components/kanban/analytics/status-chart.tsx
 #: src/components/kanban/column.tsx
-#: src/components/kanban/filters.tsx
-#: src/dialogs/application/create.tsx
 #: src/dialogs/application/history.tsx
-#: src/dialogs/application/status-badge.tsx
 msgid "Applied"
 msgstr ""
 
@@ -537,6 +552,8 @@ msgstr "箇条書きリスト"
 #: src/dialogs/resume/sections/volunteer.tsx
 #: src/dialogs/settings/tabs/api-keys.tsx
 #: src/dialogs/settings/tabs/danger-zone.tsx
+#: src/dialogs/settings/tabs/job-tracker.tsx
+#: src/dialogs/settings/tabs/job-tracker.tsx
 #: src/hooks/use-prompt.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 msgid "Cancel"
@@ -640,6 +657,23 @@ msgstr "コードブロック"
 
 #: src/routes/dashboard/-components/sidebar.tsx
 msgid "Collapse Sidebar"
+msgstr ""
+
+#: src/dialogs/settings/tabs/job-tracker.tsx
+msgid "Column added."
+msgstr ""
+
+#: src/dialogs/settings/tabs/job-tracker.tsx
+msgid "Column name"
+msgstr ""
+
+#: src/dialogs/settings/tabs/job-tracker.tsx
+#: src/dialogs/settings/tabs/job-tracker.tsx
+msgid "Column order updated."
+msgstr ""
+
+#: src/dialogs/settings/tabs/job-tracker.tsx
+msgid "Column removed."
 msgstr ""
 
 #: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx
@@ -830,6 +864,10 @@ msgstr "新しい履歴書を作成"
 #: src/dialogs/resume/sections/skill.tsx
 msgid "Create a new skill"
 msgstr "新しいスキルを作成"
+
+#: src/dialogs/settings/tabs/job-tracker.tsx
+msgid "Create a new status column for your workflow (e.g. \"Phone Screen\", \"Technical Interview\")."
+msgstr ""
 
 #: src/dialogs/resume/sections/summary-item.tsx
 msgid "Create a new summary item"
@@ -1092,6 +1130,10 @@ msgstr ""
 
 #: src/dialogs/application/contacts.tsx
 msgid "e.g. Jane Smith"
+msgstr ""
+
+#: src/dialogs/settings/tabs/job-tracker.tsx
+msgid "e.g. Phone Screen"
 msgstr ""
 
 #: src/dialogs/application/contacts.tsx
@@ -1541,12 +1583,8 @@ msgstr "興味・関心"
 msgid "Interview preparation"
 msgstr ""
 
-#: src/components/kanban/analytics/status-chart.tsx
 #: src/components/kanban/column.tsx
-#: src/components/kanban/filters.tsx
-#: src/dialogs/application/create.tsx
 #: src/dialogs/application/history.tsx
-#: src/dialogs/application/status-badge.tsx
 msgid "Interviewing"
 msgstr ""
 
@@ -1574,6 +1612,7 @@ msgstr ""
 msgid "Job Title"
 msgstr ""
 
+#: src/dialogs/settings/index.tsx
 #: src/routes/dashboard/-components/sidebar.tsx
 #: src/routes/dashboard/applications/index.tsx
 msgid "Job Tracker"
@@ -1587,6 +1626,10 @@ msgstr ""
 #: src/components/input/rich-input.tsx
 msgid "Justify Align"
 msgstr "両端揃え"
+
+#: src/dialogs/settings/tabs/job-tracker.tsx
+msgid "Kanban columns"
+msgstr ""
 
 #: src/utils/locale.ts
 msgid "Kannada"
@@ -1777,6 +1820,18 @@ msgstr "余白（左右）"
 msgid "Margin (Vertical)"
 msgstr "余白（上下）"
 
+#: src/dialogs/settings/tabs/job-tracker.tsx
+msgid "Maximum {MAX_CUSTOM_STATUSES} custom columns."
+msgstr ""
+
+#: src/dialogs/settings/tabs/job-tracker.tsx
+msgid "Migrate and remove"
+msgstr ""
+
+#: src/dialogs/settings/tabs/job-tracker.tsx
+msgid "Migrate applications before removing"
+msgstr ""
+
 #: src/routes/_home/-sections/problem.tsx
 msgid "Missed deadlines"
 msgstr ""
@@ -1790,6 +1845,7 @@ msgstr "モデル"
 msgid "Monthly"
 msgstr ""
 
+#: src/dialogs/settings/tabs/job-tracker.tsx
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-item.tsx
 msgid "Move to"
 msgstr "移動先"
@@ -1910,12 +1966,8 @@ msgstr ""
 msgid "Odia"
 msgstr "オディア語"
 
-#: src/components/kanban/analytics/status-chart.tsx
 #: src/components/kanban/column.tsx
-#: src/components/kanban/filters.tsx
-#: src/dialogs/application/create.tsx
 #: src/dialogs/application/history.tsx
-#: src/dialogs/application/status-badge.tsx
 msgid "Offer"
 msgstr ""
 
@@ -2194,12 +2246,8 @@ msgstr "推薦者"
 msgid "Refresh"
 msgstr "再読み込み"
 
-#: src/components/kanban/analytics/status-chart.tsx
 #: src/components/kanban/column.tsx
-#: src/components/kanban/filters.tsx
-#: src/dialogs/application/create.tsx
 #: src/dialogs/application/history.tsx
-#: src/dialogs/application/status-badge.tsx
 msgid "Rejected"
 msgstr ""
 
@@ -2218,6 +2266,10 @@ msgstr "パスワード保護を解除しています..."
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-menu.tsx
 msgid "Rename"
 msgstr "名前を変更"
+
+#: src/dialogs/settings/tabs/job-tracker.tsx
+msgid "Reorder columns with the up/down buttons. Add custom statuses or remove columns you don't use."
+msgstr ""
 
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-menu.tsx
 msgid "Reset"
@@ -2323,12 +2375,8 @@ msgstr ""
 msgid "School"
 msgstr "学校名"
 
-#: src/components/kanban/analytics/status-chart.tsx
 #: src/components/kanban/column.tsx
-#: src/components/kanban/filters.tsx
-#: src/dialogs/application/create.tsx
 #: src/dialogs/application/history.tsx
-#: src/dialogs/application/status-badge.tsx
 msgid "Screening"
 msgstr ""
 
@@ -2378,6 +2426,10 @@ msgstr ""
 
 #: src/dialogs/settings/tabs/prompts.tsx
 msgid "Select a prompt to edit"
+msgstr ""
+
+#: src/dialogs/settings/tabs/job-tracker.tsx
+msgid "Select status"
 msgstr ""
 
 #: src/components/ui/combobox.tsx
@@ -3074,12 +3126,8 @@ msgstr "このセクションの新しい名前を入力してください。"
 msgid "When locked, the resume cannot be updated or deleted."
 msgstr "ロックされている間は、履歴書を更新したり削除したりすることはできません。"
 
-#: src/components/kanban/analytics/status-chart.tsx
 #: src/components/kanban/column.tsx
-#: src/components/kanban/filters.tsx
-#: src/dialogs/application/create.tsx
 #: src/dialogs/application/history.tsx
-#: src/dialogs/application/status-badge.tsx
 msgid "Withdrawn"
 msgstr ""
 

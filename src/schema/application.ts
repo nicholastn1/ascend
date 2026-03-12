@@ -35,8 +35,8 @@ export type ApplicationContact = z.infer<typeof applicationContactSchema>;
 export const applicationHistorySchema = z.object({
 	id: z.string().uuid(),
 	applicationId: z.string().uuid(),
-	fromStatus: applicationStatusSchema.nullable(),
-	toStatus: applicationStatusSchema,
+	fromStatus: z.string().nullable(),
+	toStatus: z.string(),
 	changedAt: z.date(),
 });
 
@@ -45,7 +45,7 @@ export type ApplicationHistory = z.infer<typeof applicationHistorySchema>;
 export const applicationSchema = z.object({
 	id: z.string().uuid(),
 	userId: z.string().uuid(),
-	currentStatus: applicationStatusSchema,
+	currentStatus: z.string(),
 	companyName: z.string().min(1).max(255),
 	jobTitle: z.string().min(1).max(255),
 	jobUrl: z.string().url().nullable().optional(),

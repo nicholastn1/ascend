@@ -233,7 +233,7 @@ export interface paths {
 			};
 			requestBody?: never;
 			responses: {
-				/** @description kanban board returned */
+				/** @description kanban board returned (columns follow user workflow) */
 				200: {
 					headers: {
 						[name: string]: unknown;
@@ -251,6 +251,61 @@ export interface paths {
 		};
 		put?: never;
 		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/api/v1/applications/migrate_status": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get?: never;
+		put?: never;
+		/** Migrate all applications from one status to another */
+		post: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path?: never;
+				cookie?: never;
+			};
+			requestBody?: {
+				content: {
+					"application/json": {
+						from_status: string;
+						to_status: string;
+					};
+				};
+			};
+			responses: {
+				/** @description applications migrated */
+				200: {
+					headers: {
+						[name: string]: unknown;
+					};
+					content?: never;
+				};
+				/** @description unauthorized */
+				401: {
+					headers: {
+						[name: string]: unknown;
+					};
+					content?: never;
+				};
+				/** @description invalid status */
+				422: {
+					headers: {
+						[name: string]: unknown;
+					};
+					content?: never;
+				};
+			};
+		};
 		delete?: never;
 		options?: never;
 		head?: never;
@@ -2647,6 +2702,91 @@ export interface paths {
 			responses: {
 				/** @description profile updated */
 				200: {
+					headers: {
+						[name: string]: unknown;
+					};
+					content?: never;
+				};
+			};
+		};
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/api/v1/users/me/application_workflow": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/** Get application workflow (Job Tracker column config) */
+		get: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path?: never;
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: {
+				/** @description workflow with ordered statuses (system + custom) */
+				200: {
+					headers: {
+						[name: string]: unknown;
+					};
+					content?: never;
+				};
+				/** @description unauthorized */
+				401: {
+					headers: {
+						[name: string]: unknown;
+					};
+					content?: never;
+				};
+			};
+		};
+		/** Update application workflow (order, add/remove custom statuses) */
+		put: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path?: never;
+				cookie?: never;
+			};
+			requestBody?: {
+				content: {
+					"application/json": {
+						statuses: {
+							slug?: string;
+							label?: string;
+							is_custom?: boolean;
+							color?: string;
+							position?: number;
+						}[];
+					};
+				};
+			};
+			responses: {
+				/** @description workflow updated */
+				200: {
+					headers: {
+						[name: string]: unknown;
+					};
+					content?: never;
+				};
+				/** @description unauthorized */
+				401: {
+					headers: {
+						[name: string]: unknown;
+					};
+					content?: never;
+				};
+				/** @description cannot remove status with applications (migrate first) */
+				422: {
 					headers: {
 						[name: string]: unknown;
 					};

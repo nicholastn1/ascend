@@ -1,22 +1,9 @@
-import { msg } from "@lingui/core/macro";
-import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useAnalyticsOverview } from "@/integrations/api/hooks/applications";
-import { APPLICATION_STATUSES, type ApplicationStatus } from "@/schema/application";
+import { useAnalyticsOverview, useApplicationWorkflow } from "@/integrations/api/hooks/applications";
 
-const STATUS_LABELS = {
-	applied: msg`Applied`,
-	screening: msg`Screening`,
-	interviewing: msg`Interviewing`,
-	offer: msg`Offer`,
-	accepted: msg`Accepted`,
-	rejected: msg`Rejected`,
-	withdrawn: msg`Withdrawn`,
-};
-
-const STATUS_COLORS: Record<ApplicationStatus, string> = {
+const FALLBACK_COLORS: Record<string, string> = {
 	applied: "#3b82f6",
 	screening: "#8b5cf6",
 	interviewing: "#f59e0b",
@@ -27,7 +14,7 @@ const STATUS_COLORS: Record<ApplicationStatus, string> = {
 };
 
 export function StatusChart() {
-	const { i18n } = useLingui();
+	const { data: workflow } = useApplicationWorkflow();
 	const { data: overview, isLoading } = useAnalyticsOverview();
 
 	if (isLoading) {
@@ -42,11 +29,19 @@ export function StatusChart() {
 	if (!overview) return null;
 
 	const byStatus = (overview as Record<string, unknown>).by_status as Record<string, number> | undefined;
-	const chartData = APPLICATION_STATUSES.map((status) => ({
-		name: i18n._(STATUS_LABELS[status]),
-		count: byStatus?.[status] ?? 0,
-		fill: STATUS_COLORS[status],
-	}));
+	const statuses = workflow?.statuses ?? [];
+	const chartData =
+		statuses.length > 0
+			? statuses.map((s) => ({
+					name: s.label,
+					count: byStatus?.[s.slug] ?? 0,
+					fill: s.color ?? FALLBACK_COLORS[s.slug] ?? "#71717a",
+				}))
+			: Object.entries(byStatus ?? {}).map(([slug, count]) => ({
+					name: slug,
+					count: count as number,
+					fill: FALLBACK_COLORS[slug] ?? "#71717a",
+				}));
 
 	return (
 		<div className="rounded-xl border bg-card p-4">

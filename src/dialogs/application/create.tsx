@@ -12,19 +12,9 @@ import { DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTit
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useCreateApplication } from "@/integrations/api/hooks/applications";
-import { APPLICATION_STATUSES, applicationStatusSchema, salaryPeriodSchema } from "@/schema/application";
+import { useApplicationWorkflow, useCreateApplication } from "@/integrations/api/hooks/applications";
+import { salaryPeriodSchema } from "@/schema/application";
 import { type DialogProps, useDialogStore } from "../store";
-
-const STATUS_LABEL_MAP = {
-	applied: msg`Applied`,
-	screening: msg`Screening`,
-	interviewing: msg`Interviewing`,
-	offer: msg`Offer`,
-	accepted: msg`Accepted`,
-	rejected: msg`Rejected`,
-	withdrawn: msg`Withdrawn`,
-};
 
 const PERIOD_LABELS = {
 	yearly: msg`Yearly`,
@@ -34,7 +24,7 @@ const PERIOD_LABELS = {
 const formSchema = z.object({
 	companyName: z.string().min(1).max(255),
 	jobTitle: z.string().min(1).max(255),
-	currentStatus: applicationStatusSchema,
+	currentStatus: z.string().min(1),
 	jobUrl: z.string().url().or(z.literal("")).optional(),
 	salaryAmount: z.string().optional(),
 	salaryCurrency: z.string().max(3).optional(),
@@ -48,11 +38,17 @@ type FormValues = z.infer<typeof formSchema>;
 export function CreateApplicationDialog({ data }: DialogProps<"application.create">) {
 	const { i18n } = useLingui();
 	const closeDialog = useDialogStore((state) => state.closeDialog);
+	const { data: workflow } = useApplicationWorkflow();
 
-	const STATUS_OPTIONS = APPLICATION_STATUSES.map((s) => ({
-		value: s,
-		label: i18n._(STATUS_LABEL_MAP[s]),
-	}));
+	const STATUS_OPTIONS = workflow?.statuses?.map((s) => ({ value: s.slug, label: s.label })) ?? [
+		{ value: "applied", label: "Applied" },
+		{ value: "screening", label: "Screening" },
+		{ value: "interviewing", label: "Interviewing" },
+		{ value: "offer", label: "Offer" },
+		{ value: "accepted", label: "Accepted" },
+		{ value: "rejected", label: "Rejected" },
+		{ value: "withdrawn", label: "Withdrawn" },
+	];
 
 	const CURRENCY_OPTIONS = [
 		{ value: "USD", label: "USD" },
@@ -73,7 +69,10 @@ export function CreateApplicationDialog({ data }: DialogProps<"application.creat
 		defaultValues: {
 			companyName: "",
 			jobTitle: "",
-			currentStatus: data?.initialStatus ?? "applied",
+			currentStatus:
+				data?.initialStatus && STATUS_OPTIONS.some((o) => o.value === data.initialStatus)
+					? data.initialStatus
+					: (STATUS_OPTIONS[0]?.value ?? "applied"),
 			jobUrl: "",
 			salaryAmount: "",
 			salaryCurrency: "USD",
@@ -172,7 +171,7 @@ export function CreateApplicationDialog({ data }: DialogProps<"application.creat
 											clearable={false}
 											options={STATUS_OPTIONS}
 											value={field.value}
-											onValueChange={(v) => field.onChange(v ?? "applied")}
+											onValueChange={(v) => field.onChange(v ?? STATUS_OPTIONS[0]?.value ?? "applied")}
 											buttonProps={{ className: "w-full" }}
 										/>
 									</FormControl>
